@@ -1,0 +1,837 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.10) (preloaded format=pdflatex 2020.10.26)  31 OCT 2020 21:04
+entering extended mode
+**./Thesis.tex
+(Thesis.tex
+LaTeX2e <2020-10-01> patch level 1
+L3 programming layer <2020-10-05> xparse <2020-03-03> (ecsthesis.cls
+Document Class: ecsthesis 2003/25/04 v1.6 LaTeX document class
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/base\book.cls"
+Document Class: book 2020/04/10 v1.4m Standard LaTeX document class
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/base\bk11.clo"
+File: bk11.clo 2020/04/10 v1.4m Standard LaTeX file (size option)
+)
+\c@part=\count175
+\c@chapter=\count176
+\c@section=\count177
+\c@subsection=\count178
+\c@subsubsection=\count179
+\c@paragraph=\count180
+\c@subparagraph=\count181
+\c@figure=\count182
+\c@table=\count183
+\abovecaptionskip=\skip47
+\belowcaptionskip=\skip48
+\bibindent=\dimen138
+)
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/setspace\setspa
+ce.sty"
+Package: setspace 2011/12/19 v6.7a set line spacing
+)
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/vmargin\vmargin
+.sty"
+Package: vmargin 2004/07/15 V2.5 set document margins (VK)
+
+Package: vmargin 2004/07/15 V2.5 set document margins (VK)
+\PaperWidth=\dimen139
+\PaperHeight=\dimen140
+)
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/fancyhdr\fancyh
+dr.sty"
+Package: fancyhdr 2019/01/31 v3.10 Extensive control of page headers and footer
+s
+\f@nch@headwidth=\skip49
+\f@nch@O@elh=\skip50
+\f@nch@O@erh=\skip51
+\f@nch@O@olh=\skip52
+\f@nch@O@orh=\skip53
+\f@nch@O@elf=\skip54
+\f@nch@O@erf=\skip55
+\f@nch@O@olf=\skip56
+\f@nch@O@orf=\skip57
+)
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsmath
+.sty"
+Package: amsmath 2020/09/23 v2.17i AMS math features
+\@mathmargin=\skip58
+
+For additional information on amsmath, use the `?' option.
+
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amstext
+.sty"
+Package: amstext 2000/06/29 v2.01 AMS text
+
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsgen.
+sty"
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks15
+\ex@=\dimen141
+))
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsbsy.
+sty"
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen142
+)
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsopn.
+sty"
+Package: amsopn 2016/03/08 v2.02 operator names
+)
+\inf@bad=\count184
+LaTeX Info: Redefining \frac on input line 234.
+\uproot@=\count185
+\leftroot@=\count186
+LaTeX Info: Redefining \overline on input line 399.
+\classnum@=\count187
+\DOTSCASE@=\count188
+LaTeX Info: Redefining \ldots on input line 496.
+LaTeX Info: Redefining \dots on input line 499.
+LaTeX Info: Redefining \cdots on input line 620.
+\Mathstrutbox@=\box47
+\strutbox@=\box48
+\big@size=\dimen143
+LaTeX Font Info:    Redeclaring font encoding OML on input line 743.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 744.
+\macc@depth=\count189
+\c@MaxMatrixCols=\count190
+\dotsspace@=\muskip16
+\c@parentequation=\count191
+\dspbrk@lvl=\count192
+\tag@help=\toks16
+\row@=\count193
+\column@=\count194
+\maxfields@=\count195
+\andhelp@=\toks17
+\eqnshift@=\dimen144
+\alignsep@=\dimen145
+\tagshift@=\dimen146
+\tagwidth@=\dimen147
+\totwidth@=\dimen148
+\lineht@=\dimen149
+\@envbody=\toks18
+\multlinegap=\skip59
+\multlinetaggap=\skip60
+\mathdisplay@stack=\toks19
+LaTeX Info: Redefining \[ on input line 2923.
+LaTeX Info: Redefining \] on input line 2924.
+)
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amsfon
+ts.sty"
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+)
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amssym
+b.sty"
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+)
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amscd.s
+ty"
+Package: amscd 2017/04/14 v2.1 AMS Commutative Diagrams
+\athelp@=\toks20
+\minaw@=\dimen150
+\bigaw@=\dimen151
+\minCDarrowwidth=\dimen152
+)
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/amscls\amsthm.s
+ty"
+Package: amsthm 2020/05/29 v2.20.6
+\thm@style=\toks21
+\thm@bodyfont=\toks22
+\thm@headfont=\toks23
+\thm@notefont=\toks24
+\thm@headpunct=\toks25
+\thm@preskip=\skip61
+\thm@postskip=\skip62
+\thm@headsep=\skip63
+\dth@everypar=\toks26
+)
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/tools\xspace.st
+y"
+Package: xspace 2014/10/28 v1.13 Space after command names (DPC,MH)
+)
+\c@example=\count196
+\c@theorem=\count197
+
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/caption\caption
+2.sty"
+Package: caption2 2020/09/28 v2.2f Customising captions (AR)
+
+
+Package caption2 Warning: ****************************************************
+(caption2)                THIS PACKAGE IS OBSOLETE:
+(caption2)                This package attempts to provide an `caption2'
+(caption2)                package v2.0/2.1 author environment so that OLD
+(caption2)                documents can be successfully processed. It should
+(caption2)                NOT be used for NEW documents! New documents should
+(caption2)                use the regular `caption' package v3.x instead.
+(caption2)                ****************************************************
+
+
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/caption\caption
+3.sty"
+Package: caption3 2020/10/21 v2.2e caption3 kernel (AR)
+
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/graphics\keyval
+.sty"
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks27
+)
+\captionmargin=\dimen153
+\captionmargin@=\dimen154
+\captionwidth=\dimen155
+\caption@tempdima=\dimen156
+\caption@indent=\dimen157
+\caption@parindent=\dimen158
+\caption@hangindent=\dimen159
+Package caption Info: Standard document class detected.
+)
+Package caption2 Info: Running in caption2 v2.0 compatibility mode on input lin
+e 226.
+\captionlinewidth=\dimen160
+\realcaptionwidth=\dimen161
+)
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphi
+cx.sty"
+Package: graphicx 2020/09/09 v1.2b Enhanced LaTeX Graphics (DPC,SPQR)
+
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphi
+cs.sty"
+Package: graphics 2020/08/30 v1.4c Standard LaTeX Graphics (DPC,SPQR)
+
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/graphics\trig.s
+ty"
+Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
+)
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\gr
+aphics.cfg"
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 105.
+
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/graphics-def\pd
+ftex.def"
+File: pdftex.def 2020/10/05 v1.2a Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen162
+\Gin@req@width=\dimen163
+)
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\ep
+stopdf.sty"
+Package: epstopdf 2020-01-24 v2.11 Conversion with epstopdf on the fly (HO)
+
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/generic/infwarerr\inf
+warerr.sty"
+Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
+)
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/grfext\grfext.s
+ty"
+Package: grfext 2019/12/03 v1.3 Manage graphics extensions (HO)
+
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/generic/kvdefinekeys\
+kvdefinekeys.sty"
+Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
+))
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/kvoptions\kvopt
+ions.sty"
+Package: kvoptions 2019/11/29 v3.13 Key value format for package options (HO)
+
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/generic/ltxcmds\ltxcm
+ds.sty"
+Package: ltxcmds 2020-05-10 v1.25 LaTeX kernel commands for general use (HO)
+)
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/generic/kvsetkeys\kvs
+etkeys.sty"
+Package: kvsetkeys 2019/12/15 v1.18 Key value parser (HO)
+))
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/generic/pdftexcmds\pd
+ftexcmds.sty"
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO
+)
+
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/generic/iftex\iftex.s
+ty"
+Package: iftex 2020/03/06 v1.0d TeX engine tests
+)
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\ep
+stopdf-base.sty"
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+85.
+Package grfext Info: Graphics extension search list:
+(grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 504.
+))
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/subfigure\subfi
+gure.sty"
+Package: subfigure 2002/07/30 v2.1.4 subfigure package
+\subfigtopskip=\skip64
+\subfigcapskip=\skip65
+\subfigcaptopadj=\dimen164
+\subfigbottomskip=\skip66
+\subfigcapmargin=\dimen165
+\subfiglabelskip=\skip67
+\c@subfigure=\count198
+\c@lofdepth=\count199
+\c@subtable=\count266
+\c@lotdepth=\count267
+
+****************************************
+* Local config file subfigure.cfg used *
+****************************************
+
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/subfigure\subfi
+gure.cfg")
+\subfig@top=\skip68
+\subfig@bottom=\skip69
+)
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/booktabs\bookta
+bs.sty"
+Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
+\heavyrulewidth=\dimen166
+\lightrulewidth=\dimen167
+\cmidrulewidth=\dimen168
+\belowrulesep=\dimen169
+\belowbottomsep=\dimen170
+\aboverulesep=\dimen171
+\abovetopsep=\dimen172
+\cmidrulesep=\dimen173
+\cmidrulekern=\dimen174
+\defaultaddspace=\dimen175
+\@cmidla=\count268
+\@cmidlb=\count269
+\@aboverulesep=\dimen176
+\@belowrulesep=\dimen177
+\@thisruleclass=\count270
+\@lastruleclass=\count271
+\@thisrulewidth=\dimen178
+)
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/graphics\rotati
+ng.sty"
+Package: rotating 2016/08/11 v2.16d rotated objects in LaTeX
+
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/base\ifthen.sty
+"
+Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
+)
+\c@r@tfl@t=\count272
+\rotFPtop=\skip70
+\rotFPbot=\skip71
+\rot@float@box=\box49
+\rot@mess@toks=\toks28
+)
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/listings\listin
+gs.sty"
+\lst@mode=\count273
+\lst@gtempboxa=\box50
+\lst@token=\toks29
+\lst@length=\count274
+\lst@currlwidth=\dimen179
+\lst@column=\count275
+\lst@pos=\count276
+\lst@lostspace=\dimen180
+\lst@width=\dimen181
+\lst@newlines=\count277
+\lst@lineno=\count278
+\lst@maxwidth=\dimen182
+
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstmis
+c.sty"
+File: lstmisc.sty 2020/03/24 1.8d (Carsten Heinz)
+\c@lstnumber=\count279
+\lst@skipnumbers=\count280
+\lst@framebox=\box51
+)
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/listings\listin
+gs.cfg"
+File: listings.cfg 2020/03/24 1.8d listings configuration
+))
+Package: listings 2020/03/24 1.8d (Carsten Heinz)
+
+
+! LaTeX Error: File `lstpatch.sty' not found.
+
+Type X to quit or <RETURN> to proceed,
+or enter new name. (Default extension: sty)
+
+Enter file name: 
+
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hyperr
+ef.sty"
+Package: hyperref 2020-05-15 v7.00e Hypertext links for LaTeX
+
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/generic/pdfescape\pdf
+escape.sty"
+Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
+)
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/hycolor\hycolor
+.sty"
+Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
+)
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/letltxmacro\let
+ltxmacro.sty"
+Package: letltxmacro 2019/12/03 v1.6 Let assignment for LaTeX macros (HO)
+)
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/auxhook\auxhook
+.sty"
+Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
+)
+\@linkdim=\dimen183
+\Hy@linkcounter=\count281
+\Hy@pagecounter=\count282
+
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\pd1enc
+.def"
+File: pd1enc.def 2020-05-15 v7.00e Hyperref: PDFDocEncoding definition (HO)
+Now handling font encoding PD1 ...
+... no UTF-8 mapping file for font encoding PD1
+)
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/generic/intcalc\intca
+lc.sty"
+Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
+)
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/generic/etexcmds\etex
+cmds.sty"
+Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
+)
+\Hy@SavedSpaceFactor=\count283
+Package hyperref Info: Option `bookmarks' set `true' on input line 4338.
+Package hyperref Info: Option `bookmarksopen' set `true' on input line 4338.
+Package hyperref Info: Option `bookmarksnumbered' set `true' on input line 4338
+.
+Package hyperref Info: Option `hypertexnames' set `false' on input line 4338.
+Package hyperref Info: Option `colorlinks' set `true' on input line 4338.
+Package hyperref Info: Option `unicode' set `true' on input line 4338.
+
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\puenc.
+def"
+File: puenc.def 2020-05-15 v7.00e Hyperref: PDF Unicode definition (HO)
+Now handling font encoding PU ...
+... no UTF-8 mapping file for font encoding PU
+)
+Package hyperref Info: Option `breaklinks' set `true' on input line 4338.
+Package hyperref Info: Hyper figures OFF on input line 4464.
+Package hyperref Info: Link nesting OFF on input line 4469.
+Package hyperref Info: Hyper index ON on input line 4472.
+Package hyperref Info: Plain pages OFF on input line 4479.
+Package hyperref Info: Backreferencing OFF on input line 4484.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4717.
+\c@Hy@tempcnt=\count284
+
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/url\url.sty"
+\Urlmuskip=\muskip17
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+LaTeX Info: Redefining \url on input line 5076.
+\XeTeXLinkMargin=\dimen184
+
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/generic/bitset\bitset
+.sty"
+Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
+
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/generic/bigintcalc\bi
+gintcalc.sty"
+Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
+)
+))
+\Fld@menulength=\count285
+\Field@Width=\dimen185
+\Fld@charsize=\dimen186
+Package hyperref Info: Hyper figures OFF on input line 6347.
+Package hyperref Info: Link nesting OFF on input line 6352.
+Package hyperref Info: Hyper index ON on input line 6355.
+Package hyperref Info: backreferencing OFF on input line 6362.
+Package hyperref Info: Link coloring ON on input line 6365.
+Package hyperref Info: Link coloring with OCG OFF on input line 6372.
+Package hyperref Info: PDF/A mode OFF on input line 6377.
+LaTeX Info: Redefining \ref on input line 6417.
+LaTeX Info: Redefining \pageref on input line 6421.
+
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/base\atbegshi-l
+tx.sty"
+Package: atbegshi-ltx 2020/08/17 v1.0a Emulation of the original atbegshi packa
+ge
+with kernel methods
+)
+\Hy@abspage=\count286
+\c@Item=\count287
+\c@Hfootnote=\count288
+)
+Package hyperref Info: Driver (autodetected): hpdftex.
+
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hpdfte
+x.def"
+File: hpdftex.def 2020-05-15 v7.00e Hyperref driver for pdfTeX
+
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/base\atveryend-
+ltx.sty"
+Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atvery packag
+e
+with kernel methods
+)
+\Fld@listcount=\count289
+\c@bookmark@seq@number=\count290
+
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/rerunfilecheck\
+rerunfilecheck.sty"
+Package: rerunfilecheck 2019/12/05 v1.9 Rerun checks for auxiliary files (HO)
+
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/generic/uniquecounter
+\uniquecounter.sty"
+Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
+)
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
+86.
+)
+\Hy@SectionHShift=\skip72
+)
+\c@dummy=\count291
+
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/tools\longtable
+.sty"
+Package: longtable 2020/01/07 v4.13 Multi-page Table package (DPC)
+\LTleft=\skip73
+\LTright=\skip74
+\LTpre=\skip75
+\LTpost=\skip76
+\LTchunksize=\count292
+\LTcapwidth=\dimen187
+\LT@head=\box52
+\LT@firsthead=\box53
+\LT@foot=\box54
+\LT@lastfoot=\box55
+\LT@cols=\count293
+\LT@rows=\count294
+\c@LT@tables=\count295
+\c@LT@chunks=\count296
+\LT@p@ftn=\toks30
+))
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/natbib\natbib.s
+ty"
+Package: natbib 2010/09/13 8.31b (PWD, AO)
+\bibhang=\skip77
+\bibsep=\skip78
+LaTeX Info: Redefining \cite on input line 694.
+\c@NAT@ctr=\count297
+)
+Package hyperref Info: Option `colorlinks' set `true' on input line 7.
+ (Definitions.tex
+\c@address=\count298
+\c@alg=\count299
+)
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3bac
+kend-pdftex.def"
+File: l3backend-pdftex.def 2020-09-24 L3 backend support: PDF output (pdfTeX)
+\l__kernel_color_stack_int=\count300
+\l__pdf_internal_box=\box56
+) (Thesis.aux (Introduction.aux) (Conclusions.aux)
+(AppendixA.aux))
+\openout1 = `Thesis.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
+
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\sup
+p-pdf.mkii"
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count301
+\scratchdimen=\dimen188
+\scratchbox=\box57
+\nofMPsegments=\count302
+\nofMParguments=\count303
+\everyMPshowfont=\toks31
+\MPscratchCnt=\count304
+\MPscratchDim=\dimen189
+\MPnumerator=\count305
+\makeMPintoPDFobject=\count306
+\everyMPtoPDFconversion=\toks32
+)
+\c@lstlisting=\count307
+
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/graphics\color.
+sty"
+Package: color 2020/02/24 v1.2b Standard LaTeX Color (DPC)
+
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\co
+lor.cfg"
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package color Info: Driver file: pdftex.def on input line 147.
+)
+Package hyperref Info: Link coloring ON on input line 10.
+
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\namere
+f.sty"
+Package: nameref 2019/09/16 v2.46 Cross-referencing by name of section
+
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/refcount\refcou
+nt.sty"
+Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
+)
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/generic/gettitlestrin
+g\gettitlestring.sty"
+Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
+)
+\c@section@level=\count308
+)
+LaTeX Info: Redefining \ref on input line 10.
+LaTeX Info: Redefining \pageref on input line 10.
+LaTeX Info: Redefining \nameref on input line 10.
+ (Thesis.out) (Thesis.out)
+\@outlinefile=\write3
+\openout3 = `Thesis.out'.
+
+
+------------------------------------------------------------------------------
+ Title Page
+------------------------------------------------------------------------------
+[1
+
+
+
+{C:/Users/Reece Buckle/AppData/Local/MiKTeX/pdftex/config/pdftex.map}]
+[2
+
+]
+------------------------------------------------------------------------------
+ Abstract Page
+------------------------------------------------------------------------------
+LaTeX Font Info:    Trying to load font information for U+msa on input line 22.
+
+
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.f
+d"
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 22.
+
+
+("C:\Users\Reece Buckle\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.f
+d"
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+) [3] [4
+
+]
+------------------------------------------------------------------------------
+ Table of Contents
+------------------------------------------------------------------------------
+(Thesis.toc)
+\tf@toc=\write4
+\openout4 = `Thesis.toc'.
+
+ [5
+
+] [6
+
+]
+------------------------------------------------------------------------------
+ List of Figures
+------------------------------------------------------------------------------
+(Thesis.lof)
+\tf@lof=\write5
+\openout5 = `Thesis.lof'.
+
+ [7
+
+] [8
+
+]
+------------------------------------------------------------------------------
+ List of Tables
+------------------------------------------------------------------------------
+(Thesis.lot)
+\tf@lot=\write6
+\openout6 = `Thesis.lot'.
+
+ [9
+
+] [10
+
+]
+------------------------------------------------------------------------------
+ Table of Contents
+------------------------------------------------------------------------------
+(Thesis.lol)
+\tf@lol=\write7
+\openout7 = `Thesis.lol'.
+
+ [11
+
+] [12
+
+]
+------------------------------------------------------------------------------
+ Nomenclature
+------------------------------------------------------------------------------
+[13
+
+] [14
+
+]
+------------------------------------------------------------------------------
+ Acknowledgements
+------------------------------------------------------------------------------
+[15] [16
+
+]
+------------------------------------------------------------------------------
+ Dedicatory
+------------------------------------------------------------------------------
+[17] [18
+
+]
+\openout2 = `Introduction.aux'.
+
+ (Introduction.tex
+Chapter 1.
+------------------------------------------------------------------------------
+ 1 Introduction
+------------------------------------------------------------------------------
+Package epstopdf Info: Source file: <../Figures//figure.eps>
+(epstopdf)                    date: 2020-10-31 20:12:58
+(epstopdf)                    size: 775 bytes
+(epstopdf)             Output file: <../Figures//figure-eps-converted-to.pdf>
+(epstopdf)                    date: 2020-10-31 20:59:21
+(epstopdf)                    size: 24465 bytes
+(epstopdf)             Command: <epstopdf --outfile=../Figures//figure-eps-conv
+erted-to.pdf ../Figures//figure.eps>
+(epstopdf)             \includegraphics on input line 23.
+Package epstopdf Info: Output file is already uptodate.
+
+
+pdfTeX warning: pdflatex (file ../Figures//figure-eps-converted-to.pdf): PDF in
+clusion: found PDF version <1.7>, but at most version <1.5> allowed
+<../Figures//figure-eps-converted-to.pdf, id=139, 602.25pt x 501.875pt>
+File: ../Figures//figure-eps-converted-to.pdf Graphic file (type pdf)
+<use ../Figures//figure-eps-converted-to.pdf>
+Package pdftex.def Info: ../Figures//figure-eps-converted-to.pdf  used on input
+ line 23.
+(pdftex.def)             Requested size: 227.62204pt x 189.68831pt.
+Package epstopdf Info: Source file: <../Figures//figure.eps>
+(epstopdf)                    date: 2020-10-31 20:12:58
+(epstopdf)                    size: 775 bytes
+(epstopdf)             Output file: <../Figures//figure-eps-converted-to.pdf>
+(epstopdf)                    date: 2020-10-31 20:59:21
+(epstopdf)                    size: 24465 bytes
+(epstopdf)             Command: <epstopdf --outfile=../Figures//figure-eps-conv
+erted-to.pdf ../Figures//figure.eps>
+(epstopdf)             \includegraphics on input line 34.
+Package epstopdf Info: Output file is already uptodate.
+File: ../Figures//figure-eps-converted-to.pdf Graphic file (type pdf)
+<use ../Figures//figure-eps-converted-to.pdf>
+Package pdftex.def Info: ../Figures//figure-eps-converted-to.pdf  used on input
+ line 34.
+(pdftex.def)             Requested size: 119.50148pt x 99.58444pt.
+Package epstopdf Info: Source file: <../Figures//figure.eps>
+(epstopdf)                    date: 2020-10-31 20:12:58
+(epstopdf)                    size: 775 bytes
+(epstopdf)             Output file: <../Figures//figure-eps-converted-to.pdf>
+(epstopdf)                    date: 2020-10-31 20:59:21
+(epstopdf)                    size: 24465 bytes
+(epstopdf)             Command: <epstopdf --outfile=../Figures//figure-eps-conv
+erted-to.pdf ../Figures//figure.eps>
+(epstopdf)             \includegraphics on input line 38.
+Package epstopdf Info: Output file is already uptodate.
+File: ../Figures//figure-eps-converted-to.pdf Graphic file (type pdf)
+<use ../Figures//figure-eps-converted-to.pdf>
+Package pdftex.def Info: ../Figures//figure-eps-converted-to.pdf  used on input
+ line 38.
+(pdftex.def)             Requested size: 119.50148pt x 99.58444pt.
+) [1
+
+
+
+ <../Figures//figure-eps-converted-to.pdf>] [2]
+\openout2 = `Conclusions.aux'.
+
+ (Conclusions.tex
+Chapter 2.
+------------------------------------------------------------------------------
+ 2 Conclusions
+------------------------------------------------------------------------------
+) [3
+
+
+
+
+]
+\openout2 = `AppendixA.aux'.
+
+ (AppendixA.tex [4
+
+
+
+
+]
+Appendix A.
+------------------------------------------------------------------------------
+ A Stuff
+------------------------------------------------------------------------------
+) [5] [6
+
+
+
+]
+------------------------------------------------------------------------------
+ Bibliography
+------------------------------------------------------------------------------
+(Thesis.bbl) [7
+
+] (Thesis.aux (Introduction.aux) (Conclusions.aux)
+(AppendixA.aux))
+Package rerunfilecheck Info: File `Thesis.out' has not changed.
+(rerunfilecheck)             Checksum: 0ECED84400745C02BC5502D36672FA96;635.
+ ) 
+Here is how much of TeX's memory you used:
+ 13255 strings out of 480236
+ 195320 string characters out of 2877215
+ 472479 words of memory out of 3000000
+ 29531 multiletter control sequences out of 15000+200000
+ 543771 words of font info for 60 fonts, out of 3000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 72i,11n,77p,319b,400s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Users/Reece Buckle/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfo
+nts/cm/cmbx10.pfb><C:/Users/Reece Buckle/AppData/Local/Programs/MiKTeX/fonts/ty
+pe1/public/amsfonts/cm/cmbx12.pfb><C:/Users/Reece Buckle/AppData/Local/Programs
+/MiKTeX/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><C:/Users/Reece Buckle/AppDa
+ta/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/Re
+ece Buckle/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.p
+fb><C:/Users/Reece Buckle/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsf
+onts/cm/cmr12.pfb><C:/Users/Reece Buckle/AppData/Local/Programs/MiKTeX/fonts/ty
+pe1/public/amsfonts/cm/cmr17.pfb><C:/Users/Reece Buckle/AppData/Local/Programs/
+MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/Reece Buckle/AppData/L
+ocal/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsl10.pfb><C:/Users/Reece 
+Buckle/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsl12.pfb>
+<C:/Users/Reece Buckle/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfont
+s/cm/cmsy10.pfb>
+Output written on Thesis.pdf (25 pages, 181779 bytes).
+PDF statistics:
+ 230 PDF objects out of 1000 (max. 8388607)
+ 45 named destinations out of 1000 (max. 500000)
+ 54 words of extra memory for PDF output out of 10000 (max. 10000000)
+
