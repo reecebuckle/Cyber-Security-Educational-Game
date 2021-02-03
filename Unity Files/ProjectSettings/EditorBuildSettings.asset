@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/PUN V3.unity
+    guid: 3d4861f2ce8466849939aaf39763f2a7
   m_configObjects: {}

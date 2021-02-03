@@ -24,5 +24,8 @@ public class TestConnect : MonoBehaviourPunCallbacks
         Debug.Log("connected to server", this);
         Debug.Log("Nickname: " + PhotonNetwork.LocalPlayer.NickName, this);
 
+        //Join lobby (however documentation says unless you have to join the lobby, don't)
+        PhotonNetwork.JoinLobby();
+
     }
 }

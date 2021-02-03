@@ -1,0 +1,1 @@
+Used to test players creating and displaying lobbies (but not joining them yet)
