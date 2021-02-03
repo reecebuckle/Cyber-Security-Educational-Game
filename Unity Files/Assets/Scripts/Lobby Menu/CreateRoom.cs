@@ -9,6 +9,9 @@ public class CreateRoom : MonoBehaviourPunCallbacks
 {
     [SerializeField] private TMP_InputField roomnameField = null;
 
+    public MenuController menuController;
+
+
     /*
     * Called when the create lobby button is intiated
     */
@@ -26,10 +29,13 @@ public class CreateRoom : MonoBehaviourPunCallbacks
         //it'll fail whereas if you use the latter and alreaxy exists, you'll join instead of creating
         //Expecting a typed lobby, no need to define any specific users
 
-        if (!string.IsNullOrEmpty(roomnameField.text))
+        if (!string.IsNullOrEmpty(roomnameField.text)) {
             PhotonNetwork.JoinOrCreateRoom(roomnameField.text, options, TypedLobby.Default);
-        else 
+            menuController.OpenWaitingCanvas();
+        }
+        else {
             Debug.Log("Room name field is null, put a check in here! ", this);
+        }
     }
 
     public override void OnCreatedRoom() {

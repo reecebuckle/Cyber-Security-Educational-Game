@@ -15,7 +15,7 @@ public class RoomListingBox : MonoBehaviourPunCallbacks
         foreach (RoomInfo info in roomList)
         {
 
-            //if removed from list
+            //if removed from list, add them to list
             if (info.RemovedFromList)
             {
                 //compare room names (which are unique)
