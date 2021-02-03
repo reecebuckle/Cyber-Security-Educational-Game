@@ -7,10 +7,10 @@ public class TestConnect : MonoBehaviourPunCallbacks
 {
     private void Start() {
 
-        Debug.Log("connecting to server");
+        Debug.Log("connecting to server", this);
         //use server settings 
-        PhotonNetwork.NickName = "RB";
-        PhotonNetwork.GameVersion = "0.1";
+        PhotonNetwork.NickName = MasterManager.GameSettings.getNickname;
+        PhotonNetwork.GameVersion = MasterManager.GameSettings.getGameVersion;
 
         PhotonNetwork.ConnectUsingSettings();
     }
@@ -21,8 +21,8 @@ public class TestConnect : MonoBehaviourPunCallbacks
     }
 
     public override void OnConnectedToMaster() {
-        Debug.Log("connected to server");
-        Debug.Log(PhotonNetwork.LocalPlayer.NickName);
+        Debug.Log("connected to server", this);
+        Debug.Log("Nickname: " + PhotonNetwork.LocalPlayer.NickName, this);
 
     }
 }
