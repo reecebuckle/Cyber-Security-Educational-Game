@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 9199855331109034454}
   - component: {fileID: 9199855331109034455}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Player name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -64,7 +64,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Player Listing
+  m_text: Player name
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -212,3 +212,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ed315ace871a24499a7cba70a59e7d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerName: {fileID: 9199855331109034455}

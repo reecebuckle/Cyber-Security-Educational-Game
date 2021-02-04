@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using TMPro;
 using Photon.Realtime;
+using Photon.Pun;
 
 public class RoomListing : MonoBehaviour
 {
@@ -10,6 +11,10 @@ public class RoomListing : MonoBehaviour
 
    public void SetRoomInfo(RoomInfo info) {
         getRoomInfo = info;
-       _roomname.text = info.MaxPlayers + ", " + info.Name;
+       _roomname.text = info.MaxPlayers + ", " + info.Name; 
+   }
+
+   public void JoinRoomButton() {
+       PhotonNetwork.JoinRoom(getRoomInfo.Name); 
    }
 }
