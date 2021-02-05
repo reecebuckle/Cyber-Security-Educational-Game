@@ -4,8 +4,10 @@
 
 public class MasterManager : SingletonScriptableObject<MasterManager>
 {
-    [SerializeField] private GameSettings _gameSettings;
-    public static GameSettings GameSettings { get { return Instance._gameSettings; } }
+    [SerializeField] private GameSettings gameSettings;
+    
+    public static GameSettings GameSettings { get { return Instance.gameSettings; } }
+   
    
     
 }

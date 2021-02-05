@@ -7,7 +7,10 @@ public class TestConnect : MonoBehaviourPunCallbacks
 {
     private void Start() {
 
-        Debug.Log("connecting to server", this);
+        Debug.Log("connecting to server...", this);
+        
+        //invoke for when scenes are changed, they're synced for all players
+        PhotonNetwork.AutomaticallySyncScene = true;
         //use server settings 
         PhotonNetwork.NickName = MasterManager.GameSettings.getNickname;
         PhotonNetwork.GameVersion = MasterManager.GameSettings.getGameVersion;
@@ -25,7 +28,8 @@ public class TestConnect : MonoBehaviourPunCallbacks
         Debug.Log("Nickname: " + PhotonNetwork.LocalPlayer.NickName, this);
 
         //Join lobby (however documentation says unless you have to join the lobby, don't)
-        PhotonNetwork.JoinLobby();
+        if (!PhotonNetwork.InLobby)
+            PhotonNetwork.JoinLobby();
 
     }
 }

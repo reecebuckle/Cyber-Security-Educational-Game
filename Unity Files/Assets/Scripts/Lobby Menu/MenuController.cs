@@ -1,22 +1,45 @@
-﻿using UnityEngine;
+﻿
+using UnityEngine;
 
-public class MenuController : MonoBehaviour
-{
-   public GameObject lobbyMatchmakingCanvas;
-   public GameObject lobbyWaitingCanvas;
+public class MenuController : MonoBehaviour {
+    [Header("Menu Canvases")]
+    public  GameObject lobbyMatchmakingCanvas;
+    public  GameObject lobbyHostingCanvas;
+    public  GameObject lobbyJoiningCanvas;
 
-   void Awake() {
-       lobbyMatchmakingCanvas.SetActive(true);
-       lobbyWaitingCanvas.SetActive(false);
-   }
-   public void OpenWaitingCanvas() {
-       lobbyMatchmakingCanvas.SetActive(false);
-       lobbyWaitingCanvas.SetActive(true);
-   }
+    /*
+    * Invoked when returning to main menu
+    */
+    void Awake() => ReturnToMainMenu();
 
-   public void OpenMatchmakingCanvas() {
-       lobbyMatchmakingCanvas.SetActive(true);
-       lobbyWaitingCanvas.SetActive(false);
-   }
+    /*
+    * Invoked when returning to main menu
+    */
+    public void ReturnToMainMenu()
+    {
+        lobbyMatchmakingCanvas.SetActive(true);
+        lobbyHostingCanvas.SetActive(false);
+        lobbyJoiningCanvas.SetActive(false);
+    }
+
+    /*
+    * Invoked when opening the hosting screen
+    */
+    public  void OpenHostCanvas()
+    {
+        lobbyMatchmakingCanvas.SetActive(false);
+        lobbyHostingCanvas.SetActive(true);
+        lobbyJoiningCanvas.SetActive(false);
+    }
+
+    /*
+    * Invoked when opening the joining screen
+    */
+    public  void OpenJoinCanvas()
+    {
+        lobbyMatchmakingCanvas.SetActive(false);
+        lobbyHostingCanvas.SetActive(false);
+        lobbyJoiningCanvas.SetActive(true);
+    }
 
 }
