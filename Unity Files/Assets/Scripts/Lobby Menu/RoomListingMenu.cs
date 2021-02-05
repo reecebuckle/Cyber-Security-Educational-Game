@@ -1,4 +1,4 @@
-﻿
+
 using UnityEngine;
 using Photon.Pun;
 using System.Collections.Generic;
@@ -53,18 +53,18 @@ public class RoomListingMenu : MonoBehaviourPunCallbacks
 
                 // if (index != -1)
                 // {
-                    RoomListing listing = Instantiate(roomListingsPrefab, content);
-                    if (listing != null)
-                    {
-                       Debug.Log("Adding: " + info.Name + " to list", this);
-                        listing.SetRoomInfo(info);
-                        listings.Add(listing);
-                    }
-               
+                RoomListing listing = Instantiate(roomListingsPrefab, content);
+                if (listing != null)
+                {
+                    Debug.Log("Adding: " + info.Name + " to list", this);
+                    listing.SetRoomInfo(info);
+                    listings.Add(listing);
                 }
-            }
 
+            }
         }
+
     }
+}
 
 

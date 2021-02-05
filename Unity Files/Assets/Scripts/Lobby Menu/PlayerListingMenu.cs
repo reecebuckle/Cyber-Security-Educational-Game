@@ -1,4 +1,4 @@
-﻿
+
 using UnityEngine;
 using Photon.Pun;
 using System.Collections.Generic;
@@ -105,7 +105,7 @@ public class PlayerListingMenu : MonoBehaviourPunCallbacks
     public override void OnLeftRoom() => content.DestroyChildren();
 
     /*
-    *
+    * Invoked when the client has joined their own room
     */
     public override void OnJoinedRoom()
     {
