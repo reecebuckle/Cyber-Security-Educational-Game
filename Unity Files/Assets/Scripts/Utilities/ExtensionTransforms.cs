@@ -4,17 +4,19 @@
 * Used as a utility class to destroy children game objects for instantiated prefabs
 * e.g player and room listings
 */
-public static class Transforms
+namespace Utilities
 {
-    public static void DestroyChildren(this Transform t, bool destroyImmediately = false)
+    public static class Transforms
     {
-        foreach (Transform child in t)
+        public static void DestroyChildren(this Transform t, bool destroyImmediately = false)
         {
-            if (destroyImmediately)
-                MonoBehaviour.DestroyImmediate(child.gameObject);
-            else
-                MonoBehaviour.Destroy(child.gameObject);
+            foreach (Transform child in t)
+            {
+                if (destroyImmediately)
+                    Object.DestroyImmediate(child.gameObject); //Rider corrected GameObject to Object
+                else
+                    Object.Destroy(child.gameObject);
+            }
         }
     }
-
 }
