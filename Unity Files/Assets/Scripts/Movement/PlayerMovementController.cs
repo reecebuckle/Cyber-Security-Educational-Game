@@ -9,6 +9,11 @@ namespace Movement
 
         private void Update()
         {
+
+            //if it's not their turn, disable any movement
+            if (!turn)
+                return;
+            
             if (!moving)
             {
                 FindSelectableTiles();

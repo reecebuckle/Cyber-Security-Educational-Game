@@ -10,6 +10,9 @@ namespace Movement
 {
     public class MovementRules : MonoBehaviour
     {
+        //only true when it's this units turn
+        public bool turn = false;
+        
         public int move = 5;
         public int moveSpeed = 2;
         public bool moving = false;
@@ -35,6 +38,8 @@ namespace Movement
             tiles = GameObject.FindGameObjectsWithTag("Tile");
 
             halfHeight = GetComponent<Collider>().bounds.extents.y;
+
+            TurnManager.AddUnit(this);
         }
 
         /*
@@ -176,6 +181,8 @@ namespace Movement
             {
                 RemoveSelectableTiles();
                 moving = false;
+
+                TurnManager.EndTurn();
             }
         }
 
@@ -214,5 +221,16 @@ namespace Movement
 
             selectableTiles.Clear();
         }
+
+        /*
+         * Invoked when a unit can begin their turn / move
+         */
+        public void BeginUnitTurn() => turn = true;
+
+        /*
+         * To be invoked when movement ends, or an action is taken!
+         */
+        public void EndUnitTurn() => turn = false;
+        
     }
 }
