@@ -6,9 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/PUN V3.unity
+    path: Assets/Old Messy/Scenes/Lobby.unity
     guid: 3d4861f2ce8466849939aaf39763f2a7
   - enabled: 1
-    path: Assets/Scenes/Game Test.unity
+    path: Assets/Old Messy/Scenes/TacticsMovement.unity
+    guid: 8c0c43659b84ce243a0305b959bac91f
+  - enabled: 0
+    path: Assets/Old Messy/Scenes/Game Test.unity
     guid: e6c1f7075789b96469e6e7c93d10343b
   m_configObjects: {}

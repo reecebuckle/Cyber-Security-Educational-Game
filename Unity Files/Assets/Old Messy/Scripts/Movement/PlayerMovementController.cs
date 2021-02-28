@@ -1,27 +1,36 @@
 ﻿using System.IO;
 using UnityEngine;
+using Photon.Pun;
 
 namespace Movement
 {
     public class PlayerMovementController : MovementRules //extends movement rules
     {
+        [SerializeField] private GameObject myAvatar;
+        [SerializeField] private PhotonView PV;
         private void Start() => Init();
 
         private void Update()
         {
+            //if not instantiated yet
+            // if (PV != null)
+            //   return;
 
-            //if it's not their turn, disable any movement
-            if (!turn)
-                return;
-            
-            if (!moving)
+            if (PV.IsMine)
             {
-                FindSelectableTiles();
-                CheckMouseClick();
-            }
-            else
-            {
-                Move();
+                //if it's not their turn, disable any movement
+                if (!turn)
+                    return;
+
+                if (!moving)
+                {
+                    FindSelectableTiles();
+                    CheckMouseClick();
+                }
+                else
+                {
+                    Move();
+                }
             }
         }
 
