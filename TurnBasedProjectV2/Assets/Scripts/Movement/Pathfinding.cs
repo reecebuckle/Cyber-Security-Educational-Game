@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Photon.Pun;
 using Tiles;
+using Units;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
@@ -16,8 +17,8 @@ namespace Movement
         //only true when it's this units turn
         public bool turn = false;
 
-        public int move = 5;
-        public int moveSpeed = 2;
+        //public int move = 5;
+        //public int moveSpeed = 2;
         public bool moving = false;
 
         private Vector3 velocity = new Vector3();
@@ -51,30 +52,33 @@ namespace Movement
         /*
          * Utility function to return current tile underneath a selected Unit
          */
-        private void GetCurrentTile()
+        private void GetCurrentTile(Unit unit)
         {
-            _currentTile = GetTargetTile(gameObject);
+            _currentTile = GetTargetTile(unit);
             _currentTile.currentTile = true;
         }
 
         /*
-         * Returns the target tile in which the unity wants to move towards
+         * Returns the target tile underneath the unit, or from the units collider
          */
-        private static Tile GetTargetTile(GameObject target)
+        private static Tile GetTargetTile(Unit unit)
         {
             RaycastHit hit;
             Tile tile = null;
 
             //may need to outline raycast here
-            if (Physics.Raycast(target.transform.position, -Vector3.up, out hit, 1))
+            if (Physics.Raycast(unit.gameObject.transform.position, -Vector3.up, out hit, 1))
+            {
                 tile = hit.collider.GetComponent<Tile>();
-
+                //Debug.Log("Tile is underneathe!");
+            }
+            
             return tile;
         }
 
         /*
-     * Finds all adjacent neighbours 
-     */
+        * Finds all adjacent neighbours 
+        */
         private void ComputeAdjacencyList()
         {
             tiles = GameObject.FindGameObjectsWithTag("Tile");
@@ -87,19 +91,21 @@ namespace Movement
         }
 
         /*
-     * Find all selectable tiles
-     */
-        public void FindSelectableTiles()
+         * Find all selectable tiles
+        */
+        public void FindSelectableTiles(Unit unit)
         {
             ComputeAdjacencyList();
-            GetCurrentTile();
-            BreadthFirstSearch();
+            GetCurrentTile(unit);
+            BreadthFirstSearch(unit);
         }
 
         /*
-     * Find Selectable tiles by applying Breadth First Search
-     */
-        private void BreadthFirstSearch()
+         * Find movable tiles within range of current selected unit
+         * Utilises Breadth First Search
+         * 
+        */
+        private void BreadthFirstSearch(Unit unit)
         {
             //Begin BFS
             Queue<Tile> BFS = new Queue<Tile>();
@@ -117,7 +123,7 @@ namespace Movement
                 t.selectedTile = true;
 
                 //if distance is greater than move amount, skip BFS
-                if (t.distance < move)
+                if (t.distance < unit.GetMovementDistance())
                 {
                     //only process a tile once (if it's been visited already, ignore it)
                     foreach (Tile tile in t.adjacencyList)
@@ -157,7 +163,7 @@ namespace Movement
         /*
         * Purpose is to move from just one tile to the next until we run out of tiles
         */
-        public void Move()
+        public void Move(Unit unit)
         {
             //as lon gas there's something in path we can move
             if (path.Count > 0)
@@ -168,42 +174,40 @@ namespace Movement
                 targetPos.y += halfHeight + t.GetComponent<Collider>().bounds.extents.y;
 
                 //if distance is very small then....
-                if (Vector3.Distance(transform.position, targetPos) >= 0.05f)
+                if (Vector3.Distance(unit.transform.position, targetPos) >= 0.05f)
                 {
-                    CalculateHeading(targetPos);
-                    CalculateHorizontalVelocity();
+                    CalculateHeading(targetPos, unit);
+                    CalculateHorizontalVelocity(unit);
 
                     //face direction of movement
-                    transform.forward = heading;
-                    transform.position += velocity * Time.deltaTime;
+                    unit.transform.forward = heading;
+                    unit.transform.position += velocity * Time.deltaTime;
                 }
                 else
                 {
-                    transform.position = targetPos;
+                    unit.transform.position = targetPos;
                     path.Pop(); // we don't need that child on stack anymore as we've reached it
                 }
             }
             else
             {
                 RemoveSelectableTiles();
-                moving = false;
-
-                //TODO: DO i need this?TurnManager.EndTurn();
+                moving = false; //TODO do we need this when moving?
             }
         }
 
         /*
         * Move forward in the direction of the heading
         */
-        private void CalculateHorizontalVelocity() => velocity = heading * moveSpeed;
+        private void CalculateHorizontalVelocity(Unit unit) => velocity = heading * unit.GetMovementSpeed();
 
 
         /*
          * Simple function used to calculate heading ... ?
         */
-        private void CalculateHeading(Vector3 targetPos)
+        private void CalculateHeading(Vector3 targetPos, Unit unit)
         {
-            heading = targetPos - transform.position;
+            heading = targetPos - unit.transform.position;
             //normalise (unit vector magnitude of 1)
             heading.Normalize();
         }
@@ -228,6 +232,8 @@ namespace Movement
             selectableTiles.Clear();
         }
 
+        
+        //TODO do we need these?
         /*
          * Invoked when a unit can begin their turn / move
         */

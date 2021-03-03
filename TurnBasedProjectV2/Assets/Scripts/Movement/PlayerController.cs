@@ -6,6 +6,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using Tiles;
+using Units;
 
 public class PlayerController : Pathfinding
 {
@@ -86,7 +87,7 @@ public class PlayerController : Pathfinding
             SelectTileUponMouseClick();
             // calculate the tile we selected and try to select whatever that is
             // Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            // TrySelect(new Vector3(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y), 0));
+             TrySelect(new Vector3(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y), 0));
         }
     }*/
 
@@ -106,31 +107,7 @@ public class PlayerController : Pathfinding
     }
 
 
-    /*
-     * Method adapted from my initial path finding tactics stile
-     */
-    private void SelectTileUponMouseClick()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit))
-        {
-            if (hit.collider.CompareTag("Tile"))
-            {
-                Tile tile = hit.collider.GetComponent<Tile>();
-
-                Debug.Log("Tile Selected!");
-                
-                
-                if (tile.selectedTile)
-                {
-                    
-                }
-                    
-            }
-        }
-    }
+  
 
 
     /*

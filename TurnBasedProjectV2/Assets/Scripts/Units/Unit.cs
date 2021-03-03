@@ -1,62 +1,81 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Photon.Pun;
-using UnityEngine.UI;
+using UnityEngine;
 
-public class Unit : MonoBehaviourPun
+namespace Units
 {
-    public float moveSpeed; // units per second when moving
-    public int maxMoveDistance; // max distance we can move per turn
-    public int maxAttackDistance; // max distance we can attack
-    public bool usedThisTurn; // has this unit been used this turn?
-
-
-    // called when the unit is spawned in
-    [PunRPC]
-    private void Initialize(bool isMine)
+    public class Unit : MonoBehaviourPun
     {
-        if (isMine) PlayerController.me.units.Add(this);
-        else GameManager.instance.GetOtherPlayer(PlayerController.me).units.Add(this);
-    }
+        public float moveSpeed; // units per second when moving
+        public int moveDistance = 3; // max distance we can move per turn
+        public int attackDistance; // max distance we can attack
+        public bool usedThisTurn; // has this unit been used this turn?
 
-    // can we be selected?
-    public bool CanSelect()
-    {
-        if (usedThisTurn) return false;
-        else return true;
-    }
 
-    /*
+        // called when the unit is spawned in
+        [PunRPC]
+        private void Initialize(bool isMine)
+        {
+            if (isMine) PlayerController.me.units.Add(this);
+            else GameManager.instance.GetOtherPlayer(PlayerController.me).units.Add(this);
+        }
+
+        // can we be selected?
+        public bool CanSelect()
+        {
+            if (usedThisTurn) return false;
+            else return true;
+        }
+
+        /*
      * Can move??
      */
-    public bool CanMove(Vector3 movePos)
-    {
-        Debug.Log("can move is called");
-        return true;
-    }
+        public bool CanMove(Vector3 movePos)
+        {
+            Debug.Log("can move is called");
+            return true;
+        }
 
-    /*
+        /*
      * Move method??
      */
-    public void Move(Vector3 targetPos)
-    {
-        usedThisTurn = true;
-
-        // rotate sprite
-
-
-        IEnumerator MoveOverTime()
+        public void Move(Vector3 targetPos)
         {
-            while (transform.position != targetPos)
+            usedThisTurn = true;
+
+            // rotate sprite
+
+
+            IEnumerator MoveOverTime()
             {
-                transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
-                yield return null;
+                while (transform.position != targetPos)
+                {
+                    transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
+                    yield return null;
+                }
             }
         }
-    }
 
-    /*public int curHp;               // current health
+        //Getter method for move distance in pathfinding
+        public int GetMovementDistance()
+        {
+            return moveDistance;
+        }
+        
+        //Getter method for move speed when moving
+        public float GetMovementSpeed()
+        {
+            return moveSpeed;
+        }
+        
+        //Getter method for attack distance
+        public int GetAttackDistance()
+        {
+            return attackDistance;
+        }
+
+
+        /*public int curHp;               // current health
     public int maxHp;               // maximum health
     public float moveSpeed;         // units per second when moving
     public int minDamage;           // minimum damage
@@ -191,4 +210,5 @@ public class Unit : MonoBehaviourPun
             PhotonNetwork.Destroy(gameObject);
         }
     }*/
+    }
 }
