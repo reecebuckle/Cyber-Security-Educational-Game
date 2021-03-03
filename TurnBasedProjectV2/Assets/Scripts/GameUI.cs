@@ -17,40 +17,40 @@ public class GameUI : MonoBehaviour
     // instance
     public static GameUI instance;
 
-    void Awake ()
+    void Awake()
     {
         // set the instance to this script
         instance = this;
     }
 
     // called when the "End Turn" button has been pressed
-    public void OnEndTurnButton ()
+    public void OnEndTurnButton()
     {
-        //PlayerController.me.EndTurn();
+        PlayerController.me.EndTurn();
     }
 
     // toggles the interactivity of the end turn button
-    public void ToggleEndTurnButton (bool toggle)
+    public void ToggleEndTurnButton(bool toggle)
     {
         endTurnButton.interactable = toggle;
         waitingUnitsText.gameObject.SetActive(toggle);
     }
 
     // updates the current amount of units you can move this turn
-    public void UpdateWaitingUnitsText (int waitingUnits)
+    public void UpdateWaitingUnitsText(int waitingUnits)
     {
         waitingUnitsText.text = waitingUnits + " Units Waiting";
     }
 
     // sets the requested player's text
-    public void SetPlayerText (PlayerController player)
+    public void SetPlayerText(PlayerController player)
     {
         TextMeshProUGUI text = player == GameManager.instance.leftPlayer ? leftPlayerText : rightPlayerText;
         text.text = player.photonPlayer.NickName;
     }
 
     // sets the unit info text
-    public void SetUnitInfoText (Unit unit)
+    public void SetUnitInfoText(Unit unit)
     {
         unitInfoText.gameObject.SetActive(true);
         unitInfoText.text = "";
@@ -61,7 +61,7 @@ public class GameUI : MonoBehaviour
     }
 
     // displays the win text
-    public void SetWinText (string winnerName)
+    public void SetWinText(string winnerName)
     {
         winText.gameObject.SetActive(true);
         winText.text = winnerName + " Wins";

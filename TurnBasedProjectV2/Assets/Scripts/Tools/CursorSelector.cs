@@ -7,7 +7,7 @@ public class CursorSelector : MonoBehaviour
     /*
      * Used to select tiles on a 2D tile map
      */
-    void Update ()
+    void Update()
     {
         Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         transform.position = new Vector3(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y), 0);

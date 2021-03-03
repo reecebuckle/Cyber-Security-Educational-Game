@@ -1,42 +1,45 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Managers;
+using Units;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+
 
 public class GameManager : MonoBehaviourPun
 {
     public PlayerController leftPlayer;
     public PlayerController rightPlayer;
 
-    public PlayerController curPlayer;      // the player who's currently having their turn
+    public PlayerController curPlayer; // the player who's currently having their turn
 
-    public float postGameTime;              // time between the game ending and us going back to the menu
+    public float postGameTime; // time between the game ending and us going back to the menu
 
     // Create a singleton instance of the Game Manager
     public static GameManager instance;
-    private void Awake () => instance = this;
-  
+
+    private void Awake() => instance = this;
 
     /*
      * Master server initialises players / units
      */
-    private void Start() => TrySetPlayers();
+    private void Start() => SetPlayers();
 
     /*
      * Master client initialises the player data and spawns units for each player
      */
-    private void TrySetPlayers ()
+    private void SetPlayers()
     {
         // Return if not master
         if (!PhotonNetwork.IsMasterClient) return;
-        
+
         // Assign left and right player to a photon view ID
         leftPlayer.photonView.TransferOwnership(1);
         rightPlayer.photonView.TransferOwnership(2);
 
         // Initialize the players
+        // AllBuffered is used in case all clients haven't connected yet
         leftPlayer.photonView.RPC("Initialize", RpcTarget.AllBuffered, PhotonNetwork.CurrentRoom.GetPlayer(1));
         rightPlayer.photonView.RPC("Initialize", RpcTarget.AllBuffered, PhotonNetwork.CurrentRoom.GetPlayer(2));
 
@@ -50,10 +53,10 @@ public class GameManager : MonoBehaviourPun
      * Player 2 will be assigned as the right player and go second
      */
     [PunRPC]
-    private void SetNextTurn ()
+    private void SetNextTurn()
     {
         // Called on the very first turn
-        if(curPlayer == null)
+        if (curPlayer == null)
             curPlayer = leftPlayer;
         else
             curPlayer = curPlayer == leftPlayer ? rightPlayer : leftPlayer;
@@ -71,7 +74,7 @@ public class GameManager : MonoBehaviourPun
     /*
      * Returns the opposing player from the one sent
      */
-    public PlayerController GetOtherPlayer (PlayerController player)
+    public PlayerController GetOtherPlayer(PlayerController player)
     {
         return player == leftPlayer ? rightPlayer : leftPlayer;
     }
@@ -80,9 +83,9 @@ public class GameManager : MonoBehaviourPun
      * Called by a player when their unit dies
      * If this reaches 0 we invoke Win Game!
      */
-    public void CheckWinCondition ()
+    public void CheckWinCondition()
     {
-        if(PlayerController.me.units.Count == 0)
+        if (PlayerController.me.units.Count == 0)
             photonView.RPC("WinGame", RpcTarget.All, PlayerController.enemy == leftPlayer ? 0 : 1);
     }
 
@@ -90,7 +93,7 @@ public class GameManager : MonoBehaviourPun
      * Called when a player has defeated all of the other player's units
      */
     [PunRPC]
-    private void WinGame (int winner)
+    private void WinGame(int winner)
     {
         // get the winning player
         PlayerController player = winner == 0 ? leftPlayer : rightPlayer;
@@ -105,9 +108,9 @@ public class GameManager : MonoBehaviourPun
     /*
      * Returns to main menu
      */
-    private void GoBackToMenu ()
+    private void GoBackToMenu()
     {
         PhotonNetwork.LeaveRoom();
-        NetworkManager.ChangeScene("Menu");
+        NetworkManager.instance.ChangeScene("Menu");
     }
 }

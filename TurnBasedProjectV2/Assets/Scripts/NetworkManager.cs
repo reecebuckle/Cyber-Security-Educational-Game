@@ -1,6 +1,7 @@
 ﻿using Photon.Pun;
 using Photon.Realtime;
 
+
 namespace Managers
 {
     public class NetworkManager : MonoBehaviourPun
@@ -12,18 +13,18 @@ namespace Managers
          * Assign singleton Instance
          * Invoked when MonoBheaviour is created (the default constructor)
          */
-        private void Awake ()
+        private void Awake()
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        
+
         /*
          * Invoked after awake when all Initialisation is done
          * Essentially called during the first frame as the behaviour begins running
          * Because of this, this can lead into a co-routine if necessary
          */
-        private void Start ()
+        private void Start()
         {
             // connect to the master server
             PhotonNetwork.ConnectUsingSettings();
@@ -33,11 +34,11 @@ namespace Managers
          * Utility function:
          * Joins a room if one is available, else creates a room with 2 max players
          */
-        public static void CreateOrJoinRoom ()
+        public void CreateOrJoinRoom()
         {
-            if(PhotonNetwork.CountOfRooms > 0)
+            if (PhotonNetwork.CountOfRooms > 0)
                 PhotonNetwork.JoinRandomRoom();
-            
+
             else
             {
                 RoomOptions options = new RoomOptions();
@@ -50,7 +51,9 @@ namespace Managers
          * Utility function to load next scene 
          */
         [PunRPC]
-        public static void ChangeScene (string sceneName) => PhotonNetwork.LoadLevel(sceneName);
-        
+        public void ChangeScene(string sceneName)
+        {
+            PhotonNetwork.LoadLevel(sceneName);
+        }
     }
 }

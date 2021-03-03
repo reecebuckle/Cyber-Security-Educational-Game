@@ -6,12 +6,15 @@ namespace Units
 {
     public class Unit : MonoBehaviourPun
     {
-        public float moveSpeed; // units per second when moving
-        public int moveDistance = 3; // max distance we can move per turn
-        public int attackDistance; // max distance we can attack
-        public bool usedThisTurn; // has this unit been used this turn?
+        [Header("Unit Properties")] [SerializeField]
+        private float moveSpeed; // units per second when moving
 
+        [SerializeField] private int moveDistance; // max distance we can move per turn
 
+        [SerializeField] private int attackDistance; // max distance we can attack
+        private bool usedThisTurn; // has this unit been used this turn?
+        private bool isSelected;
+        
         // called when the unit is spawned in
         [PunRPC]
         private void Initialize(bool isMine)
@@ -20,42 +23,11 @@ namespace Units
             else GameManager.instance.GetOtherPlayer(PlayerController.me).units.Add(this);
         }
 
-        // can we be selected?
-        public bool CanSelect()
-        {
-            if (usedThisTurn) return false;
-            else return true;
-        }
-
         /*
-     * Can move??
-     */
-        public bool CanMove(Vector3 movePos)
-        {
-            Debug.Log("can move is called");
-            return true;
-        }
-
-        /*
-     * Move method??
-     */
-        public void Move(Vector3 targetPos)
-        {
-            usedThisTurn = true;
-
-            // rotate sprite
-
-
-            IEnumerator MoveOverTime()
-            {
-                while (transform.position != targetPos)
-                {
-                    transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
-                    yield return null;
-                }
-            }
-        }
-
+        * Invoked to change a units selected status
+        */
+        public void ToggleSelect(bool selected) => isSelected = selected;
+        
         //Getter method for move distance in pathfinding
         public int GetMovementDistance()
         {
@@ -67,11 +39,17 @@ namespace Units
         {
             return moveSpeed;
         }
-        
+
         //Getter method for attack distance
         public int GetAttackDistance()
         {
             return attackDistance;
+        }
+
+        // Getter method to see if we can use this unit
+        public bool CanSelect()
+        {
+            return usedThisTurn;
         }
 
 

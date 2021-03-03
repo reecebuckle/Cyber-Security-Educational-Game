@@ -1,5 +1,6 @@
-﻿using Movement;
+﻿using System.Collections.Generic;
 using Photon.Pun;
+using Photon.Realtime;
 using Tiles;
 using Units;
 using UnityEngine;
@@ -12,12 +13,15 @@ namespace SoloDebugging
 
     public class SoloController : Pathfinding
     {
+        
+        [Header("Player Controller Attributes")]
+
+        public List<Unit> units = new List<Unit>(); // list of all units
+        
         [Header("Current Units")] [SerializeField]
         private Unit selectedUnit; // currently selected unit
 
-        public Unit unit1;
-        public Unit unit2;
-
+        
 
         /*
          * Cache all tiles on the map on the first frame when starting the player controller
@@ -33,7 +37,7 @@ namespace SoloDebugging
                 if (!moving)
                 {
                     FindSelectableTiles(selectedUnit);
-                    CheckMouseClick();
+                    SelectTileInRange();
                 }
                 else
                 {
@@ -41,6 +45,8 @@ namespace SoloDebugging
                 }
             }
         }
+        
+        
 
         /*
          * Checks if a unit has been selected!
@@ -69,7 +75,7 @@ namespace SoloDebugging
         /*
          * Invoked IF a tile is selected within the selected units range
          */
-        private void CheckMouseClick()
+        private void SelectTileInRange()
         {
             if (Input.GetMouseButtonUp(0))
             {
