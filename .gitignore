@@ -3,6 +3,16 @@
 #
 # Get latest from https://github.com/github/gitignore/blob/master/Unity.gitignore
 #
+
+#CLONES FOR PARALLEL SYNC
+TurnBasedProjectV2_clone_0
+TurnBasedProjectV2_clone_1
+TurnBasedProjectV2_clone_2
+/TurnBasedProjectV2_clone_0
+/TurnBasedProjectV2_clone_1
+/TurnBasedProjectV2_clone_2
+
+
 /[Ll]ibrary/
 /[Tt]emp/
 /[Oo]bj/
@@ -75,5 +85,8 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
-# IMAGES N SHIT
+# IMAGES
 Assets/Resources/*
+
+
+

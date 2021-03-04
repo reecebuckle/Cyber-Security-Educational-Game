@@ -11,8 +11,7 @@ using UnityEngine;
  */
 public class Pathfinding : MonoBehaviourPun
 {
-    //only true when it's this units turn
-    public bool turn = false;
+    //is the unit currently in movement?
     public bool moving = false;
 
     private Vector3 velocity = new Vector3();
@@ -29,9 +28,9 @@ public class Pathfinding : MonoBehaviourPun
 
 
     /*
-         * Cache all tiles right away
-         * Needs to be initialised once at the beginning of the game
-         */
+     * Cache all tiles right away
+     * Needs to be initialised once at the beginning of the game
+     */
     protected void CacheAllTiles()
     {
         Debug.Log("Caching all tiles");
@@ -43,8 +42,8 @@ public class Pathfinding : MonoBehaviourPun
     }
 
     /*
-         * Utility function to return current tile underneath a selected Unit
-         */
+     * Utility function to return current tile underneath a selected Unit
+     */
     private void GetCurrentTile(Unit unit)
     {
         _currentTile = GetTargetTile(unit);
@@ -52,8 +51,8 @@ public class Pathfinding : MonoBehaviourPun
     }
 
     /*
-         * Returns the target tile underneath the unit, or from the units collider
-         */
+     * Returns the target tile underneath the unit, or from the units collider
+     */
     private static Tile GetTargetTile(Unit unit)
     {
         RaycastHit hit;
@@ -70,8 +69,8 @@ public class Pathfinding : MonoBehaviourPun
     }
 
     /*
-        * Finds all adjacent neighbours 
-        */
+    * Finds all adjacent neighbours 
+    */
     private void ComputeAdjacencyList()
     {
         tiles = GameObject.FindGameObjectsWithTag("Tile");
@@ -84,21 +83,20 @@ public class Pathfinding : MonoBehaviourPun
     }
 
     /*
-        * Find all selectable tiles
-        */
-    public void FindSelectableTiles(Unit unit)
+    * Find all selectable tiles
+    */
+    protected void FindSelectableTiles(Unit unit)
     {
         ComputeAdjacencyList();
         GetCurrentTile(unit);
         BreadthFirstSearch(unit);
-        //TODO add in check here selectableTilesFound = true;
     }
 
     /*
-         * Find movable tiles within range of current selected unit
-         * Utilises Breadth First Search
-         * 
-        */
+     * Find movable tiles within range of current selected unit
+     * Utilises Breadth First Search
+     * 
+     */
     private void BreadthFirstSearch(Unit unit)
     {
         //Begin BFS
@@ -137,9 +135,9 @@ public class Pathfinding : MonoBehaviourPun
     }
 
     /*
-         * Move to target tile
-         */
-    public void MoveToTile(Tile tile)
+     * Move to target tile
+     */
+    protected void MoveToTile(Tile tile)
     {
         path.Clear();
         tile.targetTile = true;
@@ -155,9 +153,9 @@ public class Pathfinding : MonoBehaviourPun
     }
 
     /*
-        * Purpose is to move from just one tile to the next until we run out of tiles
-        */
-    public void Move(Unit unit)
+    * Purpose is to move from just one tile to the next until we run out of tiles
+    */
+    protected void Move(Unit unit)
     {
         //as lon gas there's something in path we can move
         if (path.Count > 0)
@@ -185,20 +183,22 @@ public class Pathfinding : MonoBehaviourPun
         }
         else
         {
+            //TODO maybe relocate this moved this turn
+            unit.ToggleMovedThisTurn(true);
             RemoveSelectableTiles();
-            moving = false; //TODO do we need this when moving?
+            moving = false;
         }
     }
 
     /*
-        * Move forward in the direction of the heading
-        */
+    * Move forward in the direction of the heading
+    */
     private void CalculateHorizontalVelocity(Unit unit) => velocity = heading * unit.GetMovementSpeed();
 
 
     /*
-         * Simple function used to calculate heading ... ?
-        */
+     * Simple function used to calculate heading ... ?
+     */
     private void CalculateHeading(Vector3 targetPos, Unit unit)
     {
         heading = targetPos - unit.transform.position;
@@ -207,9 +207,9 @@ public class Pathfinding : MonoBehaviourPun
     }
 
     /*
-        * Used to remove selectable tiles
-        */
-    private void RemoveSelectableTiles()
+    * Used to remove selectable tiles
+    */
+    protected void RemoveSelectableTiles()
     {
         if (_currentTile != null)
         {
@@ -226,15 +226,13 @@ public class Pathfinding : MonoBehaviourPun
         selectableTiles.Clear();
     }
 
-
-    //TODO do we need these?
     /*
-         * Invoked when a unit can begin their turn / move
-        */
-    public void BeginUnitTurn() => turn = true;
-
-    /*
-        * To be invoked when movement ends, or an action is taken!
-         */
-    public void EndUnitTurn() => turn = false;
+     * Returns true if tiles are found, false if not (prevents double checking)
+     */
+    public bool AreTilesFound()
+    {
+        if (selectableTiles.Count > 0)
+            return true;
+        else return false;
+    }
 }

@@ -5,22 +5,27 @@ using Photon.Pun;
 using Photon.Realtime;
 using Tiles;
 using Units;
+using UnityEditor;
 
 public class PlayerController : Pathfinding
 {
-    [Header("Reference to Photon Player")] 
-    public Player photonPlayer; // Photon.Realtime.Player class
-    
-    [Header("Units for this Player")]
-    public string[] unitsToSpawn;
+    [Header("Reference to Photon Player")] public Player photonPlayer; // Photon.Realtime.Player class
+
+    [Header("Units for this Player")] public string[] unitsToSpawn;
     public Transform[] unitSpawnPositions; // array of all spawn positions for this player
     public List<Unit> units = new List<Unit>(); // list of all our units
     private Unit selectedUnit; // currently selected unit
 
-    [Header("Reference to P1 and P2")] 
-    public static PlayerController me; // local player
+    [Header("Reference to P1 and P2")] public static PlayerController me; // local player
     public static PlayerController enemy; // non-local enemy player
 
+    enum PlayerState
+    {
+        BeginPhase,
+        UnitSelected,
+        Attacking,
+        Waiting
+    }
 
     /*
      * Cache all tiles on the map on the first frame when starting the player controller
@@ -47,44 +52,9 @@ public class PlayerController : Pathfinding
         GameUI.instance.SetPlayerText(this);
     }
 
-    private void Update()
-    {
-        // only the local player can control this player
-        if (!photonView.IsMine)
-            return;
-
-        // Only run if it's our turn
-        if (!GameManager.instance.curPlayer == this)
-            return;
-
-        // Give the options of what the player can do
-        PlayerPhase();
-    }
-
     /*
-     * Called when the player is in their player phase 
-     */
-    private void PlayerPhase()
-    {
-        // Attempt to select a unit if nothing is selected
-        SelectUnit();
-
-        // If unit is selected, find selectable tiles and allow them to select a tile in range
-        if (selectedUnit)
-        {
-            FindSelectableTiles(selectedUnit);
-
-            if (!moving)
-                SelectTileInRange();
-            else
-                Move(selectedUnit);
-        }
-    }
-
-
-    /*
-     * Instantiates prefabs from the Photon Resources Folder
-     */
+    * Instantiates prefabs from the Photon Resources Folder
+    */
     private void SpawnUnits()
     {
         Debug.Log("Spawning Units... ");
@@ -98,10 +68,55 @@ public class PlayerController : Pathfinding
         }
     }
 
+    private void Update()
+    {
+        // only the local player can control this player
+        if (!photonView.IsMine)
+            return;
+
+        // Only run if it's our turn
+        if (GameManager.instance.curPlayer == this)
+        {
+            // Give the options of what the player can do
+            PlayerPhase();
+        }
+    }
+
+    /*
+     * Called when the player is in their player phase 
+     */
+    private void PlayerPhase()
+    {
+
+        // Attempt to select a unit if nothing is selected
+        WaitToSelectUnit();
+
+        // If unit is selected, find selectable tiles and allow them to select a tile in range
+        if (selectedUnit != null)
+        {
+            if (selectedUnit.MovedThisTurn() == false)
+            {
+                if (!AreTilesFound())
+                    FindSelectableTiles(selectedUnit);
+
+                if (!moving)
+                    WaitToSelectTileInRange();
+                else
+                {
+                    Move(selectedUnit);
+                    GameUI.instance.UpdateWaitingUnitsText(units.FindAll(x => !x.MovedThisTurn()).Count);
+                }
+            }
+
+            // TODO  allow the unit to attack another unit
+        }
+    }
+    
+
     /*
      * Checks if a unit has been selected!
      */
-    private void SelectUnit()
+    private void WaitToSelectUnit()
     {
         if (Input.GetMouseButtonUp(0))
         {
@@ -110,22 +125,58 @@ public class PlayerController : Pathfinding
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
             {
-                //TODO check if this is our unit somewhere
                 if (hit.collider.CompareTag("Unit"))
                 {
-                    Unit u = hit.collider.GetComponent<Unit>();
-                    Debug.Log("Unit Selected");
-                    selectedUnit = u;
-                    u.ToggleSelect(true);
+                    Unit clickedUnit = hit.collider.GetComponent<Unit>();
+
+                    SelectUnit(clickedUnit);
                 }
             }
         }
     }
 
     /*
+     * Invoked when we select a unit
+     * TODO: Decide how to handle selecting enemy unit and ours when attacking, + updating the instance
+     */
+    private void SelectUnit(Unit clickedUnit)
+    {
+        // If we click a unit we've already selected, DO nothing
+        if (clickedUnit.IsSelected())
+            return;
+
+        // Unselect the current unit IF one is selected
+        if (selectedUnit != null)
+            DeselectUnit();
+
+        // Select the unit IF it belongs to us 
+        if (units.Contains(clickedUnit))
+        {
+            clickedUnit.ToggleSelect(true);
+            selectedUnit = clickedUnit;
+            
+            // Will display selected unit for us or enemy
+            GameUI.instance.SetUnitInfoText(clickedUnit);
+        }
+    }
+    
+    /*
+   * Deselects the currently selected unity
+   */
+    private void DeselectUnit()
+    {
+        selectedUnit.ToggleSelect(false);
+        selectedUnit = null;
+        //remove found tiles of old unit
+        RemoveSelectableTiles();
+        // disable unit info text
+        GameUI.instance.unitInfoText.gameObject.SetActive(false);
+    }
+
+    /*
      * Invoked IF a tile is selected within the selected units range
      */
-    private void SelectTileInRange()
+    private void WaitToSelectTileInRange()
     {
         if (Input.GetMouseButtonUp(0))
         {
@@ -147,132 +198,54 @@ public class PlayerController : Pathfinding
             }
         }
     }
-
-
+    
     /*
-     * OLD
-     *
-     *
-     *
-     *
-     *
-     *
-     * 
-     */
-
-
-    void TrySelect(Vector3 selectPos)
+    * Invokes the move function (within pathfanding) to move the unit
+    */
+    private void MoveUnit()
     {
-        // see if we're selecting one of our units
-        Unit unit = units.Find(x => x.transform.position == selectPos);
-
-        // if we're selecting our unit - select it
-        if (unit != null)
-        {
-            SelectUnit(unit);
-            return;
-        }
-
-        // if we don't have a selected unit - don't do anything else
-        if (!selectedUnit) return;
-
-        // are we selecting an enemy unit?
-        Unit enemyUnit = enemy.units.Find(x => x.transform.position == selectPos);
-
-        if (enemyUnit != null)
-        {
-            TryAttack(enemyUnit);
-            return;
-        }
-
-        // if we're not selecting a unit or attacking an enemy, try to move the selected unit
-        TryMove(selectPos);
-    }
-
-    // called when we click on a unit
-    void SelectUnit(Unit unitToselect)
-    {
-        // can we select the unit?
-        if (!unitToselect.CanSelect())
-            return;
-
-        // un-select the current unit
-        // if(selectedUnit != null)
-        //selectedUnit.ToggleSelect(false);
-
-        // select the new unit
-        selectedUnit = unitToselect;
-        selectedUnit.ToggleSelect(true);
-
-        // set the unit info text
-        GameUI.instance.SetUnitInfoText(unitToselect);
+        Move(selectedUnit);
+        selectedUnit.ToggleMovedThisTurn(true);
+        
+        //DeselectUnit();
+        //SelectNextAvailableUnit();
+        GameUI.instance.UpdateWaitingUnitsText(units.FindAll(x => !x.MovedThisTurn()).Count);
     }
 
     /*
-     * Deselects the currently selected unity
+     * Selects the next available unit
      */
-    private void DeselectUnit()
+    private void SelectNextAvailableUnit()
     {
-        selectedUnit.ToggleSelect(false);
-        selectedUnit = null;
-
-        // disable unit info text
-        GameUI.instance.unitInfoText.gameObject.SetActive(false);
-    }
-
-    // selects a unit which is able to move / attack
-    void SelectNextAvailableUnit()
-    {
-        Unit availableUnit = units.Find(x => x.CanSelect());
+        Unit availableUnit = units.Find(x => !x.MovedThisTurn());
 
         if (availableUnit != null)
-            SelectUnit(availableUnit);
-        else
-            DeselectUnit();
+            selectedUnit = availableUnit;
     }
+    
 
-    // attempts to attack the requested enemy unit
-    void TryAttack(Unit enemyUnit)
-    {
-        // can we attack the enemy unit?
-        /*if(selectedUnit.CanAttack(enemyUnit.transform.position))
-        {
-            //TODO invoke Attack selectedUnit.Attack(enemyUnit);
-            SelectNextAvailableUnit();
-            GameUI.instance.UpdateWaitingUnitsText(units.FindAll(x => x.CanSelect()).Count);
-        }*/
-    }
-
-    // attempts to move to the requested position
-    void TryMove(Vector3 movePos)
-    {
-        // can we move to the position?
-        /*if(selectedUnit.CanMove(movePos))
-        {
-            //TODO MOVE SELECTED UNIT selectedUnit.Move(movePos);
-            SelectNextAvailableUnit();
-            GameUI.instance.UpdateWaitingUnitsText(units.FindAll(x => x.CanSelect()).Count);
-        }*/
-    }
-
-    // called when our turn ends
+    /*
+     * Called when our turn ends
+     */
     public void EndTurn()
     {
-        // de-select unit
         if (selectedUnit != null)
             DeselectUnit();
+        
+        foreach (Unit unit in units)
+            unit.ToggleMovedThisTurn(false);
 
-        // start the next turn
+        // Invoke the next turn method for the other player!
         GameManager.instance.photonView.RPC("SetNextTurn", RpcTarget.All);
     }
-
-    // called when our turn has begun
+    
+    /*
+     * Called when the player initiates a new turn
+     */
     public void BeginTurn()
     {
-        foreach (Unit unit in units)
-            //TODO set all units too false unit.usedThisTurn = false;
-
-            // update the UI
-            GameUI.instance.UpdateWaitingUnitsText(units.Count);
+        
+        // update the UI
+        GameUI.instance.UpdateWaitingUnitsText(units.Count);
     }
 }

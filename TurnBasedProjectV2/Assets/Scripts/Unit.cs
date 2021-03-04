@@ -12,7 +12,7 @@ namespace Units
         [SerializeField] private int moveDistance; // max distance we can move per turn
 
         [SerializeField] private int attackDistance; // max distance we can attack
-        private bool usedThisTurn; // has this unit been used this turn?
+        private bool hasMovedThisTurn; // has this unit been used this turn?
         private bool isSelected;
         
         // called when the unit is spawned in
@@ -27,6 +27,23 @@ namespace Units
         * Invoked to change a units selected status
         */
         public void ToggleSelect(bool selected) => isSelected = selected;
+        
+        /*
+        * Invoked to change a units used status
+        */
+        public void ToggleMovedThisTurn(bool hasMoved) => hasMovedThisTurn = hasMoved;
+        
+        // Getter method to see if we can use this unit
+        public bool MovedThisTurn()
+        {
+            return hasMovedThisTurn;
+        }
+        
+        // Getter method to check if unit is already selected
+        public bool IsSelected()
+        {
+            return isSelected;
+        }
         
         //Getter method for move distance in pathfinding
         public int GetMovementDistance()
@@ -46,11 +63,8 @@ namespace Units
             return attackDistance;
         }
 
-        // Getter method to see if we can use this unit
-        public bool CanSelect()
-        {
-            return usedThisTurn;
-        }
+       
+        
 
 
         /*public int curHp;               // current health
