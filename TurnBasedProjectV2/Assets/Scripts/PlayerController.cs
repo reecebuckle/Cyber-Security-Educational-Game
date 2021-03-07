@@ -16,7 +16,8 @@ public class PlayerController : Pathfinding
     public List<Unit> units = new List<Unit>(); // list of all our units
     private Unit selectedUnit; // currently selected unit
 
-    [Header("Reference to P1 and P2")] public static PlayerController me; // local player
+    [Header("Reference to P1 and P2")] 
+    public static PlayerController me; // local player
     public static PlayerController enemy; // non-local enemy player
 
     enum PlayerState
@@ -89,7 +90,6 @@ public class PlayerController : Pathfinding
     {
 
         // Attempt to select a unit if nothing is selected
-        WaitToSelectUnit();
 
         // If unit is selected, find selectable tiles and allow them to select a tile in range
         if (selectedUnit != null)
@@ -115,6 +115,7 @@ public class PlayerController : Pathfinding
 
     /*
      * Checks if a unit has been selected!
+     * TODO: Deprecated method removing to externalise the mouse manager
      */
     private void WaitToSelectUnit()
     {
