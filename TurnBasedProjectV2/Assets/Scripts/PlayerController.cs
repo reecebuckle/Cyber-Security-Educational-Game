@@ -90,6 +90,7 @@ public class PlayerController : Pathfinding
     {
 
         // Attempt to select a unit if nothing is selected
+        WaitToSelectUnit();
 
         // If unit is selected, find selectable tiles and allow them to select a tile in range
         if (selectedUnit != null)

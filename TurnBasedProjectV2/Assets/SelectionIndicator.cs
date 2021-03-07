@@ -6,7 +6,7 @@ using UnityEngine;
 public class SelectionIndicator : MonoBehaviour
 {
     private MouseManager mm;
-   // private Unit unit; //TODO leave for now, probably not necessary
+    [SerializeField] private Unit unit; //TODO leave for now, probably not necessary
     [SerializeField] private GameObject quad;
 
     /*
@@ -15,7 +15,6 @@ public class SelectionIndicator : MonoBehaviour
     private void Start()
     {
         mm = GameObject.FindObjectOfType<MouseManager>();
-        //unit = transform.parent.GetComponent<Unit>(); //TODO leave for now, probably not necessary
         quad.SetActive(false);
     }
 
@@ -24,7 +23,7 @@ public class SelectionIndicator : MonoBehaviour
      */
     private void Update()
     {
-        if (mm.hoveredUnit != null)
+        if (mm.hoveredUnit == unit)
             quad.SetActive(true);
         else
             quad.SetActive(false);

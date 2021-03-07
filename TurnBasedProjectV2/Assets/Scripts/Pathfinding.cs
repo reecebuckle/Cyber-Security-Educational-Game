@@ -43,6 +43,8 @@ public class Pathfinding : MonoBehaviourPun
 
     /*
      * Utility function to return current tile underneath a selected Unit
+     * 
+     * TODO BUG LIST: when you get current unit, sometimes you get a null reference exception!
      */
     private void GetCurrentTile(Unit unit)
     {
