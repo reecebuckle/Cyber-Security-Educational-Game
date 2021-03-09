@@ -61,10 +61,10 @@ public class Pathfinding : MonoBehaviourPun
         Tile tile = null;
 
         //may need to outline raycast here
-        if (Physics.Raycast(unit.gameObject.transform.position, -Vector3.up, out hit, 1))
+        if (Physics.Raycast(unit.gameObject.transform.position, -Vector3.up, out hit, 2))
         {
             tile = hit.collider.GetComponent<Tile>();
-            //Debug.Log("Tile is underneathe!");
+            Debug.Log("Tile is underneathe!");
         }
 
         return tile;

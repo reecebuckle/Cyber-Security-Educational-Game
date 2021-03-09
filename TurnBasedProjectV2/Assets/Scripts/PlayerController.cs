@@ -97,8 +97,7 @@ public class PlayerController : Pathfinding
         {
             if (selectedUnit.MovedThisTurn() == false)
             {
-                if (!AreTilesFound())
-                    FindSelectableTiles(selectedUnit);
+                //FindSelectableTiles(selectedUnit);
 
                 if (!moving)
                     WaitToSelectTileInRange();
@@ -156,7 +155,6 @@ public class PlayerController : Pathfinding
         {
             clickedUnit.ToggleSelect(true);
             selectedUnit = clickedUnit;
-            
             // Will display selected unit for us or enemy
             GameUI.instance.SetUnitInfoText(clickedUnit);
         }

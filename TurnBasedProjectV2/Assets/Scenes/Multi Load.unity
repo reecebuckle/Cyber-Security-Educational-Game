@@ -9032,7 +9032,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '<b>Hp:</b> 15 / 25
+  m_text: '<b>Name</b>
+
+    <b>Hp:</b> 15 / 25
 
     <b>Move Range:</b> 5
 
@@ -9406,6 +9408,7 @@ MonoBehaviour:
   rightPlayerText: {fileID: 1036355198}
   waitingUnitsText: {fileID: 1384239269}
   unitInfoText: {fileID: 1602582047}
+  enemyInfoText: {fileID: 1190945212}
   winText: {fileID: 781217269}
 --- !u!1 &1715168528
 GameObject:

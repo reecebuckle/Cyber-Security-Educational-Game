@@ -66,6 +66,11 @@ namespace Units
                 photonView.RPC("UpdateHealthBar", RpcTarget.All, (float) currentHP / (float) maxHP);
             }
         }
+        
+        
+        /*
+         * GETTER METHODS
+         */
 
         // Getter method to see if we can use this unit
         public bool MovedThisTurn()
@@ -91,13 +96,16 @@ namespace Units
             return moveSpeed;
         }
 
-        //Getter method for attack distance
-        /*public int GetAttackDistance()
+        public int GetCurrentHp()
         {
-            return attackDistance;
-        }*/
-
-       
+            return currentHP;
+        }
+        
+        public int GetMaxHp()
+        {
+            return maxHP;
+        }
+        
         
     }
 }

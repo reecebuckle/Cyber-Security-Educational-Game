@@ -12,16 +12,17 @@ public class GameUI : MonoBehaviour
     public TextMeshProUGUI rightPlayerText;
     public TextMeshProUGUI waitingUnitsText;
     public TextMeshProUGUI unitInfoText;
+    public TextMeshProUGUI enemyInfoText;
     public TextMeshProUGUI winText;
 
     // instance
     public static GameUI instance;
 
-    void Awake()
-    {
-        // set the instance to this script
-        instance = this;
-    }
+    /*
+     * Assign singleton reference to this script
+     */
+    private void Awake() => instance = this;
+    
 
     // called when the "End Turn" button has been pressed
     public void OnEndTurnButton()
@@ -54,9 +55,18 @@ public class GameUI : MonoBehaviour
     {
         unitInfoText.gameObject.SetActive(true);
         unitInfoText.text = "";
-
-        //unitInfoText.text += string.Format("<b>Hp:</b> {0} / {1}", unit.curHp, unit.maxHp);
-        //unitInfoText.text += string.Format("\n<b>Move Range:</b> {0}", unit.maxMoveDistance);
+        unitInfoText.text += string.Format("<b>Hp:</b> {0} / {1}", unit.GetCurrentHp(), unit.GetMaxHp());
+        unitInfoText.text += string.Format("\n<b>Move Range:</b> {0}", unit.GetMovementDistance());
+        //unitInfoText.text += string.Format("\n<b>Attack Range:</b> {0}", unit.maxAttackDistance);//unitInfoText.text += string.Format("\n<b>Damage:</b> {0} - {1}", unit.minDamage, unit.maxDamage);
+    }
+    
+    // sets the unit info text
+    public void SetEnemyInfoText(Unit unit)
+    {
+        unitInfoText.gameObject.SetActive(true);
+        unitInfoText.text = "";
+        unitInfoText.text += string.Format("<b>Hp:</b> {0} / {1}", unit.GetCurrentHp(), unit.GetMaxHp());
+        unitInfoText.text += string.Format("\n<b>Move Range:</b> {0}", unit.GetMovementDistance());
         //unitInfoText.text += string.Format("\n<b>Attack Range:</b> {0}", unit.maxAttackDistance);//unitInfoText.text += string.Format("\n<b>Damage:</b> {0} - {1}", unit.minDamage, unit.maxDamage);
     }
 

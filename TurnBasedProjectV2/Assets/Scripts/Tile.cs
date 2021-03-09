@@ -20,8 +20,7 @@ namespace Tiles
         public bool visited = false;
         public Tile parent = null;
         public int distance = 0; //set default to 5
-
-
+        
         private void Update() => SelectTile();
 
         /*
