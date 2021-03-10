@@ -9,17 +9,16 @@ using UnityEngine;
 public class Tile : MonoBehaviour
 {
     [Header("Boolean Variables")]
-    public bool walkable = true; //is the tile walkable? Cannot step on opposing players!
-    public bool currentTile = false;
-    public bool targetTile = false;
-    public bool selectedTile = false;
+    public bool walkable = true;
+    public bool current = false;
+    public bool target = false;
+    public bool selectable = false;
 
     [Header("BFS Variables")] public List<Tile> adjacencyList = new List<Tile>();
     public bool visited = false;
     public Tile parent = null;
     public int distance = 0; //set default to 5
-
-    private void Start() => Reset();
+    
 
     private void Update() => SelectTile();
 
@@ -28,11 +27,11 @@ public class Tile : MonoBehaviour
     */
     private void SelectTile()
     {
-        if (currentTile)
+        if (current)
             GetComponent<Renderer>().material.color = Color.magenta;
-        else if (targetTile)
+        else if (target)
             GetComponent<Renderer>().material.color = Color.green;
-        else if (selectedTile)
+        else if (selectable)
             GetComponent<Renderer>().material.color = Color.red;
         else
             GetComponent<Renderer>().material.color = Color.white;
@@ -47,8 +46,8 @@ public class Tile : MonoBehaviour
 
         //Check the 4 directions (forwards, backwards, right and left)
         CheckTile(Vector3.forward);
-        CheckTile(-Vector3.forward);
-        CheckTile(Vector3.right);
+        CheckTile(-Vector3.forward );
+        CheckTile(Vector3.right );
         CheckTile(-Vector3.right);
     }
 
@@ -86,9 +85,11 @@ public class Tile : MonoBehaviour
     public void Reset()
     {
         adjacencyList.Clear();
-        currentTile = false;
-        targetTile = false;
-        selectedTile = false;
+
+        current = false;
+        target = false;
+        selectable = false;
+
         visited = false;
         parent = null;
         distance = 0;

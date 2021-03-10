@@ -10,20 +10,21 @@ using UnityEngine;
  */
 public class Pathfinding : MonoBehaviourPun
 {
-    //is the unit currently in movement?
+    
+     //is the unit currently in movement?
     public bool moving = false;
 
-    private Vector3 velocity = new Vector3();
-    private Vector3 heading = new Vector3();
-    private float halfHeight = 0;
+    Vector3 velocity = new Vector3();
+    Vector3 heading = new Vector3();
+    float halfHeight = 0;
 
     //selectableTiles show when it's the units turn 
-    private List<Tile> selectableTiles = new List<Tile>();
-    private GameObject[] tiles;
+    List<Tile> selectableTiles = new List<Tile>();
+    GameObject[] tiles;
 
     //Stack gives us the path in reverse order
     public Stack<Tile> path = new Stack<Tile>();
-    private Tile _currentTile; // current tile in the pathfinding process
+    Tile _currentTile; // current tile in the pathfinding process
 
 
     /*
@@ -41,33 +42,29 @@ public class Pathfinding : MonoBehaviourPun
     /*
      * Utility function to return current tile underneath a selected Unit
      */
-    private void GetCurrentTile(Unit unit)
+    public void GetCurrentTile()
     {
-        _currentTile = GetTargetTile(unit);
-        _currentTile.currentTile = true;
+        _currentTile = GetTargetTile();
+        _currentTile.current = true;
     }
 
     /*
      * Returns the target tile underneath the unit, or from the units collider
      */
-    private Tile GetTargetTile(Unit unit)
+    private Tile GetTargetTile()
     {
         RaycastHit hit;
         Tile tile = null;
 
         //may need to outline raycast here
-        if (Physics.Raycast(unit.gameObject.transform.position, -Vector3.up, out hit, 10))
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, 1))
         {
-            
             tile = hit.collider.GetComponent<Tile>();
-
-            if (tile != null)
-                Debug.Log("tile is not null!?");
-            
-            Debug.DrawLine(unit.gameObject.transform.position, -Vector3.up, Color.green);
-            print(hit.transform.name);
         }
-
+            
+        
+        Debug.DrawLine(transform.position, -Vector3.up, Color.green);
+        
         return tile;
     }
 
@@ -89,7 +86,7 @@ public class Pathfinding : MonoBehaviourPun
     protected void FindSelectableTiles(Unit unit)
     {
         ComputeAdjacencyList();
-        GetCurrentTile(unit);
+        GetCurrentTile();
         BreadthFirstSearch(unit);
     }
 
@@ -113,7 +110,7 @@ public class Pathfinding : MonoBehaviourPun
             selectableTiles.Add(t);
 
             //activate selectable trigger (red) of tile
-            t.selectedTile = true;
+            t.selectable = true;
 
             //if distance is greater than move amount, skip BFS
             if (t.distance < unit.GetMovementDistance())
@@ -141,7 +138,7 @@ public class Pathfinding : MonoBehaviourPun
     protected void MoveToTile(Tile tile)
     {
         path.Clear();
-        tile.targetTile = true;
+        tile.target = true;
         moving = true;
 
         Tile nextTile = tile;
@@ -158,7 +155,7 @@ public class Pathfinding : MonoBehaviourPun
     */
     protected void Move(Unit unit)
     {
-        //as lon gas there's something in path we can move
+        //as long as there's something in path we can move
         if (path.Count > 0)
         {
             Tile t = path.Peek();
@@ -167,18 +164,18 @@ public class Pathfinding : MonoBehaviourPun
             targetPos.y += halfHeight + t.GetComponent<Collider>().bounds.extents.y;
 
             //if distance is very small then....
-            if (Vector3.Distance(unit.transform.position, targetPos) >= 0.05f)
+            if (Vector3.Distance(transform.position, targetPos) >= 0.05f)
             {
-                CalculateHeading(targetPos, unit);
+                CalculateHeading(targetPos);
                 CalculateHorizontalVelocity(unit);
 
                 //face direction of movement
-                unit.transform.forward = heading;
-                unit.transform.position += velocity * Time.deltaTime;
+                transform.forward = heading;
+                transform.position += velocity * Time.deltaTime;
             }
             else
             {
-                unit.transform.position = targetPos;
+                transform.position = targetPos;
                 path.Pop(); // we don't need that child on stack anymore as we've reached it
             }
         }
@@ -199,9 +196,9 @@ public class Pathfinding : MonoBehaviourPun
     /*
      * Simple function used to calculate heading ... ?
      */
-    private void CalculateHeading(Vector3 targetPos, Unit unit)
+    private void CalculateHeading(Vector3 targetPos)
     {
-        heading = targetPos - unit.transform.position;
+        heading = targetPos - transform.position;
         //normalise (unit vector magnitude of 1)
         heading.Normalize();
     }
@@ -214,7 +211,7 @@ public class Pathfinding : MonoBehaviourPun
         if (_currentTile != null)
         {
             //if there is a current tile, set it to false
-            _currentTile.currentTile = false;
+            _currentTile.current = false;
             _currentTile = null;
         }
 
@@ -233,4 +230,5 @@ public class Pathfinding : MonoBehaviourPun
             return true;
         else return false;
     }
+
 }

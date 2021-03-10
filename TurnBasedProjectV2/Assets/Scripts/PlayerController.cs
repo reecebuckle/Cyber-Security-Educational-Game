@@ -6,7 +6,7 @@ using Photon.Realtime;
 using Units;
 using UnityEditor;
 
-public class PlayerController : Pathfinding
+public class PlayerController : MonoBehaviourPun
 {
     [Header("Reference to Photon Player")] public Player photonPlayer; // Photon.Realtime.Player class
 
@@ -18,20 +18,7 @@ public class PlayerController : Pathfinding
     [Header("Reference to P1 and P2")] 
     public static PlayerController me; // local player
     public static PlayerController enemy; // non-local enemy player
-
-    enum PlayerState
-    {
-        BeginPhase,
-        UnitSelected,
-        Attacking,
-        Waiting
-    }
-
-    /*
-     * Cache all tiles on the map on the first frame when starting the player controller
-     */
-    private void Start() => CacheAllTiles();
-
+    
     /*
      * Called when the game begins
      */
@@ -89,7 +76,7 @@ public class PlayerController : Pathfinding
         WaitToSelectUnit();
 
         // If unit is selected, find selectable tiles and allow them to select a tile in range
-        if (selectedUnit != null)
+        /*if (selectedUnit != null)
         {
             if (selectedUnit.MovedThisTurn() == false)
             {
@@ -102,13 +89,11 @@ public class PlayerController : Pathfinding
                 }
                 else
                 {
-                    Move(selectedUnit);
+                    //Move(selectedUnit);
                     GameUI.instance.UpdateWaitingUnitsText(units.FindAll(x => !x.MovedThisTurn()).Count);
                 }
-            }
+            }*/
 
-            // TODO  allow the unit to attack another unit
-        }
     }
     
 
@@ -154,7 +139,8 @@ public class PlayerController : Pathfinding
             Debug.Log("Unit selected");
             clickedUnit.ToggleSelect(true);
             selectedUnit = clickedUnit;
-            FindSelectableTiles(selectedUnit);
+            
+            // TODO update this FindSelectableTiles(selectedUnit);
             // Will display selected unit for us or enemy
             GameUI.instance.SetUnitInfoText(clickedUnit);
         }
@@ -168,48 +154,11 @@ public class PlayerController : Pathfinding
         selectedUnit.ToggleSelect(false);
         selectedUnit = null;
         //remove found tiles of old unit
-        RemoveSelectableTiles();
+        //TODO update this RemoveSelectableTiles();
         // disable unit info text
         GameUI.instance.unitInfoText.gameObject.SetActive(false);
     }
-
-    /*
-     * Invoked IF a tile is selected within the selected units range
-     */
-    private void WaitToSelectTileInRange()
-    {
-        if (Input.GetMouseButtonUp(0))
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
-            {
-                if (hit.collider.CompareTag("Tile"))
-                {
-                    Debug.Log("Tile selected");
-                    Tile t = hit.collider.GetComponent<Tile>();
-
-                    if (t.selectedTile)
-                        MoveToTile(t);
-                    
-                }
-            }
-        }
-    }
     
-    /*
-    * Invokes the move function (within pathfanding) to move the unit
-    */
-    private void MoveUnit()
-    {
-        Move(selectedUnit);
-        selectedUnit.ToggleMovedThisTurn(true);
-        
-        //DeselectUnit();
-        //SelectNextAvailableUnit();
-        GameUI.instance.UpdateWaitingUnitsText(units.FindAll(x => !x.MovedThisTurn()).Count);
-    }
 
     /*
      * Selects the next available unit
@@ -243,7 +192,6 @@ public class PlayerController : Pathfinding
      */
     public void BeginTurn()
     {
-        
         // update the UI
         GameUI.instance.UpdateWaitingUnitsText(units.Count);
     }

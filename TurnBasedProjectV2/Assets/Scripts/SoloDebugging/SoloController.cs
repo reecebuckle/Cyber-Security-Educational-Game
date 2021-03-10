@@ -12,15 +12,7 @@ namespace SoloDebugging
 
     public class SoloController : Pathfinding
     {
-        
-        [Header("Player Controller Attributes")]
-
-        public List<Unit> units = new List<Unit>(); // list of all units
-        
-        [Header("Current Units")] [SerializeField]
-        private Unit selectedUnit; // currently selected unit
-
-        
+        private Unit selectedUnit;
 
         /*
          * Cache all tiles on the map on the first frame when starting the player controller
@@ -31,7 +23,7 @@ namespace SoloDebugging
         {
             SelectUnit();
 
-            if (selectedUnit)
+            if (selectedUnit != null)
             {
                 if (!moving)
                 {
@@ -44,8 +36,7 @@ namespace SoloDebugging
                 }
             }
         }
-        
-        
+
 
         /*
          * Checks if a unit has been selected!
@@ -62,10 +53,10 @@ namespace SoloDebugging
                     //TODO check if this is our unit somewhere
                     if (hit.collider.CompareTag("Unit"))
                     {
-                        Unit u = hit.collider.GetComponent<Unit>();
+                        Unit unit = hit.collider.GetComponent<Unit>();
 
                         Debug.Log("Unit Selected");
-                        selectedUnit = u;
+                        selectedUnit = unit;
                     }
                 }
             }
@@ -88,7 +79,7 @@ namespace SoloDebugging
                         Debug.Log("Tile selected");
                         Tile t = hit.collider.GetComponent<Tile>();
 
-                        if (t.selectedTile)
+                        if (t.selectable)
                         {
                             MoveToTile(t);
                         }

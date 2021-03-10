@@ -18,6 +18,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Solo Load.unity
     guid: cb34572a782ba364f9b5d6051b1cd74a
   - enabled: 1
-    path: Assets/Scenes/Multi Load.unity
+    path: Assets/Scenes/Back up.unity
     guid: 372f6231fb48af248a169f345bf65b55
+  - enabled: 1
+    path: Assets/Scenes/Multi Load.unity
+    guid: 4192738644c09b44ba78425b4d328954
   m_configObjects: {}
