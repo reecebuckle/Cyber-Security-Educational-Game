@@ -18,25 +18,28 @@ public class UnitController : Pathfinding
         CacheAllTiles();
     }
 
-
     /*
      * Checks if the unit can move
      */
     private void Update()
     {
-        Debug.DrawRay(transform.position, transform.forward);
+        //return if unit isn't selected by the player controller
+        if (!unit.IsSelected())
+            return;
 
-        if (unit.IsSelected())
+        //return if unit has moved this turn 
+        if (unit.MovedThisTurn())
+            return;
+
+
+        if (!moving)
         {
-            if (!moving)
-            {
-                FindSelectableTiles(unit);
-                WaitToSelectTileInRange();
-            }
-            else
-            {
-                Move(unit);
-            }
+            FindSelectableTiles(unit);
+            WaitToSelectTileInRange();
+        }
+        else
+        {
+            Move(unit);
         }
     }
 
@@ -54,7 +57,6 @@ public class UnitController : Pathfinding
             {
                 if (hit.collider.CompareTag("Tile"))
                 {
-                    Debug.Log("Tile selected");
                     Tile t = hit.collider.GetComponent<Tile>();
 
                     if (t.selectable)
@@ -63,5 +65,9 @@ public class UnitController : Pathfinding
             }
         }
     }
-    
+
+    /*
+     * Removes selectable tiles
+     */
+    public void DeselectTiles() => RemoveSelectableTiles();
 }

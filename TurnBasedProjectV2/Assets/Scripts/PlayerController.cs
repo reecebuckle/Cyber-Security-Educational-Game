@@ -63,40 +63,10 @@ public class PlayerController : MonoBehaviourPun
 
         // Only run if it's our turn
         if (GameManager.instance.curPlayer == this)
-            PlayerPhase();
+            WaitToSelectUnit();
         
     }
-
-    /*
-     * Called when the player is in their player phase 
-     */
-    private void PlayerPhase()
-    {
-        // Attempt to select a unit if nothing is selected
-        WaitToSelectUnit();
-
-        // If unit is selected, find selectable tiles and allow them to select a tile in range
-        /*if (selectedUnit != null)
-        {
-            if (selectedUnit.MovedThisTurn() == false)
-            {
-                //FindSelectableTiles(selectedUnit);
-
-                if (!moving)
-                {
-                    //FindSelectableTiles(selectedUnit);
-                    WaitToSelectTileInRange();
-                }
-                else
-                {
-                    //Move(selectedUnit);
-                    GameUI.instance.UpdateWaitingUnitsText(units.FindAll(x => !x.MovedThisTurn()).Count);
-                }
-            }*/
-
-    }
     
-
     /*
      * Checks if a unit has been selected!
      * TODO: Deprecated method removing to externalise the mouse manager
@@ -121,7 +91,6 @@ public class PlayerController : MonoBehaviourPun
 
     /*
      * Invoked when we select a unit
-     * TODO: Decide how to handle selecting enemy unit and ours when attacking, + updating the instance
      */
     private void SelectUnit(Unit clickedUnit)
     {
@@ -136,10 +105,9 @@ public class PlayerController : MonoBehaviourPun
         // Select the unit IF it belongs to us 
         if (units.Contains(clickedUnit))
         {
-            Debug.Log("Unit selected");
             clickedUnit.ToggleSelect(true);
             selectedUnit = clickedUnit;
-            
+             
             // TODO update this FindSelectableTiles(selectedUnit);
             // Will display selected unit for us or enemy
             GameUI.instance.SetUnitInfoText(clickedUnit);
@@ -152,9 +120,9 @@ public class PlayerController : MonoBehaviourPun
     private void DeselectUnit()
     {
         selectedUnit.ToggleSelect(false);
-        selectedUnit = null;
         //remove found tiles of old unit
-        //TODO update this RemoveSelectableTiles();
+        //selectedUnit.GetComponent<UnitController>().DeselectTiles();
+        selectedUnit = null;
         // disable unit info text
         GameUI.instance.unitInfoText.gameObject.SetActive(false);
     }
@@ -188,11 +156,8 @@ public class PlayerController : MonoBehaviourPun
     }
     
     /*
-     * Called when the player initiates a new turn
+     * Called when the player initiates a new turn and updates the UI
      */
-    public void BeginTurn()
-    {
-        // update the UI
-        GameUI.instance.UpdateWaitingUnitsText(units.Count);
-    }
+    public void BeginTurn() => GameUI.instance.UpdateWaitingUnitsText(units.Count);
+    
 }

@@ -24,7 +24,7 @@ public class Pathfinding : MonoBehaviourPun
 
     //Stack gives us the path in reverse order
     public Stack<Tile> path = new Stack<Tile>();
-    Tile _currentTile; // current tile in the pathfinding process
+    private Tile _currentTile; // current tile in the pathfinding process
 
 
     /*
@@ -55,15 +55,9 @@ public class Pathfinding : MonoBehaviourPun
     {
         RaycastHit hit;
         Tile tile = null;
-
-        //may need to outline raycast here
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, 1))
-        {
-            tile = hit.collider.GetComponent<Tile>();
-        }
-            
         
-        Debug.DrawLine(transform.position, -Vector3.up, Color.green);
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, 1))
+            tile = hit.collider.GetComponent<Tile>();
         
         return tile;
     }
