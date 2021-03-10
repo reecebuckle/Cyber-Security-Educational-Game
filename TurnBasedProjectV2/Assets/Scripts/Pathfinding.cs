@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Photon.Pun;
-using Tiles;
 using Units;
 using UnityEngine;
 
@@ -24,7 +23,7 @@ public class Pathfinding : MonoBehaviourPun
 
     //Stack gives us the path in reverse order
     public Stack<Tile> path = new Stack<Tile>();
-    private Tile _currentTile;
+    private Tile _currentTile; // current tile in the pathfinding process
 
 
     /*
@@ -33,9 +32,7 @@ public class Pathfinding : MonoBehaviourPun
      */
     protected void CacheAllTiles()
     {
-        Debug.Log("Caching all tiles");
         tiles = GameObject.FindGameObjectsWithTag("Tile");
-
         // Find where the unit sits on the tile
         // Going to be calculated a lot, so performance friendly to calculate once at the beginning
         halfHeight = GetComponent<Collider>().bounds.extents.y;
@@ -43,8 +40,6 @@ public class Pathfinding : MonoBehaviourPun
 
     /*
      * Utility function to return current tile underneath a selected Unit
-     * 
-     * TODO BUG LIST: when you get current unit, sometimes you get a null reference exception!
      */
     private void GetCurrentTile(Unit unit)
     {
@@ -55,16 +50,22 @@ public class Pathfinding : MonoBehaviourPun
     /*
      * Returns the target tile underneath the unit, or from the units collider
      */
-    private static Tile GetTargetTile(Unit unit)
+    private Tile GetTargetTile(Unit unit)
     {
         RaycastHit hit;
         Tile tile = null;
 
         //may need to outline raycast here
-        if (Physics.Raycast(unit.gameObject.transform.position, -Vector3.up, out hit, 2))
+        if (Physics.Raycast(unit.gameObject.transform.position, -Vector3.up, out hit, 10))
         {
+            
             tile = hit.collider.GetComponent<Tile>();
-            Debug.Log("Tile is underneathe!");
+
+            if (tile != null)
+                Debug.Log("tile is not null!?");
+            
+            Debug.DrawLine(unit.gameObject.transform.position, -Vector3.up, Color.green);
+            print(hit.transform.name);
         }
 
         return tile;
@@ -75,8 +76,6 @@ public class Pathfinding : MonoBehaviourPun
     */
     private void ComputeAdjacencyList()
     {
-        tiles = GameObject.FindGameObjectsWithTag("Tile");
-
         foreach (GameObject tile in tiles)
         {
             Tile t = tile.GetComponent<Tile>();
@@ -185,7 +184,6 @@ public class Pathfinding : MonoBehaviourPun
         }
         else
         {
-            //TODO maybe relocate this moved this turn
             unit.ToggleMovedThisTurn(true);
             RemoveSelectableTiles();
             moving = false;
@@ -220,10 +218,8 @@ public class Pathfinding : MonoBehaviourPun
             _currentTile = null;
         }
 
-        foreach (var tile in selectableTiles)
-        {
+        foreach (Tile tile in selectableTiles)
             tile.Reset();
-        }
 
         selectableTiles.Clear();
     }

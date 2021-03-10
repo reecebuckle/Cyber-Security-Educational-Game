@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
-using Tiles;
 using Units;
 using UnityEditor;
 
@@ -77,10 +76,8 @@ public class PlayerController : Pathfinding
 
         // Only run if it's our turn
         if (GameManager.instance.curPlayer == this)
-        {
-            // Give the options of what the player can do
             PlayerPhase();
-        }
+        
     }
 
     /*
@@ -88,7 +85,6 @@ public class PlayerController : Pathfinding
      */
     private void PlayerPhase()
     {
-
         // Attempt to select a unit if nothing is selected
         WaitToSelectUnit();
 
@@ -100,7 +96,10 @@ public class PlayerController : Pathfinding
                 //FindSelectableTiles(selectedUnit);
 
                 if (!moving)
+                {
+                    //FindSelectableTiles(selectedUnit);
                     WaitToSelectTileInRange();
+                }
                 else
                 {
                     Move(selectedUnit);
@@ -129,7 +128,6 @@ public class PlayerController : Pathfinding
                 if (hit.collider.CompareTag("Unit"))
                 {
                     Unit clickedUnit = hit.collider.GetComponent<Unit>();
-
                     SelectUnit(clickedUnit);
                 }
             }
@@ -153,8 +151,10 @@ public class PlayerController : Pathfinding
         // Select the unit IF it belongs to us 
         if (units.Contains(clickedUnit))
         {
+            Debug.Log("Unit selected");
             clickedUnit.ToggleSelect(true);
             selectedUnit = clickedUnit;
+            FindSelectableTiles(selectedUnit);
             // Will display selected unit for us or enemy
             GameUI.instance.SetUnitInfoText(clickedUnit);
         }
@@ -191,9 +191,8 @@ public class PlayerController : Pathfinding
                     Tile t = hit.collider.GetComponent<Tile>();
 
                     if (t.selectedTile)
-                    {
                         MoveToTile(t);
-                    }
+                    
                 }
             }
         }
