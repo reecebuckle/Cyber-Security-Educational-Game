@@ -103,8 +103,6 @@ namespace Units
             Debug.Log("Prepare health amount");
         }
         
-        
-
 
         /*
          * GETTER METHODS

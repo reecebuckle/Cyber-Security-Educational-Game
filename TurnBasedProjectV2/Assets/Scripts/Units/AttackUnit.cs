@@ -11,7 +11,15 @@ namespace Units
 
         public Unit unitToAttack;
         public List<Unit> unitsInRange;
-        private bool attackSelected = false;
+        private bool _attackSelected = false;
+        public List<Tile> tilesInRange = new List<Tile>();
+        
+        private void Update()
+        {
+            if (_attackSelected)
+                WaitToSelectUnitInRange();
+            
+        }
 
         private void OnEnable()
         {
@@ -23,14 +31,12 @@ namespace Units
         {
             unit = null;
             unitsInRange.Clear();
-            attackSelected = false;
+            _attackSelected = false;
         }
-
-
+        
         private void FindEnemiesInRange()
         {
             unitsInRange.Clear();
-            Debug.Log("Finding enemies in range");
             FindEnemyWithDirection(Vector3.forward);
             FindEnemyWithDirection(-Vector3.forward);
             FindEnemyWithDirection(Vector3.right);
@@ -38,7 +44,6 @@ namespace Units
 
             Debug.Log("Units in range: " + unitsInRange.Count);
         }
-
 
         /*
          * Searches a particular direction, if an enemy is in range, adds it to the list!
@@ -55,8 +60,6 @@ namespace Units
                 print(hit.collider.gameObject.name);
                 unitsInRange.Add(enemyUnit);
             }
-
-            Debug.DrawLine(unit.transform.position, direction, Color.green);
         }
 
         /*
@@ -69,36 +72,88 @@ namespace Units
                 return;
             
             FindEnemiesInRange();
+            HighlightTilesInRange();
 
             if (unitsInRange.Count > 0)
-                attackSelected = true;
+                _attackSelected = true;
         }
 
-        private void Update()
-        {
-            if (attackSelected)
-                WaitToSelectUnitInRange();
-            
-        }
-
+        /*
+         * Invokes method to attack an enemy unit
+         */
         [PunRPC]
         private void AttackEnemyUnit(Unit unitToAttack)
         {
             //stop update loop
-            attackSelected = false;
+            _attackSelected = false;
             //prevent unit from being able to move after attacking
             unit.ToggleAttackedThisTurn(true);
+            
+            //reset tiles in range
+            DeselectTilesInRange();
+
             //TODO for a random range: Random.Range(minDamage, maxDamage + 1)
             unitToAttack.photonView.RPC("TakeDamage", PlayerController.enemy.photonPlayer, 1);
         }
+        
+        /*
+         * Finds the tile below the unit, the 4 adjacent units and selects them as red (to illustrate attackable)
+         */
+        private void HighlightTilesInRange() {
+            
+            //get tile below
+            RaycastHit hit;
+            Tile tile = null;
 
+            if (Physics.Raycast(unit.gameObject.transform.position, Vector3.down, out hit, 1))
+                tile = hit.collider.GetComponent<Tile>();
 
+            if (tile != null)
+            {
+                tile.FindNeighboursInRange();
+
+                foreach (Tile t in tile.adjacencyList)
+                {
+                    tilesInRange.Add(t);
+                    t.attack = true;
+                }
+                    
+            }
+
+        }
+
+        /*
+         * Deselects tiles in range
+         * TODO fix this for selecting other characters or ending turn..
+         */
+        private void DeselectTilesInRange()
+        {
+            //reset tiles in range
+            foreach (Tile t in tilesInRange)
+                t.Reset();
+            
+            tilesInRange.Clear();
+        }
+        
+        /*
+         * Returns the target tile underneath the unit, or from the units collider
+        */
+        private Tile GetTargetTile()
+        {
+            RaycastHit hit;
+            Tile tile = null;
+
+            if (Physics.Raycast(transform.position, Vector3.down, out hit, 1))
+                tile = hit.collider.GetComponent<Tile>();
+
+            return tile;
+        }
+        
         /*
         * Invoked IF a tile is selected within the selected units range
         */
         private void WaitToSelectUnitInRange()
         {
-            Debug.Log("Waiting to select unit in range!");
             if (Input.GetMouseButtonUp(0))
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
