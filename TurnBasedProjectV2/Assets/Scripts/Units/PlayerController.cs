@@ -118,9 +118,12 @@ namespace Units
         */
         private void DeselectUnit()
         {
-            selectedUnit.ToggleSelect(false);
-            //remove found tiles of old unit
-            //selectedUnit.GetComponent<UnitController>().DeselectTiles();
+            if (selectedUnit != null)
+            {
+                selectedUnit.ToggleSelect(false);
+                selectedUnit.GetComponent<UnitController>().DeselectTiles();
+            }
+            
             selectedUnit = null;
             // disable unit info text
             GameUI.instance.unitInfoText.gameObject.SetActive(false);
@@ -144,12 +147,12 @@ namespace Units
         */
         public void EndTurn()
         {
-            if (selectedUnit != null)
-                DeselectUnit();
-
+            DeselectUnit();
+            
+            //Remove selectable tiles if it was there
             foreach (Unit unit in units)
-                unit.ToggleMovedThisTurn(false);
-
+                unit.GetComponent<UnitController>().DeselectTiles();
+            
             // Invoke the next turn method for the other player!
             GameManager.instance.photonView.RPC("SetNextTurn", RpcTarget.All);
         }
@@ -157,6 +160,15 @@ namespace Units
         /*
          * Called when the player initiates a new turn and updates the UI
         */
-        public void BeginTurn() => GameUI.instance.UpdateWaitingUnitsText(units.Count);
+        public void BeginTurn()
+        {
+            foreach (Unit unit in units)
+            {
+                unit.ToggleMovedThisTurn(false);
+                unit.ToggleAttackedThisTurn(false);
+            }
+               
+            GameUI.instance.UpdateWaitingUnitsText(units.Count);
+        } 
     }
 }

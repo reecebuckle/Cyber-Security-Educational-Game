@@ -24,7 +24,7 @@ namespace Units
             if (!unit.IsSelected())
                 return;
 
-            //return if unit has attacked this turn already
+            //TODO return if unit has attacked this turn already - maybe
             //if (unit.AttackedThisTurn())
             //    return;
             

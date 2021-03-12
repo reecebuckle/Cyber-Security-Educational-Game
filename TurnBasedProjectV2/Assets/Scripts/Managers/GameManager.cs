@@ -60,9 +60,8 @@ namespace Managers
 
             // if it's our turn - enable the end turn button
             if (curPlayer == PlayerController.me)
-            {
-                //PlayerController.me.BeginTurn();
-            }
+                PlayerController.me.BeginTurn();
+            
 
             // toggle the end turn button
             GameUI.instance.ToggleEndTurnButton(curPlayer == PlayerController.me);

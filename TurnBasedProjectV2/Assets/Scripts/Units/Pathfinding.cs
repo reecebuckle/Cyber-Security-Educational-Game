@@ -11,7 +11,6 @@ namespace Units
 {
     public class Pathfinding : MonoBehaviourPun
     {
-    
         //is the unit currently in movement?
         public bool moving = false;
 
@@ -29,9 +28,9 @@ namespace Units
 
 
         /*
-     * Cache all tiles right away
-     * Needs to be initialised once at the beginning of the game
-     */
+        * Cache all tiles right away
+        * Needs to be initialised once at the beginning of the game
+        */
         protected void CacheAllTiles()
         {
             tiles = GameObject.FindGameObjectsWithTag("Tile");
@@ -41,8 +40,8 @@ namespace Units
         }
 
         /*
-     * Utility function to return current tile underneath a selected Unit
-     */
+         * Utility function to return current tile underneath a selected Unit
+        */
         public void GetCurrentTile()
         {
             _currentTile = GetTargetTile();
@@ -50,22 +49,22 @@ namespace Units
         }
 
         /*
-     * Returns the target tile underneath the unit, or from the units collider
-     */
+        * Returns the target tile underneath the unit, or from the units collider
+        */
         private Tile GetTargetTile()
         {
             RaycastHit hit;
             Tile tile = null;
-        
+
             if (Physics.Raycast(transform.position, Vector3.down, out hit, 1))
                 tile = hit.collider.GetComponent<Tile>();
-        
+
             return tile;
         }
 
         /*
-    * Finds all adjacent neighbours 
-    */
+        * Finds all adjacent neighbours 
+        */
         private void ComputeAdjacencyList()
         {
             foreach (GameObject tile in tiles)
@@ -76,8 +75,8 @@ namespace Units
         }
 
         /*
-    * Find all selectable tiles
-    */
+         * Find all selectable tiles
+        */
         protected void FindSelectableTiles(Unit unit)
         {
             ComputeAdjacencyList();
@@ -86,10 +85,10 @@ namespace Units
         }
 
         /*
-     * Find movable tiles within range of current selected unit
-     * Utilises Breadth First Search
-     * 
-     */
+        * Find movable tiles within range of current selected unit
+        * Utilises Breadth First Search
+        * 
+        */
         private void BreadthFirstSearch(Unit unit)
         {
             //Begin BFS
@@ -128,8 +127,8 @@ namespace Units
         }
 
         /*
-     * Move to target tile
-     */
+        * Move to target tile
+        */
         protected void MoveToTile(Tile tile)
         {
             path.Clear();
@@ -146,8 +145,8 @@ namespace Units
         }
 
         /*
-    * Purpose is to move from just one tile to the next until we run out of tiles
-    */
+         * Purpose is to move from just one tile to the next until we run out of tiles
+        */
         protected void Move(Unit unit)
         {
             //as long as there's something in path we can move
@@ -183,14 +182,14 @@ namespace Units
         }
 
         /*
-    * Move forward in the direction of the heading
-    */
+        * Move forward in the direction of the heading
+        */
         private void CalculateHorizontalVelocity(Unit unit) => velocity = heading * unit.GetMovementSpeed();
 
 
         /*
-     * Simple function used to calculate heading ... ?
-     */
+        * Simple function used to calculate heading ... ?
+         */
         private void CalculateHeading(Vector3 targetPos)
         {
             heading = targetPos - transform.position;
@@ -199,8 +198,8 @@ namespace Units
         }
 
         /*
-    * Used to remove selectable tiles
-    */
+        * Used to remove selectable tiles
+         */
         protected void RemoveSelectableTiles()
         {
             if (_currentTile != null)
@@ -217,14 +216,13 @@ namespace Units
         }
 
         /*
-     * Returns true if tiles are found, false if not (prevents double checking)
-     */
+        * Returns true if tiles are found, false if not (prevents double checking)
+         */
         public bool AreTilesFound()
         {
             if (selectableTiles.Count > 0)
                 return true;
             else return false;
         }
-
     }
 }

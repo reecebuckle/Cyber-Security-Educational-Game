@@ -64,6 +64,10 @@ namespace Units
          */
         public void OnClickAttack()
         {
+            //return if unit has already attacked this turn
+            if (unit.AttackedThisTurn())
+                return;
+            
             FindEnemiesInRange();
 
             if (unitsInRange.Count > 0)
@@ -73,9 +77,8 @@ namespace Units
         private void Update()
         {
             if (attackSelected)
-            {
                 WaitToSelectUnitInRange();
-            }
+            
         }
 
         [PunRPC]
@@ -84,8 +87,7 @@ namespace Units
             //stop update loop
             attackSelected = false;
             //prevent unit from being able to move after attacking
-            unit.ToggleAttackedThisTurn(true); 
-            
+            unit.ToggleAttackedThisTurn(true);
             //TODO for a random range: Random.Range(minDamage, maxDamage + 1)
             unitToAttack.photonView.RPC("TakeDamage", PlayerController.enemy.photonPlayer, 1);
         }
