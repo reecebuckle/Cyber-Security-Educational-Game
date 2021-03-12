@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Managers;
 using Photon.Pun;
 using UnityEngine;
 
@@ -7,17 +8,18 @@ namespace Units
     public class Unit : MonoBehaviourPun
     {
         //TODO Convert these into public variables?
-        [Header("Unit Properties")] 
-        
-        [SerializeField] private float moveSpeed; // units movement speed
+        [Header("Unit Properties")] [SerializeField]
+        private float moveSpeed; // units movement speed
+
         [SerializeField] private int moveDistance; // max distance we can move per turn
         [SerializeField] private int maxHP; // maximum health points a unit has
         [SerializeField] private int maxDefence; // current defence points a unit has
-        
+
         private int currentHP; // current hit points a unit has
         private int currentDef; // current defence a unit has
-        
-        private bool hasMovedThisTurn; 
+
+        private bool hasMovedThisTurn;
+        private bool attatckedThisTurn;
         private bool isSelected;
 
         /*
@@ -28,7 +30,7 @@ namespace Units
             currentHP = maxHP;
             currentDef = maxDefence;
         }
-        
+
         // called when the unit is spawned in
         [PunRPC]
         private void Initialize(bool isMine)
@@ -41,33 +43,73 @@ namespace Units
         * Invoked to change a units selected status
         */
         public void ToggleSelect(bool selected) => isSelected = selected;
-        
+
         /*
         * Invoked to change a units used status
         */
         public void ToggleMovedThisTurn(bool hasMoved) => hasMovedThisTurn = hasMoved;
-        
-        
-        
+
+        /*
+        * Invoked to change a units used status
+        */
+        public void ToggleAttackedThisTurn(bool attacked) => attatckedThisTurn = attacked;
+
+
         /*
          * Invoked when another unit attacks this unit, and instructs this unit to take damage
          * TODO: Incorporate defence into this maybe??
          */
         [PunRPC]
-        private void TakeDamage (int damage)
+        private void TakeDamage(int damage)
         {
             currentHP -= damage;
 
             if (currentHP <= 0)
                 photonView.RPC("UnitHasDied", RpcTarget.All);
             else
-            {
-                // update health UI
                 photonView.RPC("UpdateHealthBar", RpcTarget.All, (float) currentHP / (float) maxHP);
-            }
         }
         
         
+        /*
+         * Invoked  when the unit's health reaches 0
+         */
+        [PunRPC]
+        private void UnitHasDied ()
+        {
+            if(!photonView.IsMine)
+                PlayerController.enemy.units.Remove(this);
+            else
+            {
+                PlayerController.me.units.Remove(this);
+
+                // check the win condition
+                GameManager.instance.CheckWinCondition();
+
+                // destroy the unit across the network
+                PhotonNetwork.Destroy(gameObject);
+            }
+        }
+        
+        /*
+         * 
+         */
+        [PunRPC]
+        private void UpdateHealthBar(float fillAmount)
+        {
+            //healthFillImage.fillAmount = fillAmount;
+            Debug.Log("Prepare health amount");
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+
+
         /*
          * GETTER METHODS
          */
@@ -77,19 +119,19 @@ namespace Units
         {
             return hasMovedThisTurn;
         }
-        
+
         // Getter method to check if unit is already selected
         public bool IsSelected()
         {
             return isSelected;
         }
-        
+
         //Getter method for move distance in pathfinding
         public int GetMovementDistance()
         {
             return moveDistance;
         }
-        
+
         //Getter method for move speed when moving
         public float GetMovementSpeed()
         {
@@ -100,12 +142,16 @@ namespace Units
         {
             return currentHP;
         }
-        
+
         public int GetMaxHp()
         {
             return maxHP;
         }
-        
+
+        public bool AttackedThisTurn()
+        {
+            return attatckedThisTurn;
+        }
         
     }
 }
