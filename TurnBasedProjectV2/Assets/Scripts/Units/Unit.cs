@@ -63,6 +63,8 @@ namespace Units
         private void TakeDamage(int damage)
         {
             currentHP -= damage;
+            
+            Debug.Log("Unit taking damage, current health = " + currentHP);
 
             if (currentHP <= 0)
                 photonView.RPC("UnitHasDied", RpcTarget.All);
@@ -100,12 +102,6 @@ namespace Units
             //healthFillImage.fillAmount = fillAmount;
             Debug.Log("Prepare health amount");
         }
-        
-        
-        
-        
-        
-        
         
         
 

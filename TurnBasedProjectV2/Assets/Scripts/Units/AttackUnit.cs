@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 
 namespace Units
 {
-    public class AttackUnit : MonoBehaviour
+    public class AttackUnit : MonoBehaviourPun
     {
         public Unit unit;
 
@@ -76,6 +78,18 @@ namespace Units
             }
         }
 
+        [PunRPC]
+        private void AttackEnemyUnit(Unit unitToAttack)
+        {
+            //stop update loop
+            attackSelected = false;
+            //prevent unit from being able to move after attacking
+            unit.ToggleAttackedThisTurn(true); 
+            
+            //TODO for a random range: Random.Range(minDamage, maxDamage + 1)
+            unitToAttack.photonView.RPC("TakeDamage", PlayerController.enemy.photonPlayer, 1);
+        }
+
 
         /*
         * Invoked IF a tile is selected within the selected units range
@@ -95,12 +109,7 @@ namespace Units
                         Unit clickedUnit = hit.collider.GetComponent<Unit>();
 
                         if (unitsInRange.Contains(clickedUnit))
-                        {
-                            Debug.Log("Try attack this unit here!");
-                            attackSelected = false;
-                        }
-
-                            
+                            AttackEnemyUnit(clickedUnit);
                     }
                 }
             }

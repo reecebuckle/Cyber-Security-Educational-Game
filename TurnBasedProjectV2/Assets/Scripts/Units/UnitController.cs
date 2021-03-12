@@ -67,32 +67,11 @@ namespace Units
             }
         }
         
-       
-        
-        
-        
-        // Select the unit IF it belongs to us 
-       
 
-       
         /*
-         * Try attack enemy unit
-         */
-        private void TryAttack(Unit enemyUnit)
-        {
-            
-        }
-
-        private void Attack(Unit enemUnit)
-        {
-           // enemUnit.photonView.RPC("TakeDamage", PlayerController.enemy.photonPlayer, Random.Range(minDamage, maxDamage + 1));
-        }
-        
-        /*
-       * Removes selectable tiles
-       */
+        * Removes selectable tiles
+        */
         public void DeselectTiles() => RemoveSelectableTiles();
-
         
     }
 }

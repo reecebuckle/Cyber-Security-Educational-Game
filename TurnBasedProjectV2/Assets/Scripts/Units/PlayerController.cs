@@ -67,7 +67,7 @@ namespace Units
         }
 
         /*
-         * Checks if a unit has been selected!
+        * Checks if a unit has been selected!
         * TODO: Deprecated method removing to externalise the mouse manager
         */
         private void WaitToSelectUnit()
