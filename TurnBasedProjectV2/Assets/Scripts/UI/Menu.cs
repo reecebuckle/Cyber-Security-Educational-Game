@@ -69,7 +69,7 @@ namespace UI
 
         // updates the lobby screen UI
         [PunRPC]
-        void UpdateLobbyUI()
+        private void UpdateLobbyUI()
         {
             // set the player name texts
             player1NameText.text = PhotonNetwork.CurrentRoom.GetPlayer(1).NickName;
@@ -88,7 +88,7 @@ namespace UI
         }
 
         // checks if 2 players are in the lobby and if so - start the game
-        void TryStartGame()
+        private void TryStartGame()
         {
             // if we have 2 players in the lobby, load the Game scene
             if (PhotonNetwork.PlayerList.Length == 2)

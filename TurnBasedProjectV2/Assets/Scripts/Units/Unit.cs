@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Managers;
 using Photon.Pun;
 using UnityEngine;
@@ -53,8 +54,7 @@ namespace Units
         * Invoked to change a units used status
         */
         public void ToggleAttackedThisTurn(bool attacked) => attatckedThisTurn = attacked;
-
-
+        
         /*
          * Invoked when another unit attacks this unit, and instructs this unit to take damage
          * TODO: Incorporate defence into this maybe??
@@ -62,17 +62,40 @@ namespace Units
         [PunRPC]
         private void TakeDamage(int damage)
         {
-            currentHP -= damage;
+            //Removes damage from armour then, then remainder from health
+            CalculateDamage(damage);
             
-            Debug.Log("Unit taking damage, current health = " + currentHP);
+            Debug.Log("Unit taking damage, current health = " + currentHP + "current defence = " + currentDef);
 
             if (currentHP <= 0)
                 photonView.RPC("UnitHasDied", RpcTarget.All);
             else
                 photonView.RPC("UpdateHealthBar", RpcTarget.All, (float) currentHP / (float) maxHP);
         }
+
+        /*
+         * First subtracts damage from defence, and then from health
+         */
+        private void CalculateDamage(int damage)
+        {
+            int armorDamage = Math.Min(currentDef, damage);
+            int healthDamage = Math.Min(currentHP, damage - armorDamage);
+            currentDef -= armorDamage;
+            currentHP -= healthDamage;
+        }
         
-        
+        [PunRPC]
+        private void BuffDefence(int defence)
+        {
+            //Buff to the maximum level
+            currentDef += defence;
+
+            if (currentDef > maxDefence)
+                currentDef = maxDefence;
+            
+            Debug.Log("Unit being buffed, current defence = " + currentDef);
+        }
+
         /*
          * Invoked  when the unit's health reaches 0
          */
@@ -140,6 +163,16 @@ namespace Units
         public int GetMaxHp()
         {
             return maxHP;
+        }
+        
+        public int GetCurrentDef()
+        {
+            return currentDef;
+        }
+
+        public int GetMaxDef()
+        {
+            return maxDefence;
         }
 
         public bool AttackedThisTurn()

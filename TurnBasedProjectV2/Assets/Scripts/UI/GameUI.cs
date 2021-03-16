@@ -23,7 +23,11 @@ namespace UI
         /*
         * Assign singleton reference to this script
         */
-        private void Awake() => instance = this;
+        private void Awake()
+        {
+            instance = this;
+            DisableAttackBars();
+        }
 
 
         // called when the "End Turn" button has been pressed
@@ -56,6 +60,8 @@ namespace UI
         public void SetUnitBar(Unit unit)
         {
             DisableAttackBars();
+            
+            //TODO add a "if unit is of type here, make or dismake this attack bar active"
             mockAttackBar.SetActive(true);
         }
 
@@ -70,6 +76,7 @@ namespace UI
             unitInfoText.gameObject.SetActive(true);
             unitInfoText.text = "";
             unitInfoText.text += string.Format("<b>Hp:</b> {0} / {1}", unit.GetCurrentHp(), unit.GetMaxHp());
+            unitInfoText.text += string.Format("<b>Defence:</b> {0} / {1}", unit.GetCurrentDef(), unit.GetMaxDef());
             unitInfoText.text += string.Format("\n<b>Move Range:</b> {0}", unit.GetMovementDistance());
             //unitInfoText.text += string.Format("\n<b>Attack Range:</b> {0}", unit.maxAttackDistance);//unitInfoText.text += string.Format("\n<b>Damage:</b> {0} - {1}", unit.minDamage, unit.maxDamage);
         }

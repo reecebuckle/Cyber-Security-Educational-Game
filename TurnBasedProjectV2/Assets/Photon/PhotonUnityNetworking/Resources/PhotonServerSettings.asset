@@ -38,5 +38,7 @@ MonoBehaviour:
   - UpdateLobbyUI
   - WinGame
   - AttackEnemyUnit
+  - BuffDefence
+  - BuffUnit
   DisableAutoOpenWizard: 1
   ShowSettings: 0
