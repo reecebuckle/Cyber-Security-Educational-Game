@@ -21,6 +21,14 @@ namespace Units
         public Tile parent = null;
         public int distance = 0; //set default to 5
 
+        private Material _matInstance;
+
+        private void Start()
+        {
+            _matInstance = GetComponent<Renderer>().material;
+            _matInstance.EnableKeyword("_DisplayEmitAmount");
+        }
+
 
         private void Update() => SelectTile();
 
@@ -30,15 +38,41 @@ namespace Units
         private void SelectTile()
         {
             if (current)
-                GetComponent<Renderer>().material.color = Color.blue;
+            {
+                _matInstance.SetFloat("_DisplayEmitAmount", 1.0f);
+                _matInstance.color = Color.blue;
+            }
+
             else if (target)
-                GetComponent<Renderer>().material.color = Color.red;
+            {
+              //  _matInstance.SetFloat("_DisplayEmitAmount", 1.0f);
+               // GetComponent<Renderer>().material = _matInstance;
+               _matInstance.SetFloat("_DisplayEmitAmount", 1.0f);
+               _matInstance.color = Color.red;
+            }
+
             else if (selectable)
-                GetComponent<Renderer>().material.color = Color.green;
+            {
+                
+                _matInstance.SetFloat("_DisplayEmitAmount", 1.0f);
+                _matInstance.color = Color.green;
+            }
+
             else if (attack)
-                GetComponent<Renderer>().material.color = Color.red;
+            {
+               // _matInstance.SetFloat("_DisplayEmitAmount", 1.0f);
+               // GetComponent<Renderer>().material = _matInstance;
+               _matInstance.SetFloat("_DisplayEmitAmount", 1.0f);
+               _matInstance.color = Color.red;
+            }
+
             else
-                GetComponent<Renderer>().material.color = Color.white;
+            {
+                //_matInstance.SetFloat("_DisplayEmitAmount", 0.0f);
+               // GetComponent<Renderer>().material = _matInstance;
+               _matInstance.SetFloat("_DisplayEmitAmount", 0.0f);
+               _matInstance.color = Color.white;
+            }
         }
 
         /*
@@ -82,7 +116,7 @@ namespace Units
                 }
             }
         }
-        
+
         /*
          * Find tiles in range for the purpose of highlighting attack tiles
          */
@@ -91,8 +125,8 @@ namespace Units
             Reset();
             //Check the 4 directions (forwards, backwards, right and left)
             CheckTilesInRange(Vector3.forward);
-            CheckTilesInRange(-Vector3.forward );
-            CheckTilesInRange(Vector3.right );
+            CheckTilesInRange(-Vector3.forward);
+            CheckTilesInRange(Vector3.right);
             CheckTilesInRange(-Vector3.right);
         }
 
@@ -122,8 +156,7 @@ namespace Units
                 }
             }
         }
-        
-        
+
 
         /*
         * Reset all variables after every turn or when FindNeighbours is invoked
