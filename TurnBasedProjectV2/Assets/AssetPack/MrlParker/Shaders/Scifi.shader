@@ -13,7 +13,7 @@ Shader "LD36/Scifi Tile" {
         _MainTex ("Base Color", 2D) = "white" {}
         _Metallic ("Metallic", Range(0, 1)) = 1
         _Gloss ("Gloss", Range(0, 1)) = 0.9
-        _FlashFrequency ("Flash Frequency", Float ) = 2
+        _FlashFrequency ("Flash Frequency", Float ) = 0.5
         _OutterEmitTexture ("Outter Emit Texture", 2D) = "white" {}
         _OutterEmitterColour ("Outter Emitter Colour", Color) = (0,0,1,1)
         [MaterialToggle] _AlwaysOn ("Always On?", Float ) = 0

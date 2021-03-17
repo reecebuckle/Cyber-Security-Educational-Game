@@ -79,7 +79,7 @@ Material:
     - _DetailNormalMapScale: 1
     - _DisplayEmitAmount: 0
     - _DstBlend: 0
-    - _FlashFrequency: 1
+    - _FlashFrequency: 0.5
     - _Gloss: 0.55
     - _GlossMapScale: 1
     - _Glossiness: 0.5

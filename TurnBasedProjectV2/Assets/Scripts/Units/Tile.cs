@@ -39,7 +39,8 @@ namespace Units
         {
             if (current)
             {
-                _matInstance.SetFloat("_DisplayEmitAmount", 1.0f);
+                //_matInstance.SetFloat("_DisplayEmitAmount", 1.0f);
+                _matInstance.SetFloat("_Metallic", 0.0f);
                 _matInstance.color = Color.blue;
             }
 
@@ -47,14 +48,16 @@ namespace Units
             {
               //  _matInstance.SetFloat("_DisplayEmitAmount", 1.0f);
                // GetComponent<Renderer>().material = _matInstance;
-               _matInstance.SetFloat("_DisplayEmitAmount", 1.0f);
+               //_matInstance.SetFloat("_DisplayEmitAmount", 1.0f);
+               _matInstance.SetFloat("_Metallic", 0.0f);
                _matInstance.color = Color.red;
             }
 
             else if (selectable)
             {
                 
-                _matInstance.SetFloat("_DisplayEmitAmount", 1.0f);
+                //_matInstance.SetFloat("_DisplayEmitAmount", 1.0f);
+                _matInstance.SetFloat("_Metallic", 0.0f);
                 _matInstance.color = Color.green;
             }
 
@@ -62,7 +65,8 @@ namespace Units
             {
                // _matInstance.SetFloat("_DisplayEmitAmount", 1.0f);
                // GetComponent<Renderer>().material = _matInstance;
-               _matInstance.SetFloat("_DisplayEmitAmount", 1.0f);
+               //_matInstance.SetFloat("_DisplayEmitAmount", 1.0f);
+               _matInstance.SetFloat("_Metallic", 0.0f);
                _matInstance.color = Color.red;
             }
 
@@ -70,7 +74,8 @@ namespace Units
             {
                 //_matInstance.SetFloat("_DisplayEmitAmount", 0.0f);
                // GetComponent<Renderer>().material = _matInstance;
-               _matInstance.SetFloat("_DisplayEmitAmount", 0.0f);
+               //_matInstance.SetFloat("_DisplayEmitAmount", 0.0f);
+               _matInstance.SetFloat("_Metallic", 1.0f);
                _matInstance.color = Color.white;
             }
         }

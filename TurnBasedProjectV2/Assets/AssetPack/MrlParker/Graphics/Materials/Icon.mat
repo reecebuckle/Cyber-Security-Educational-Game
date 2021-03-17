@@ -40,10 +40,10 @@ Material:
     - _AlwaysOn: 0
     - _Cutoff: 0.5
     - _DisplayEmitAmount: 0
-    - _FlashFrequency: 2
+    - _FlashFrequency: 0.5
     - _Gloss: 0.9
     - _Metallic: 1
     m_Colors:
-    - _Color: {r: 0, g: 0, b: 0, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DisplayEmitterColour: {r: 0, g: 1, b: 1, a: 1}
     - _OutterEmitterColour: {r: 0, g: 0, b: 1, a: 1}
