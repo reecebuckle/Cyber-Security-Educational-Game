@@ -42,21 +42,7 @@ namespace Units
             else GameManager.instance.GetOtherPlayer(PlayerController.me).units.Add(this);
         }
 
-        /*
-        * Invoked to change a units selected status
-        */
-        public void ToggleSelect(bool selected) => isSelected = selected;
-
-        /*
-        * Invoked to change a units used status
-        */
-        public void ToggleMovedThisTurn(bool hasMoved) => hasMovedThisTurn = hasMoved;
-
-        /*
-        * Invoked to change a units used status
-        */
-        public void ToggleAttackedThisTurn(bool attacked) => attatckedThisTurn = attacked;
-        
+       
         /*
          * Invoked when another unit attacks this unit, and instructs this unit to take damage
          * TODO: Incorporate defence into this maybe??
@@ -111,93 +97,43 @@ namespace Units
             else
             {
                 PlayerController.me.units.Remove(this);
-
-                // check the win condition
                 GameManager.instance.CheckWinCondition();
-
-                // destroy the unit across the network
                 PhotonNetwork.Destroy(gameObject);
             }
         }
         
-        /*
-         * 
-         */
-        [PunRPC]
-        private void UpdateHealthBar(float fillAmount)
-        {
-            //healthFillImage.fillAmount = fillAmount;
-            Debug.Log("Prepare health amount");
-        }
         
+        /*
+        * Invoked to change a units selected status
+        */
+        public void ToggleSelect(bool selected) => isSelected = selected;
 
         /*
-         * GETTER METHODS
+        * Invoked to change a units used status
+        */
+        public void ToggleMovedThisTurn(bool hasMoved) => hasMovedThisTurn = hasMoved;
+
+        /*
+        * Invoked to change a units used status
+        */
+        public void ToggleAttackedThisTurn(bool attacked) => attatckedThisTurn = attacked;
+        
+
+        /*
+         * Read only getter methods for all private variables 
          */
+        public bool MovedThisTurn() => hasMovedThisTurn;
+        public bool IsSelected() => isSelected;
+        public int GetMovementDistance() => moveDistance;
+        public float GetMovementSpeed() => moveSpeed;
+        public int GetCurrentHp() => currentHP;
+        public int GetMaxHp() => maxHP;
+        public int GetCurrentDef() => currentDef;
+        public int GetMaxDef() => maxDefence;
+        public bool AttackedThisTurn() => attatckedThisTurn;
+        public int GetUnitID() => unitID;
+        public string GetUnitName() => unitName;
+        public string GetUnitInformation() => unitInformation;
 
-        // Getter method to see if we can use this unit
-        public bool MovedThisTurn()
-        {
-            return hasMovedThisTurn;
-        }
-
-        // Getter method to check if unit is already selected
-        public bool IsSelected()
-        {
-            return isSelected;
-        }
-
-        //Getter method for move distance in pathfinding
-        public int GetMovementDistance()
-        {
-            return moveDistance;
-        }
-
-        //Getter method for move speed when moving
-        public float GetMovementSpeed()
-        {
-            return moveSpeed;
-        }
-
-        public int GetCurrentHp()
-        {
-            return currentHP;
-        }
-
-        public int GetMaxHp()
-        {
-            return maxHP;
-        }
-        
-        public int GetCurrentDef()
-        {
-            return currentDef;
-        }
-
-        public int GetMaxDef()
-        {
-            return maxDefence;
-        }
-
-        public bool AttackedThisTurn()
-        {
-            return attatckedThisTurn;
-        }
-        
-        public int GetUnitID()
-        {
-            return unitID;
-        }
-        
-        public string GetUnitName()
-        {
-            return unitName;
-        }
-        
-        public string GetUnitInformation()
-        {
-            return unitInformation;
-        }
-        
     }
 }
