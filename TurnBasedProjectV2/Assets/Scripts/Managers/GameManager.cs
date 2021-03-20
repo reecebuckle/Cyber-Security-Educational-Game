@@ -62,7 +62,6 @@ namespace Managers
             if (curPlayer == PlayerController.me)
                 PlayerController.me.BeginTurn();
             
-
             // toggle the end turn button
             GameUI.instance.ToggleEndTurnButton(curPlayer == PlayerController.me);
         }

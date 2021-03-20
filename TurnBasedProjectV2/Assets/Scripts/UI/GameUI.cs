@@ -40,7 +40,6 @@ namespace UI
         
         //Singleton reference of UI
         public static GameUI instance;
-        private int round;
 
         /*
         * Assign singleton reference to this script
@@ -49,7 +48,6 @@ namespace UI
         {
             instance = this;
             DisableInformationBars();
-            round = 0;
         }
 
         /*
@@ -87,10 +85,9 @@ namespace UI
         /*
          * Updates round text
          */
-        public void UpdateRoundText()
+        public void UpdateRoundText(int roundNumber)
         {
-            round++;
-            roundText.text = "Round: " + round;
+            roundText.text = "Round: " + roundNumber;
         }
 
         /*

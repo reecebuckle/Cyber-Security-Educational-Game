@@ -22,7 +22,9 @@ namespace Units
         [Header("Reference to P1 and P2")] 
         public static PlayerController me; // local player
         public static PlayerController enemy; // non-local enemy player
-       
+
+        private int unitsRemaining;
+        private int round = 0; //starts off at 0
 
         /*
         * Called when the game begins
@@ -120,7 +122,7 @@ namespace Units
             
             clickedUnit.ToggleSelect(true);
             selectedUnit = clickedUnit;
-            // TODO update this FindSelectableTiles(selectedUnit);
+            // TODO update this FindSelectableTiles(selectedUnit); here rather than in update??
             // Will display selected unit for us or enemy
             GameUI.instance.ToggleUnitBar(selectedUnit);
             GameUI.instance.DisplayUnitStats(selectedUnit);
@@ -139,8 +141,6 @@ namespace Units
             }
             
             selectedUnit = null;
-            // TODO check if this is needed disable unit info text
-            //GameUI.instance.unitInfoText.gameObject.SetActive(false);
         }
 
 
@@ -176,13 +176,30 @@ namespace Units
         */
         public void BeginTurn()
         {
-            GameUI.instance.UpdateWaitingUnitsText(units.Count);
+            unitsRemaining = units.Count;
+            GameUI.instance.UpdateWaitingUnitsText(unitsRemaining);
             
             foreach (Unit unit in units)
             {
                 unit.ToggleMovedThisTurn(false);
                 unit.ToggleAttackedThisTurn(false);
             }
-        } 
+            
+            //increment round number
+            round++;
+            GameUI.instance.UpdateRoundText(round);
+        }
+        
+        /*
+         * Decrements units remaining after a unit has moved
+         */
+        public void DecrementUnitsRemaining()
+        {
+            unitsRemaining--;
+            if (unitsRemaining < 0)
+                unitsRemaining = 0;
+
+            GameUI.instance.UpdateWaitingUnitsText(unitsRemaining);
+        }
     }
 }

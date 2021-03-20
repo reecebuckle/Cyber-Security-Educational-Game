@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Photon.Realtime;
+using UnityEngine;
 
 namespace Units
 {
@@ -40,6 +41,7 @@ namespace Units
             }
             else
             {
+                PlayerController.me.DecrementUnitsRemaining();
                 Move(unit);
             }
         }
