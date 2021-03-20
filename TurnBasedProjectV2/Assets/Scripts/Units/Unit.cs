@@ -8,14 +8,16 @@ namespace Units
 {
     public class Unit : MonoBehaviourPun
     {
-        //TODO Convert these into public variables?
-        [Header("Unit Properties")] [SerializeField]
-        private float moveSpeed; // units movement speed
-
+        
+        [Header("Unit Properties")]
+        [SerializeField] private float moveSpeed; // units movement speed
         [SerializeField] private int moveDistance; // max distance we can move per turn
         [SerializeField] private int maxHP; // maximum health points a unit has
         [SerializeField] private int maxDefence; // current defence points a unit has
-
+        [SerializeField] private int unitID; // ID reference of unit
+        [SerializeField] private string unitName; // ID reference of unit
+        [SerializeField] private string unitInformation; // ID reference of unit
+        
         private int currentHP; // current hit points a unit has
         private int currentDef; // current defence a unit has
 
@@ -84,10 +86,12 @@ namespace Units
             currentHP -= healthDamage;
         }
         
+        /*
+         * Buffs defence up to a maximum level
+         */
         [PunRPC]
         private void BuffDefence(int defence)
         {
-            //Buff to the maximum level
             currentDef += defence;
 
             if (currentDef > maxDefence)
@@ -178,6 +182,21 @@ namespace Units
         public bool AttackedThisTurn()
         {
             return attatckedThisTurn;
+        }
+        
+        public int GetUnitID()
+        {
+            return unitID;
+        }
+        
+        public string GetUnitName()
+        {
+            return unitName;
+        }
+        
+        public string GetUnitInformation()
+        {
+            return unitInformation;
         }
         
     }

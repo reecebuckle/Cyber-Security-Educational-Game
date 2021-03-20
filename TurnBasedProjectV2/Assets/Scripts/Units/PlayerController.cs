@@ -109,7 +109,7 @@ namespace Units
                 // TODO update this FindSelectableTiles(selectedUnit);
                 // Will display selected unit for us or enemy
                 GameUI.instance.SetUnitInfoText(selectedUnit);
-                GameUI.instance.SetUnitBar(selectedUnit);
+                GameUI.instance.ToggleUnitBar(selectedUnit);
             }
         }
 
