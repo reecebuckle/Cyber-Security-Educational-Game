@@ -17,12 +17,14 @@ namespace UI
         public Button endTurnButton;
         
         [Header("Our Unit Information ")] 
-        public TextMeshProUGUI unitInfoText;
         public TextMeshProUGUI unitNameText;
-        
+        public TextMeshProUGUI unitInfoText;
+        public GameObject unitStatsUI;
+
         [Header("Enemy Unit Information ")] 
         public TextMeshProUGUI enemyNameText;
         public TextMeshProUGUI enemyInfoText;
+        public GameObject enemyStatsUI;
         
         [Header("Unit Bar Options")]
         public GameObject UnitBarScout;
@@ -34,6 +36,7 @@ namespace UI
         [Header("Information Window")]
         public TextMeshProUGUI informationNameText;
         public TextMeshProUGUI informationBodyText;
+        public GameObject informationUI;
         
         //Singleton reference of UI
         public static GameUI instance;
@@ -64,15 +67,14 @@ namespace UI
         public void OnEndTurnButton()
         {
             DisableInformationBars();
+            waitingUnitsText.text = "Waiting for player..";
             PlayerController.me.EndTurn();
         }
 
-        // Toggles button interactivity
-        public void ToggleEndTurnButton(bool toggle)
-        {
-            endTurnButton.interactable = toggle;
-            waitingUnitsText.gameObject.SetActive(toggle);
-        }
+        /*
+         * Toggles button interactivity
+         */
+        public void ToggleEndTurnButton(bool toggle) => endTurnButton.interactable = toggle;
 
         /*
          * Displays number of units left to select
@@ -92,36 +94,9 @@ namespace UI
         }
 
         /*
-         * Updates unit stats for selected unit
+         * Display
          */
-        public void SetUnitInfoText(Unit unit)
-        {
-            unitInfoText.gameObject.SetActive(true);
-            unitNameText.text = unit.GetUnitName();
-            
-            unitInfoText.text = "";
-            unitInfoText.text += string.Format("<b>Hp:</b> {0} / {1}", unit.GetCurrentHp(), unit.GetMaxHp());
-            unitInfoText.text += string.Format("<b>Defence:</b> {0} / {1}", unit.GetCurrentDef(), unit.GetMaxDef());
-            unitInfoText.text += string.Format("\n<b>Move Range:</b> {0}", unit.GetMovementDistance());
-        }
-
-        /*
-         * TODO: Change this to hover!! 
-         * Updates enemy stats when selecting / hovering over an enemy unit
-         */
-        public void SetEnemyInfoText(Unit unit)
-        {
-            enemyInfoText.gameObject.SetActive(true);
-            enemyNameText.text = unit.GetUnitName();
-            
-            enemyInfoText.text = "";
-            enemyInfoText.text += string.Format("<b>Hp:</b> {0} / {1}", unit.GetCurrentHp(), unit.GetMaxHp());
-            enemyInfoText.text += string.Format("<b>Defence:</b> {0} / {1}", unit.GetCurrentDef(), unit.GetMaxDef());
-            enemyInfoText.text += string.Format("\n<b>Move Range:</b> {0}", unit.GetMovementDistance());
-        }
-
-        // displays the win text
-        public void SetWinText(string winnerName)
+        public void DisplayWinText(string winnerName)
         {
             winText.gameObject.SetActive(true);
             winText.text = winnerName + " Wins";
@@ -134,8 +109,8 @@ namespace UI
         public void QuitGame()
         {
             Debug.Log("Change scene to menu and disconnect from unity network here");
+            //GameManager.instance.WinGame(0);
         }
-
 
         /*
          * Invoked by player controller when a unit IS selected, to display the relevant stats
@@ -190,40 +165,62 @@ namespace UI
             //UnitBarHeavy.SetActive(false);
             //UnitBarDatabase.SetActive(false);
             //UnitBarWebServer.SetActive(false);
-        }
-        
-
-        /*
-         * Displays Unit Information
-         */
-        public void DisplayUnitInfo()
-        {
-            Unit unit = PlayerController.me.selectedUnit;
-            informationNameText.text = unit.GetUnitName();
-            informationBodyText.text = unit.GetUnitInformation();
-
-
-        }
-        
-        /*
-         * Displays Enemy Unit Information
-         * TODO: Implement from hover selection class
-         */
-        public void DisplayEnemyInfo(Unit unit)
-        {
-            informationNameText.text = unit.GetUnitName();
-            informationBodyText.text = unit.GetUnitInformation();
             
+            informationUI.SetActive(false);
+            unitStatsUI.SetActive(false);
+            enemyStatsUI.SetActive(false);
         }
 
         /*
-         * Displays Move Information of selected move
+         * Updates unit stats for selected unit
+         */
+        public void DisplayUnitStats(Unit unit)
+        {
+            unitNameText.text = unit.GetUnitName();
+            unitInfoText.text = "";
+            unitInfoText.text += string.Format("<b>Hp:</b> {0} / {1}", unit.GetCurrentHp(), unit.GetMaxHp() + "\n");
+            unitInfoText.text += string.Format("<b>Defence:</b> {0} / {1}", unit.GetCurrentDef(), unit.GetMaxDef() + "\n");
+            unitInfoText.text += string.Format("<b>Move Range:</b> {0}", unit.GetMovementDistance());
+            unitStatsUI.SetActive(true);
+        }
+
+        /*  
+        * Displays Unit Information in the information menu
+        * Invoked externally by the Unit Stats "Info" button
+        * If toggle is true, it shows our units information, otherwise it shows enemy information
+        */
+        public void DisplayUnitInformation(bool isOurs)
+        {
+            //If true gets our selected unit, otherwise gets the enemy selected unit
+            Unit unit = isOurs ? PlayerController.me.selectedUnit : PlayerController.me.selectedEnemyUnit;
+            
+            informationNameText.text = unit.GetUnitName();
+            informationBodyText.text = unit.GetUnitInformation();
+            informationUI.SetActive(true);
+        }
+        
+        /*
+        * Updates enemy stats when selecting / hovering over an enemy unit
+        */
+        public void DisplayEnemyStats(Unit unit)
+        {
+            enemyNameText.text = unit.GetUnitName();
+            enemyInfoText.text = "";
+            enemyInfoText.text += string.Format("<b>Hp:</b> {0} / {1}", unit.GetCurrentHp(), unit.GetMaxHp() + "\n");
+            enemyInfoText.text += string.Format("<b>Defence:</b> {0} / {1}", unit.GetCurrentDef(), unit.GetMaxDef() + "\n");
+            enemyInfoText.text += string.Format("<b>Move Range:</b> {0}", unit.GetMovementDistance());
+            enemyStatsUI.SetActive(true);
+        }
+        
+        /*
+         * Displays Move Information of selected move in the information menu
          * Attach this script to each unit move, and link to the info button on that move
          */
         public void DisplayMoveInfo(UnitAbility ability)
         {
             informationNameText.text = ability.Name();
             informationBodyText.text = ability.Information();
+            informationUI.SetActive(true);
         }
     }
 }

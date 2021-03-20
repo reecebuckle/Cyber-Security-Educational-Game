@@ -19,13 +19,13 @@ namespace Managers
         private void Awake() => instance = this;
 
         /*
-     * Master server initialises players / units
-     */
+         * Master server initialises players / units
+        */
         private void Start() => SetPlayers();
 
         /*
-     * Master client initialises the player data and spawns units for each player
-     */
+        * Master client initialises the player data and spawns units for each player
+        */
         private void SetPlayers()
         {
             // Return if not master
@@ -45,10 +45,10 @@ namespace Managers
         }
 
         /*
-     * Messages other clients to set next turn locally for them too
-     * The first call will be set as current player and will go first (typically player 1)
-     * Player 2 will be assigned as the right player and go second
-     */
+        * Messages other clients to set next turn locally for them too
+        * The first call will be set as current player and will go first (typically player 1)
+        * Player 2 will be assigned as the right player and go second
+        */
         [PunRPC]
         private void SetNextTurn()
         {
@@ -68,17 +68,17 @@ namespace Managers
         }
 
         /*
-     * Returns the opposing player from the one sent
-     */
+        * Returns the opposing player from the one sent
+        */
         public PlayerController GetOtherPlayer(PlayerController player)
         {
             return player == leftPlayer ? rightPlayer : leftPlayer;
         }
 
         /*
-     * Called by a player when their unit dies
-     * If this reaches 0 we invoke Win Game!
-     */
+        * Called by a player when their unit dies
+        * If this reaches 0 we invoke Win Game!
+        */
         public void CheckWinCondition()
         {
             if (PlayerController.me.units.Count == 0)
@@ -86,24 +86,24 @@ namespace Managers
         }
 
         /*
-     * Called when a player has defeated all of the other player's units
-     */
+        * Called when a player has defeated all of the other player's units
+        */
         [PunRPC]
         private void WinGame(int winner)
         {
             // get the winning player
             PlayerController player = winner == 0 ? leftPlayer : rightPlayer;
 
-            // set the win text
-            GameUI.instance.SetWinText(player.photonPlayer.NickName);
+            // Display the winning text
+            GameUI.instance.DisplayWinText(player.photonPlayer.NickName);
 
             // go back to the menu after a few seconds
             Invoke("GoBackToMenu", postGameTime);
         }
 
         /*
-     * Returns to main menu
-     */
+        * Returns to main menu
+        */
         private void GoBackToMenu()
         {
             PhotonNetwork.LeaveRoom();

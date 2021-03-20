@@ -9,23 +9,27 @@ namespace Units
 {
     public class PlayerController : MonoBehaviourPun
     {
-        [Header("Reference to Photon Player")] public Player photonPlayer; // Photon.Realtime.Player class
+        [Header("Reference to Photon Player")] 
+        public Player photonPlayer; // Photon.Realtime.Player class
 
-        [Header("Units for this Player")] public string[] unitsToSpawn;
+        [Header("Units for this Player")] 
+        public string[] unitsToSpawn;
         public Transform[] unitSpawnPositions; // array of all spawn positions for this player
         public List<Unit> units = new List<Unit>(); // list of all our units
         public Unit selectedUnit; // currently selected unit
+        public Unit selectedEnemyUnit; // currently selected enemy unit
 
-        [Header("Reference to P1 and P2")] public static PlayerController me; // local player
+        [Header("Reference to P1 and P2")] 
+        public static PlayerController me; // local player
         public static PlayerController enemy; // non-local enemy player
+       
 
         /*
-         * Called when the game begins
+        * Called when the game begins
         */
         [PunRPC]
-        void Initialize(Player player)
-        {
-            Debug.Log("initialise is called");
+        private void Initialize(Player player){
+        
             photonPlayer = player;
             if (player.IsLocal)
             {
@@ -82,14 +86,27 @@ namespace Units
                     if (hit.collider.CompareTag("Unit"))
                     {
                         Unit clickedUnit = hit.collider.GetComponent<Unit>();
-                        SelectUnit(clickedUnit);
+
+                        if (units.Contains(clickedUnit))
+                            SelectUnit(clickedUnit);
+                        else
+                            SelectEnemeyUnit(clickedUnit);
                     }
                 }
             }
         }
 
         /*
-        * Invoked when we select a unit
+         * Invoked when enemy unit is selected
+         */
+        private void SelectEnemeyUnit(Unit clickedUnit)
+        {
+            selectedEnemyUnit = clickedUnit;
+            GameUI.instance.DisplayEnemyStats(selectedEnemyUnit);
+        }
+
+        /*
+        * Invoked when we select a unit and it belongs to us
         */
         private void SelectUnit(Unit clickedUnit)
         {
@@ -100,17 +117,14 @@ namespace Units
             // Unselect the current unit IF one is selected
             if (selectedUnit != null)
                 DeselectUnit();
-
-            // Select the unit IF it belongs to us 
-            if (units.Contains(clickedUnit))
-            {
-                clickedUnit.ToggleSelect(true);
-                selectedUnit = clickedUnit;
-                // TODO update this FindSelectableTiles(selectedUnit);
-                // Will display selected unit for us or enemy
-                GameUI.instance.SetUnitInfoText(selectedUnit);
-                GameUI.instance.ToggleUnitBar(selectedUnit);
-            }
+            
+            clickedUnit.ToggleSelect(true);
+            selectedUnit = clickedUnit;
+            // TODO update this FindSelectableTiles(selectedUnit);
+            // Will display selected unit for us or enemy
+            GameUI.instance.ToggleUnitBar(selectedUnit);
+            GameUI.instance.DisplayUnitStats(selectedUnit);
+            
         }
 
         /*
@@ -125,8 +139,8 @@ namespace Units
             }
             
             selectedUnit = null;
-            // disable unit info text
-            GameUI.instance.unitInfoText.gameObject.SetActive(false);
+            // TODO check if this is needed disable unit info text
+            //GameUI.instance.unitInfoText.gameObject.SetActive(false);
         }
 
 
@@ -162,13 +176,13 @@ namespace Units
         */
         public void BeginTurn()
         {
+            GameUI.instance.UpdateWaitingUnitsText(units.Count);
+            
             foreach (Unit unit in units)
             {
                 unit.ToggleMovedThisTurn(false);
                 unit.ToggleAttackedThisTurn(false);
             }
-               
-            GameUI.instance.UpdateWaitingUnitsText(units.Count);
         } 
     }
 }
