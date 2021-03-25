@@ -30,6 +30,7 @@ namespace UI
         public GameObject UnitBarScout;
         public GameObject UnitBarHacker;
         public GameObject UnitBarHeavy;
+        public GameObject UnitBarAnalyst;
         public GameObject UnitBarDatabase;
         public GameObject UnitBarWebServer;
        
@@ -135,13 +136,19 @@ namespace UI
                     UnitBarHeavy.SetActive(true);
                     break;
                 
-                //Database
+                //Heavy
                 case 4 : 
+                    UnitBarAnalyst.SetActive(true);
+                    break;
+
+                
+                //Database
+                case 5 : 
                     UnitBarDatabase.SetActive(true);
                     break;
                 
                 //Web server
-                case 5 : 
+                case 6 : 
                     UnitBarWebServer.SetActive(true);
                     break;
                 
@@ -159,10 +166,11 @@ namespace UI
         {
             UnitBarScout.SetActive(false);
             UnitBarHacker.SetActive(false);
-            //UnitBarHeavy.SetActive(false);
+            UnitBarHeavy.SetActive(false);
+            UnitBarAnalyst.SetActive(false);
             //UnitBarDatabase.SetActive(false);
             //UnitBarWebServer.SetActive(false);
-            
+
             informationUI.SetActive(false);
             unitStatsUI.SetActive(false);
             enemyStatsUI.SetActive(false);

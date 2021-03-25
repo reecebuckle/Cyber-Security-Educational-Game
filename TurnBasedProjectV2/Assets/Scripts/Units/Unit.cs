@@ -8,7 +8,6 @@ namespace Units
 {
     public class Unit : MonoBehaviourPun
     {
-        
         [Header("Unit Properties")]
         [SerializeField] private float moveSpeed; // units movement speed
         [SerializeField] private int moveDistance; // max distance we can move per turn
@@ -134,6 +133,5 @@ namespace Units
         public int GetUnitID() => unitID;
         public string GetUnitName() => unitName;
         public string GetUnitInformation() => unitInformation;
-
     }
 }
