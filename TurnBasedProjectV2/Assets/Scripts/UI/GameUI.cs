@@ -140,7 +140,6 @@ namespace UI
                 case 4 : 
                     UnitBarAnalyst.SetActive(true);
                     break;
-
                 
                 //Database
                 case 5 : 
