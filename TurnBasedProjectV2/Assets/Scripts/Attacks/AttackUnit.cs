@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using Photon.Pun;
-using Photon.Realtime;
+using Units;
 using UnityEngine;
 
-namespace Units
+namespace Attacks
 {
     public class AttackUnit : MonoBehaviourPun
     {
@@ -138,7 +137,7 @@ namespace Units
         /*
          * Returns units one tile in range
          */
-        private void FindUnitsInRange()
+        public void FindUnitsInRange()
         {
             unitsInRange.Clear();
             FindUnitWithDirection(Vector3.forward);
