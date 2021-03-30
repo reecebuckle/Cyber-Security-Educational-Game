@@ -44,7 +44,6 @@ namespace Units
        
         /*
          * Invoked when another unit attacks this unit, and instructs this unit to take damage
-         * TODO: Incorporate defence into this maybe??
          */
         [PunRPC]
         private void TakeDamage(int damage)
@@ -56,8 +55,8 @@ namespace Units
 
             if (currentHP <= 0)
                 photonView.RPC("UnitHasDied", RpcTarget.All);
-            else
-                photonView.RPC("UpdateHealthBar", RpcTarget.All, (float) currentHP / (float) maxHP);
+            //else
+            //  photonView.RPC("UpdateHealthBar", RpcTarget.All, (float) currentHP / (float) maxHP);
         }
 
         /*
@@ -75,7 +74,20 @@ namespace Units
          * Buffs defence up to a maximum level
          */
         [PunRPC]
-        private void BuffDefence(int defence)
+        private void BoostDefence(int defence)
+        {
+            currentDef += defence;
+
+            if (currentDef > maxDefence)
+                currentDef = maxDefence;
+            
+            Debug.Log("Unit being buffed, current defence = " + currentDef);
+        }
+        
+        /*
+         * 
+         */
+        public void BoostDefences(int defence)
         {
             currentDef += defence;
 

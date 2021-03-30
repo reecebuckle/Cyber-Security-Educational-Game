@@ -5,7 +5,7 @@ using Photon.Pun;
 using Units;
 using UnityEngine;
 
-public class XSS : AttackUnit
+public class Firewall : AttackUnit
 {
     private Unit unit;
 
@@ -38,9 +38,8 @@ public class XSS : AttackUnit
     /*
     * Event input system for receiving an asic attack (one unit left, right, up or down)
     */
-    public void OnClickXSSAttack()
+    public void OnClickFirewallAttack()
     {
-        Debug.Log("Initiating attack");
         //Always clear if there were previous units in range
         unitsInRange.Clear();
 
@@ -48,11 +47,9 @@ public class XSS : AttackUnit
         if (unit.AttackedThisTurn())
             return;
 
-        //returns units in range
+        //returns units in 1 x 1 range
         unitsInRange = FindUnits1X1InRange(unit);
-
-        //TODO Remove HighlightTilesInRange();
-
+        
         //If there were units in range, begin coroutine waiting to select a target
         if (unitsInRange.Count > 0)
             waiting = true;
@@ -69,42 +66,40 @@ public class XSS : AttackUnit
 
     private void WaitToSelectUnitInRange()
     {
-        //wait for player input
-        if (Input.GetMouseButtonUp(0))
+        //wait for player input (right click for now)
+        if (Input.GetMouseButtonUp(1))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
             {
-                if (hit.collider.CompareTag("Unit"))
-                {
-                    Unit clickedUnit = hit.collider.GetComponent<Unit>();
+                
+                // return if collider is not a unit!
+                if (!hit.collider.CompareTag("Unit")) return;
+                
+                Unit clickedUnit = hit.collider.GetComponent<Unit>();
 
-                    if (unitsInRange.Contains(clickedUnit))
-                    {
-                        Debug.Log("Unit Selected, attacking");
-                        AttackEnemyUnitXSS(clickedUnit);
-                        waiting = false;
-                    }
-                }
+                // return if unit is not in range 
+                if (!unitsInRange.Contains(clickedUnit)) return;
+
+                // return if unit is not OURS
+                if (!PlayerController.me.units.Contains(clickedUnit)) return;
+                
+                DefendAllyUnit(clickedUnit);
+                waiting = false;
             }
         }
     }
-
-
+    
     /*
     * Invokes method to attack an enemy unit
     */
     [PunRPC]
-    private void AttackEnemyUnitXSS(Unit unitToAttack)
+    private void DefendAllyUnit(Unit unitToDefend)
     {
-        //prevent unit from being able to move after attacking
         unit.ToggleAttackedThisTurn(true);
-
-        //reset tiles in range
-        //DeselectTilesInRange();
-
-        unitToAttack.photonView.RPC("TakeDamage", PlayerController.enemy.photonPlayer, 2);
+        unitToDefend.BoostDefences(2);
+        //unitToDefend.photonView.RPC("BoostDefence", PlayerController.enemy.photonPlayer, 2);
     }
 }

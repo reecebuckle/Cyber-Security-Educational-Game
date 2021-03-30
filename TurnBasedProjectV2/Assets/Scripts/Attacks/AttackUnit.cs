@@ -7,195 +7,71 @@ namespace Attacks
 {
     public class AttackUnit : MonoBehaviourPun
     {
-        public Unit unit;
-        public Unit unitToAttack;
-        public List<Unit> unitsInRange;
-        public List<Tile> tilesInRange = new List<Tile>();
+        //private Unit unit;
+        //public Unit unitToAttack;
+        private List<Unit> _unitsInRange = new List<Unit>();
+        private List<Tile> _tilesInRange = new List<Tile>();
 
-        //Enum representing the current state in the attack cycle
-        public enum AttackType
-        {
-            BasicAttack,
-            BasicDefence,
-            Standby
-        }
-        public AttackType attackStatus;
-
-        private void Update()
-        {
-            
-            switch (attackStatus)
-            {
-                case (AttackType.BasicAttack):
-                    WaitToSelectUnitInRange();
-                    break;
-                
-                case (AttackType.BasicDefence):
-                    Debug.Log("Waiting to raise defence of units around me");
-                    break;
-                
-                case (AttackType.Standby):
-                    //DO NOTHING
-                    break;
-                
-                default:
-                    Debug.Log("Default switch statement");
-                    break;
-            }
-        }
-
-        /*
-        * Invoked IF a tile is selected within the selected units range
-        */
-        private void WaitToSelectUnitInRange()
-        {
-            if (Input.GetMouseButtonUp(0))
-            {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-                RaycastHit hit;
-                if (Physics.Raycast(ray, out hit))
-                {
-                    if (hit.collider.CompareTag("Unit"))
-                    {
-                        Unit clickedUnit = hit.collider.GetComponent<Unit>();
-
-                        if (unitsInRange.Contains(clickedUnit))
-                            AttackEnemyUnit(clickedUnit);
-                    }
-                }
-            }
-        }
-        
-        private void WaitToBuffUnitsInRange()
-        {
-            if (Input.GetKeyDown(KeyCode.Return))
-            {
-                foreach (Unit u in unitsInRange)
-                {
-                    BuffUnit(u);
-                }
-                
-                 
-            }
-        }
-
-        private void OnEnable()
-        {
-            Debug.Log("Setting the selected unit");
-            unit = PlayerController.me.selectedUnit;
-            attackStatus = AttackType.Standby;
-        }
-
-        private void OnDisable()
-        {
-            unit = null;
-            unitsInRange.Clear();
-            //attackStatus = AttackType.Standby;
-        }
-
-        /*
-         * basic attack (one unit left, right, up or down)
-         */
-        public void OnClickBasicAttack()
-        {
-            //return if unit has already attacked this turn
-            if (unit.AttackedThisTurn())
-                return;
-
-            FindUnitsInRange();
-            //HighlightTilesInRange();
-
-            if (unitsInRange.Count > 0)
-                attackStatus = AttackType.BasicAttack;
-                
-        }
-
-        /*
-         * Basic defend unit (one unit left, right, up or down)
-         */
-        public void OnClickBasicDefence()
-        {
-            //return if unit has already attacked this turn
-            if (unit.AttackedThisTurn())
-                return;
-
-            FindUnitsInRange();
-            //TODO Work on this method - HighlightTilesInRange();
-
-            if (unitsInRange.Count > 0)
-                attackStatus = AttackType.BasicDefence;
-        }
-
-
-        /*
-         * TODO move this methods into a inheritable class 
-         *
-         * 
-         */
 
         /*
          * Returns units one tile in range
          */
-        public void FindUnitsInRange()
+        protected List<Unit> FindUnits1X1InRange(Unit sourceUnit)
         {
-            unitsInRange.Clear();
-            FindUnitWithDirection(Vector3.forward);
-            FindUnitWithDirection(-Vector3.forward);
-            FindUnitWithDirection(Vector3.right);
-            FindUnitWithDirection(-Vector3.right);
+            _unitsInRange.Clear();
+            FindUnitWithDirection(sourceUnit, Vector3.forward);
+            FindUnitWithDirection(sourceUnit, -Vector3.forward);
+            FindUnitWithDirection(sourceUnit, Vector3.right);
+            FindUnitWithDirection(sourceUnit, -Vector3.right);
 
-            Debug.Log("Units in range: " + unitsInRange.Count);
+            Debug.Log("Units in range: " + _unitsInRange.Count);
+            return _unitsInRange;
         }
 
         /*
          * Searches a particular direction, if an enemy is in range, adds it to the list!
          */
-        private void FindUnitWithDirection(Vector3 direction)
+        private void FindUnitWithDirection(Unit sourceUnit, Vector3 direction)
         {
             RaycastHit hit;
             Unit otherUnit = null;
 
-
-            if (Physics.Raycast(unit.gameObject.transform.position, direction, out hit, 1))
+            if (Physics.Raycast(sourceUnit.gameObject.transform.position, direction, out hit, 1))
             {
                 otherUnit = hit.collider.GetComponent<Unit>();
                 print(hit.collider.gameObject.name);
-                unitsInRange.Add(otherUnit);
+                _unitsInRange.Add(otherUnit);
             }
         }
+    }
+}
 
 
-        /*
-         * Invokes method to attack an enemy unit
-         */
-        [PunRPC]
-        private void AttackEnemyUnit(Unit unitToAttack)
-        {
-            //stop update loop
-            attackStatus = AttackType.Standby;
-            
-            //prevent unit from being able to move after attacking
-            unit.ToggleAttackedThisTurn(true);
-
-            //reset tiles in range
-            DeselectTilesInRange();
-
-            //TODO for a random range: Random.Range(minDamage, maxDamage + 1)
-            unitToAttack.photonView.RPC("TakeDamage", PlayerController.enemy.photonPlayer, 1);
-        }
+/*
+ * TODO MOVE CODE ABOVE
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ * 
+ */
         
-        /*
+        
+        /*/*
          * Invokes method to attack an enemy unit
-         */
+         #1#
         [PunRPC]
         private void BuffUnit(Unit unitToDefend)
         {
             //stop update loop
-            attackStatus = AttackType.Standby;
+           
             
             //prevent unit from being able to move after attacking
-            unit.ToggleAttackedThisTurn(true);
+            //unit.ToggleAttackedThisTurn(true);
 
             //reset tiles in range
             DeselectTilesInRange();
@@ -205,8 +81,8 @@ namespace Attacks
 
         /*
          * Finds the tile below the unit, the 4 adjacent units and selects them as red (to illustrate attackable)
-         */
-        private void HighlightTilesInRange()
+         #1#
+        private void HighlightTilesInRange(Unit unit)
         {
             //get tile below
             RaycastHit hit;
@@ -230,7 +106,7 @@ namespace Attacks
         /*
          * Deselects tiles in range
          * TODO fix this for selecting other characters or ending turn..
-         */
+         #1#
         private void DeselectTilesInRange()
         {
             //reset tiles in range
@@ -242,7 +118,7 @@ namespace Attacks
 
         /*
          * Returns the target tile underneath the unit, or from the units collider
-        */
+        #1#
         private Tile GetTargetTile()
         {
             RaycastHit hit;
@@ -253,5 +129,18 @@ namespace Attacks
 
             return tile;
         }
-    }
-}
+        
+        private void WaitToBuffUnitsInRange()
+        {
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                foreach (Unit u in unitsInRange)
+                {
+                    BuffUnit(u);
+                }
+                
+                 
+            }
+        }
+
+    }*/
