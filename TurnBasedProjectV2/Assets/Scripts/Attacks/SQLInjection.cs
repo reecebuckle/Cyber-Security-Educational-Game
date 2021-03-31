@@ -5,13 +5,14 @@ using Photon.Pun;
 using Units;
 using UnityEngine;
 
-public class XSS : AttackUnit
+public class SQLInjection : AttackUnit
 {
     private Unit unit;
     private List<Unit> unitsInRange = new List<Unit>();
     private bool waiting;
     private bool unitSelected;
-    [SerializeField] private int damage = 2; //2 damage
+    [SerializeField] private int damage = 1;
+    [SerializeField] private int attackRange = 2; 
 
     /*
      * Whenever the unit is selected, this is enabled (as we can't reference a prefab)
@@ -29,7 +30,6 @@ public class XSS : AttackUnit
     {
         Debug.Log("Disabling the attack handler");
         unit = null;
-        //unitToAttack = null;
         unitsInRange.Clear();
         waiting = false;
     }
@@ -37,7 +37,7 @@ public class XSS : AttackUnit
     /*
     * Event input system for receiving an asic attack (one unit left, right, up or down)
     */
-    public void OnClickXSSAttack()
+    public void OnClickSQLAttack()
     {
         Debug.Log("Initiating attack");
         //Always clear if there were previous units in range
@@ -47,7 +47,7 @@ public class XSS : AttackUnit
         if (unit.AttackedThisTurn() || unit.ShouldMissTurn()) return;
 
         //returns units in range
-        unitsInRange = FindUnitsInRange(unit, 1);
+        unitsInRange = FindUnitsInRange(unit, attackRange);
 
         //TODO Remove HighlightTilesInRange();
 

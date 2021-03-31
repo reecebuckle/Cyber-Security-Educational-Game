@@ -9,6 +9,7 @@ namespace Units
     public class Unit : MonoBehaviourPun
     {
         [Header("Unit Properties")]
+        //
         [SerializeField] private float moveSpeed; // units movement speed
         [SerializeField] private int moveDistance; // max distance we can move per turn
         [SerializeField] private int maxHP; // maximum health points a unit has
@@ -16,13 +17,14 @@ namespace Units
         [SerializeField] private int unitID; // ID reference of unit
         [SerializeField] private string unitName; // ID reference of unit
         [SerializeField] private string unitInformation; // ID reference of unit
-        
+
         private int currentHP; // current hit points a unit has
         private int currentDef; // current defence a unit has
 
         private bool hasMovedThisTurn;
         private bool attatckedThisTurn;
         private bool isSelected;
+        private bool missTurn;
 
         /*
          * Initiate units current health and defence (which are variables
@@ -41,7 +43,7 @@ namespace Units
             else GameManager.instance.GetOtherPlayer(PlayerController.me).units.Add(this);
         }
 
-       
+
         /*
          * Invoked when another unit attacks this unit, and instructs this unit to take damage
          */
@@ -50,7 +52,7 @@ namespace Units
         {
             //Removes damage from armour then, then remainder from health
             CalculateDamage(damage);
-            
+
             Debug.Log("Unit taking damage, current health = " + currentHP + "current defence = " + currentDef);
 
             if (currentHP <= 0)
@@ -64,36 +66,59 @@ namespace Units
          */
         private void CalculateDamage(int damage)
         {
-            int armorDamage = Math.Min(currentDef, damage);
-            int healthDamage = Math.Min(currentHP, damage - armorDamage);
-            currentDef -= armorDamage;
+            int defenceDamage = Math.Min(currentDef, damage);
+            int healthDamage = Math.Min(currentHP, damage - defenceDamage);
+            currentDef -= defenceDamage;
             currentHP -= healthDamage;
         }
-        
+
         /*
-         * Buffs defence up to a maximum level
+         * Invoked when another unit is trying to remove shields
          */
         [PunRPC]
-        private void BoostDefence(int defence)
+        private void DamageShields(int damage)
         {
-            currentDef += defence;
+            //reduce current defence by damage
+            currentDef -= damage;
 
-            if (currentDef > maxDefence)
-                currentDef = maxDefence;
-            
-            Debug.Log("Unit being buffed, current defence = " + currentDef);
+            //but if it's 0, set to 0
+            if (currentDef < 0)
+                currentDef = 0;
+
+            Debug.Log("Unit taking damage, current health = " + currentHP + "current defence = " + currentDef);
         }
-        
+
         /*
-         * 
+         * Invoked when another unit attacks this unit and bypasses the defence
          */
-        public void BoostDefences(int defence)
+        [PunRPC]
+        private void BypassDefence(int damage)
+        {
+            //reduce current defence by damage
+            currentHP -= damage;
+
+            //but if it's 0, set to 0
+            if (currentHP < 0)
+                currentHP = 0;
+
+            Debug.Log("Unit taking damage, current health = " + currentHP + "current defence = " + currentDef);
+
+            if (currentHP <= 0)
+                photonView.RPC("UnitHasDied", RpcTarget.All);
+            //else
+            //  photonView.RPC("UpdateHealthBar", RpcTarget.All, (float) currentHP / (float) maxHP);
+        }
+
+        /*
+         * Invoked when a units defence is boosted
+         */
+        public void BoostDefence(int defence)
         {
             currentDef += defence;
 
             if (currentDef > maxDefence)
                 currentDef = maxDefence;
-            
+
             Debug.Log("Unit being buffed, current defence = " + currentDef);
         }
 
@@ -101,9 +126,9 @@ namespace Units
          * Invoked  when the unit's health reaches 0
          */
         [PunRPC]
-        private void UnitHasDied ()
+        private void UnitHasDied()
         {
-            if(!photonView.IsMine)
+            if (!photonView.IsMine)
                 PlayerController.enemy.units.Remove(this);
             else
             {
@@ -112,8 +137,16 @@ namespace Units
                 PhotonNetwork.Destroy(gameObject);
             }
         }
-        
-        
+
+        /*
+         * Causes unit to miss a turn
+         */
+        [PunRPC]
+        private void MissTurn()
+        {
+            missTurn = true;
+        }
+
         /*
         * Invoked to change a units selected status
         */
@@ -128,11 +161,15 @@ namespace Units
         * Invoked to change a units used status
         */
         public void ToggleAttackedThisTurn(bool attacked) => attatckedThisTurn = attacked;
-        
 
         /*
-         * Read only getter methods for all private variables 
+         * Invoked to unmiss a turn
          */
+        public void ToggleMissTurn(bool b) => missTurn = b;
+
+        /*
+        * Read only getter methods for all private variables 
+        */
         public bool MovedThisTurn() => hasMovedThisTurn;
         public bool IsSelected() => isSelected;
         public int GetMovementDistance() => moveDistance;
@@ -145,5 +182,6 @@ namespace Units
         public int GetUnitID() => unitID;
         public string GetUnitName() => unitName;
         public string GetUnitInformation() => unitInformation;
+        public bool ShouldMissTurn() => missTurn;
     }
 }

@@ -13,6 +13,7 @@ public class Firewall : AttackUnit
     private List<Unit> unitsInRange = new List<Unit>();
     private bool waiting;
     private bool unitSelected;
+    [SerializeField] private int defenceBoost = 2; //2 defence boost
 
     /*
      * Whenever the unit is selected, this is enabled (as we can't reference a prefab)
@@ -29,8 +30,6 @@ public class Firewall : AttackUnit
     private void OnDisable()
     {
         Debug.Log("Disabling the attack handler");
-        unit = null;
-        //unitToAttack = null;
         unitsInRange.Clear();
         waiting = false;
     }
@@ -38,17 +37,16 @@ public class Firewall : AttackUnit
     /*
     * Event input system for receiving an asic attack (one unit left, right, up or down)
     */
-    public void OnClickFirewallAttack()
+    public void OnClickFirewallDefend()
     {
         //Always clear if there were previous units in range
         unitsInRange.Clear();
 
-        //return if unit has already attacked this turn
-        if (unit.AttackedThisTurn())
-            return;
+        //return if unit has already attacked this turn, or instructed to miss
+        if (unit.AttackedThisTurn() || unit.ShouldMissTurn()) return;
 
         //returns units in 1 x 1 range
-        unitsInRange = FindUnits1X1InRange(unit);
+        unitsInRange = FindUnitsInRange(unit, 1);
         
         //If there were units in range, begin coroutine waiting to select a target
         if (unitsInRange.Count > 0)
@@ -86,20 +84,10 @@ public class Firewall : AttackUnit
                 // return if unit is not OURS
                 if (!PlayerController.me.units.Contains(clickedUnit)) return;
                 
-                DefendAllyUnit(clickedUnit);
+                unit.ToggleAttackedThisTurn(true);
+                DefendAllyUnit(clickedUnit, defenceBoost);
                 waiting = false;
             }
         }
-    }
-    
-    /*
-    * Invokes method to attack an enemy unit
-    */
-    [PunRPC]
-    private void DefendAllyUnit(Unit unitToDefend)
-    {
-        unit.ToggleAttackedThisTurn(true);
-        unitToDefend.BoostDefences(2);
-        //unitToDefend.photonView.RPC("BoostDefence", PlayerController.enemy.photonPlayer, 2);
     }
 }

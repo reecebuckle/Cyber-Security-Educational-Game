@@ -5,14 +5,16 @@ using Photon.Pun;
 using Units;
 using UnityEngine;
 
-public class XSS : AttackUnit
+public class SensitiveDataExposure : AttackUnit
 {
     private Unit unit;
+
+    //private Unit unitToAttack;
     private List<Unit> unitsInRange = new List<Unit>();
     private bool waiting;
     private bool unitSelected;
-    [SerializeField] private int damage = 2; //2 damage
-
+    [SerializeField] private int damage = 1; //2 damage to one units shield
+    
     /*
      * Whenever the unit is selected, this is enabled (as we can't reference a prefab)
      */
@@ -29,7 +31,6 @@ public class XSS : AttackUnit
     {
         Debug.Log("Disabling the attack handler");
         unit = null;
-        //unitToAttack = null;
         unitsInRange.Clear();
         waiting = false;
     }
@@ -37,7 +38,7 @@ public class XSS : AttackUnit
     /*
     * Event input system for receiving an asic attack (one unit left, right, up or down)
     */
-    public void OnClickXSSAttack()
+    public void OnClickDataExposureAttack()
     {
         Debug.Log("Initiating attack");
         //Always clear if there were previous units in range
@@ -65,6 +66,9 @@ public class XSS : AttackUnit
             WaitToSelectUnitInRange();
     }
 
+    /*
+     * Selects enemy units by default as selecting our unit will change
+     */
     private void WaitToSelectUnitInRange()
     {
         //wait for player input
@@ -82,8 +86,7 @@ public class XSS : AttackUnit
                     if (unitsInRange.Contains(clickedUnit))
                     {
                         Debug.Log("Unit Selected, attacking");
-                        unit.ToggleAttackedThisTurn(true);
-                        AttackEnemyUnit(clickedUnit, damage);
+                        ReduceDefence(clickedUnit, damage);
                         waiting = false;
                     }
                 }
@@ -91,3 +94,4 @@ public class XSS : AttackUnit
         }
     }
 }
+

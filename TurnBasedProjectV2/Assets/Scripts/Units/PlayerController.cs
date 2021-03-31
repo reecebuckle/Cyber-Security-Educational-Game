@@ -165,8 +165,11 @@ namespace Units
             
             //Remove selectable tiles if it was there
             foreach (Unit unit in units)
+            {
                 unit.GetComponent<UnitController>().DeselectTiles();
-            
+                unit.ToggleMissTurn(false);
+            }
+
             // Invoke the next turn method for the other player!
             GameManager.instance.photonView.RPC("SetNextTurn", RpcTarget.All);
         }

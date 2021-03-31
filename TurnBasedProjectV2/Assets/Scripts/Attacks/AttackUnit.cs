@@ -7,22 +7,19 @@ namespace Attacks
 {
     public class AttackUnit : MonoBehaviourPun
     {
-        //private Unit unit;
-        //public Unit unitToAttack;
         private List<Unit> _unitsInRange = new List<Unit>();
         private List<Tile> _tilesInRange = new List<Tile>();
-
 
         /*
          * Returns units one tile in range
          */
-        protected List<Unit> FindUnits1X1InRange(Unit sourceUnit)
+        protected List<Unit> FindUnitsInRange(Unit sourceUnit, int distance)
         {
             _unitsInRange.Clear();
-            FindUnitWithDirection(sourceUnit, Vector3.forward);
-            FindUnitWithDirection(sourceUnit, -Vector3.forward);
-            FindUnitWithDirection(sourceUnit, Vector3.right);
-            FindUnitWithDirection(sourceUnit, -Vector3.right);
+            FindUnitWithDirection(sourceUnit, Vector3.forward, distance);
+            FindUnitWithDirection(sourceUnit, -Vector3.forward, distance);
+            FindUnitWithDirection(sourceUnit, Vector3.right, distance);
+            FindUnitWithDirection(sourceUnit, -Vector3.right, distance);
 
             Debug.Log("Units in range: " + _unitsInRange.Count);
             return _unitsInRange;
@@ -31,57 +28,67 @@ namespace Attacks
         /*
          * Searches a particular direction, if an enemy is in range, adds it to the list!
          */
-        private void FindUnitWithDirection(Unit sourceUnit, Vector3 direction)
+        private void FindUnitWithDirection(Unit sourceUnit, Vector3 direction, int distance)
         {
             RaycastHit hit;
             Unit otherUnit = null;
 
-            if (Physics.Raycast(sourceUnit.gameObject.transform.position, direction, out hit, 1))
+            if (Physics.Raycast(sourceUnit.gameObject.transform.position, direction, out hit, distance))
             {
                 otherUnit = hit.collider.GetComponent<Unit>();
                 print(hit.collider.gameObject.name);
                 _unitsInRange.Add(otherUnit);
             }
         }
-    }
-}
-
-
-/*
- * TODO MOVE CODE ABOVE
- *
- *
- *
- *
- *
- *
- *
- *
- * 
- */
         
-        
-        /*/*
-         * Invokes method to attack an enemy unit
-         #1#
-        [PunRPC]
-        private void BuffUnit(Unit unitToDefend)
-        {
-            //stop update loop
-           
-            
-            //prevent unit from being able to move after attacking
-            //unit.ToggleAttackedThisTurn(true);
-
-            //reset tiles in range
-            DeselectTilesInRange();
-            
-            unitToDefend.photonView.RPC("BuffDefence", PlayerController.enemy.photonPlayer, 1);
-        }
-
         /*
-         * Finds the tile below the unit, the 4 adjacent units and selects them as red (to illustrate attackable)
-         #1#
+        * Invokes method to attack an enemy unit
+        */
+        protected void AttackEnemyUnit(Unit unitToAttack, int damage)
+        {
+            //reset tiles in range
+            //DeselectTilesInRange();
+            unitToAttack.photonView.RPC("TakeDamage", PlayerController.enemy.photonPlayer, damage);
+        }
+        
+        /*
+        * Invokes method to attack an enemy unit
+         */
+        protected void DefendAllyUnit(Unit unitToDefend, int defenceAmount)
+        {
+            unitToDefend.BoostDefence(defenceAmount);
+            //unitToDefend.photonView.RPC("BoostDefence", PlayerController.enemy.photonPlayer, 2);
+        }
+        
+        /*
+         * Invokes method to attack an enemy unit's defence
+        */
+        protected void ReduceDefence(Unit unitToAttack, int damage)
+        {
+            unitToAttack.photonView.RPC("DamageShields", PlayerController.enemy.photonPlayer, damage);
+        }
+        
+        /*
+         * Invokes method to attack an enemy unit's defence
+        */
+        protected void BypassShields(Unit unitToAttack, int damage)
+        {
+            unitToAttack.photonView.RPC("BypassDefence", PlayerController.enemy.photonPlayer, damage);
+        }
+        
+        /*
+         * Invokes method to attack an enemy unit's defence
+        */
+        protected void DDoSAttack(Unit unitToAttack)
+        {
+            unitToAttack.photonView.RPC("MissTurn", PlayerController.enemy.photonPlayer);
+        }
+        
+        
+        /*
+         * TODO Remove methods
+         */
+        
         private void HighlightTilesInRange(Unit unit)
         {
             //get tile below
@@ -97,28 +104,21 @@ namespace Attacks
 
                 foreach (Tile t in tile.adjacencyList)
                 {
-                    tilesInRange.Add(t);
+                    _tilesInRange.Add(t);
                     t.attack = true;
                 }
             }
         }
-
-        /*
-         * Deselects tiles in range
-         * TODO fix this for selecting other characters or ending turn..
-         #1#
+        
         private void DeselectTilesInRange()
         {
             //reset tiles in range
-            foreach (Tile t in tilesInRange)
+            foreach (Tile t in _tilesInRange)
                 t.Reset();
 
-            tilesInRange.Clear();
+            _tilesInRange.Clear();
         }
-
-        /*
-         * Returns the target tile underneath the unit, or from the units collider
-        #1#
+        
         private Tile GetTargetTile()
         {
             RaycastHit hit;
@@ -130,17 +130,5 @@ namespace Attacks
             return tile;
         }
         
-        private void WaitToBuffUnitsInRange()
-        {
-            if (Input.GetKeyDown(KeyCode.Return))
-            {
-                foreach (Unit u in unitsInRange)
-                {
-                    BuffUnit(u);
-                }
-                
-                 
-            }
-        }
-
-    }*/
+    }
+}
