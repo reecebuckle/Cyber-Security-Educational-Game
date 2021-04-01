@@ -40,5 +40,12 @@ MonoBehaviour:
   - WinGame
   - BoostDefence
   - DefendAllyUnit
+  - DamageShields
+  - ReduceDefence
+  - BypassDefence
+  - MissTurn
+  - DisplayEnemyStats
+  - UpdateStats
+  - DisplayMoveInfo
   DisableAutoOpenWizard: 1
   ShowSettings: 0

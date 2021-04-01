@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Photon.Pun;
+using UI;
 using Units;
 using UnityEngine;
 
@@ -48,7 +49,9 @@ namespace Attacks
         {
             //reset tiles in range
             //DeselectTilesInRange();
-            unitToAttack.photonView.RPC("TakeDamage", PlayerController.enemy.photonPlayer, damage);
+            unitToAttack.photonView.RPC("TakeDamage", RpcTarget.All, damage);
+            //update enemy stats on your display
+            GameUI.instance.DisplayEnemyStats(unitToAttack);
         }
         
         /*
@@ -57,7 +60,6 @@ namespace Attacks
         protected void DefendAllyUnit(Unit unitToDefend, int defenceAmount)
         {
             unitToDefend.BoostDefence(defenceAmount);
-            //unitToDefend.photonView.RPC("BoostDefence", PlayerController.enemy.photonPlayer, 2);
         }
         
         /*
@@ -65,7 +67,9 @@ namespace Attacks
         */
         protected void ReduceDefence(Unit unitToAttack, int damage)
         {
-            unitToAttack.photonView.RPC("DamageShields", PlayerController.enemy.photonPlayer, damage);
+            unitToAttack.photonView.RPC("DamageShields",  RpcTarget.All, damage);
+            //update enemy stats on your display
+            GameUI.instance.DisplayEnemyStats(unitToAttack);
         }
         
         /*
@@ -73,7 +77,9 @@ namespace Attacks
         */
         protected void BypassShields(Unit unitToAttack, int damage)
         {
-            unitToAttack.photonView.RPC("BypassDefence", PlayerController.enemy.photonPlayer, damage);
+            unitToAttack.photonView.RPC("BypassDefence",  RpcTarget.All, damage);
+            //update enemy stats on your display
+            GameUI.instance.DisplayEnemyStats(unitToAttack);
         }
         
         /*
@@ -81,10 +87,41 @@ namespace Attacks
         */
         protected void DDoSAttack(Unit unitToAttack)
         {
-            unitToAttack.photonView.RPC("MissTurn", PlayerController.enemy.photonPlayer);
+            if (unitToAttack.GetUnitID() > 4)
+                Debug.Log("remove an AP from each unit");
+            else
+                unitToAttack.photonView.RPC("MissTurn", RpcTarget.All);
         }
         
+        /*
+         * Invoked at the start of selection in case any old units are selected
+         */
+        protected void ResetSelection()
+        {
+            foreach (Unit u in PlayerController.me.units)
+                u.ToggleSelect(false);
+            
+            foreach (Unit u in PlayerController.enemy.units)
+                u.ToggleSelect(false);
+        }
+
+        /*
+         * TODO Displays UI showing no units in range
+         */
+        protected void NoUnitsInRange()
+        {
+            Debug.Log("No units in range");
+        }
         
+        /*
+        * TODO Displays UI showing no units in range
+        */
+        protected void NotEnoughActionPoints()
+        {
+            Debug.Log("Not enough action points");
+        }
+        
+
         /*
          * TODO Remove methods
          */

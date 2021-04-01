@@ -26,7 +26,7 @@ namespace Units
                 return;
 
             //TODO return if unit has attacked this turn already - maybe
-            //if (unit.AttackedThisTurn()) return;
+            if (unit.AttackedThisTurn()) return;
             
             //return if unit has moved this turn or forced to skipp
             if (unit.MovedThisTurn() || unit.ShouldMissTurn()) return;

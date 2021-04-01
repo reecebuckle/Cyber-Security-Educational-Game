@@ -23,9 +23,20 @@ public class SelectionIndicator : MonoBehaviour
      */
     private void Update()
     {
-        if (mm.hoveredUnit == unit)
+        /*if (mm.hoveredUnit == unit)
+            quad.SetActive(true);
+        else
+            quad.SetActive(false);*/
+    }
+    
+    /*
+     * Toggles when a move is selected
+     */
+    private void ToggleUnitInRange(bool inRange)
+    {
+        if (inRange)
             quad.SetActive(true);
         else
             quad.SetActive(false);
-    }
+    }   
 }

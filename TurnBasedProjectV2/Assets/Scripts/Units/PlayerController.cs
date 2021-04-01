@@ -132,12 +132,15 @@ namespace Units
         /*
         * Deselects the currently selected unity
         */
-        private void DeselectUnit()
+        public void DeselectUnit()
         {
             if (selectedUnit != null)
             {
+                //exclude database and web server
+                if (selectedUnit.GetUnitID() < 5) 
+                    selectedUnit.GetComponent<UnitController>().DeselectTiles();
+                
                 selectedUnit.ToggleSelect(false);
-                selectedUnit.GetComponent<UnitController>().DeselectTiles();
             }
             
             selectedUnit = null;
@@ -166,8 +169,13 @@ namespace Units
             //Remove selectable tiles if it was there
             foreach (Unit unit in units)
             {
-                unit.GetComponent<UnitController>().DeselectTiles();
-                unit.ToggleMissTurn(false);
+                //exclude database and web server
+                if (unit.GetUnitID() < 5)
+                {
+                    unit.GetComponent<UnitController>().DeselectTiles();
+                    unit.ToggleMissTurn(false);
+                }
+               
             }
 
             // Invoke the next turn method for the other player!
@@ -179,19 +187,34 @@ namespace Units
         */
         public void BeginTurn()
         {
+            Debug.Log("Beginning turn");
             unitsRemaining = units.Count;
             GameUI.instance.UpdateWaitingUnitsText(unitsRemaining);
             
-            foreach (Unit unit in units)
+            foreach (Unit u in units)
             {
-                unit.ToggleMovedThisTurn(false);
-                unit.ToggleAttackedThisTurn(false);
+                Debug.Log("Incrementing action points");
+                
+                u.ToggleMovedThisTurn(false);
+                u.ToggleAttackedThisTurn(false);
+                u.IncrementActionPoints(2); //increment action points by 2
             }
             
             //increment round number
             round++;
             GameUI.instance.UpdateRoundText(round);
+            /*
+             * //if database server exists, increment AP by 1
+                if (u.GetUnitID() == 5)
+                    u.IncrementActionPoints(1); 
+                
+                //if web server exists, increment AP by 1
+                if (u.GetUnitID() == 6)
+                    u.IncrementActionPoints(1); 
+             */
         }
+        
+        
         
         /*
          * Decrements units remaining after a unit has moved

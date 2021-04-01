@@ -1,4 +1,5 @@
 ﻿using Managers;
+using Photon.Pun;
 using TMPro;
 using Units;
 using UnityEngine;
@@ -6,7 +7,7 @@ using UnityEngine.UI;
 
 namespace UI
 {
-    public class GameUI : MonoBehaviour
+    public class GameUI : MonoBehaviourPun
     {
         [Header("Simple Information")] 
         public TextMeshProUGUI leftPlayerText;
@@ -92,7 +93,7 @@ namespace UI
         }
 
         /*
-         * Display
+         * Displays winning text
          */
         public void DisplayWinText(string winnerName)
         {
@@ -143,12 +144,14 @@ namespace UI
                 
                 //Database
                 case 5 : 
-                    UnitBarDatabase.SetActive(true);
+                    //UnitBarDatabase.SetActive(true);
+                    Debug.Log("Special unit selected");
                     break;
                 
                 //Web server
                 case 6 : 
-                    UnitBarWebServer.SetActive(true);
+                    Debug.Log("Special unit selected");
+                    //UnitBarWebServer.SetActive(true);
                     break;
                 
                 default : 
@@ -184,7 +187,10 @@ namespace UI
             unitInfoText.text = "";
             unitInfoText.text += string.Format("<b>Hp:</b> {0} / {1}", unit.GetCurrentHp(), unit.GetMaxHp() + "\n");
             unitInfoText.text += string.Format("<b>Defence:</b> {0} / {1}", unit.GetCurrentDef(), unit.GetMaxDef() + "\n");
-            unitInfoText.text += string.Format("<b>Move Range:</b> {0}", unit.GetMovementDistance());
+            unitInfoText.text += string.Format("<b>Move Range:</b> {0}", unit.GetMovementDistance() + "\n"); 
+            //display no action points for the servers
+            if (unit.GetUnitID() < 5)
+                unitInfoText.text += string.Format("<b>Action Points:</b> {0} / 6", unit.GetActionPoints());
             unitStatsUI.SetActive(true);
         }
 
@@ -215,7 +221,20 @@ namespace UI
             enemyInfoText.text += string.Format("<b>Move Range:</b> {0}", unit.GetMovementDistance());
             enemyStatsUI.SetActive(true);
         }
-        
+
+        /*
+         * Invoked when a units stats are updated
+         */
+        [PunRPC]
+        public void UpdateStats(Unit unit)
+        {
+            Debug.Log("Updating stats after taking damage");
+            enemyInfoText.text = "";
+            enemyInfoText.text += string.Format("<b>Hp:</b> {0} / {1}", unit.GetCurrentHp(), unit.GetMaxHp() + "\n");
+            enemyInfoText.text += string.Format("<b>Defence:</b> {0} / {1}", unit.GetCurrentDef(), unit.GetMaxDef() + "\n");
+            enemyInfoText.text += string.Format("<b>Move Range:</b> {0}", unit.GetMovementDistance());
+        }
+         
         /*
          * Displays Move Information of selected move in the information menu
          * Attach this script to each unit move, and link to the info button on that move

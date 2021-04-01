@@ -2,6 +2,7 @@
 using System.Collections;
 using Managers;
 using Photon.Pun;
+using UI;
 using UnityEngine;
 
 namespace Units
@@ -17,15 +18,18 @@ namespace Units
         [SerializeField] private int unitID; // ID reference of unit
         [SerializeField] private string unitName; // ID reference of unit
         [SerializeField] private string unitInformation; // ID reference of unit
-
+        [SerializeField] private GameObject quad; //quad that shows up when in range
+        [SerializeField] private GameObject selectionQuad; //quad that shows up when selected
+        
         private int currentHP; // current hit points a unit has
         private int currentDef; // current defence a unit has
+        private int actionPoints; //current number of action points a unit can have
 
         private bool hasMovedThisTurn;
         private bool attatckedThisTurn;
         private bool isSelected;
         private bool missTurn;
-
+        
         /*
          * Initiate units current health and defence (which are variables
          */
@@ -33,6 +37,9 @@ namespace Units
         {
             currentHP = maxHP;
             currentDef = maxDefence;
+            quad.SetActive(false);
+            selectionQuad.SetActive(false);
+            actionPoints += 3; //set by 2 at default
         }
 
         // called when the unit is spawned in
@@ -42,7 +49,26 @@ namespace Units
             if (isMine) PlayerController.me.units.Add(this);
             else GameManager.instance.GetOtherPlayer(PlayerController.me).units.Add(this);
         }
-
+        
+        /*
+         * Increments action points, called each turn - max amount 6
+         */
+        public void IncrementActionPoints(int amount)
+        {
+            actionPoints += amount;
+            if (actionPoints > 6)
+                actionPoints = 6;
+        }
+        
+        /*
+         * Decrements action points, called when a move is used by a unit 
+         */
+        public void DecrementActionPoints(int amount)
+        {
+            actionPoints -= amount;
+            if (actionPoints < 0)
+                actionPoints = 0;
+        }
 
         /*
          * Invoked when another unit attacks this unit, and instructs this unit to take damage
@@ -57,8 +83,6 @@ namespace Units
 
             if (currentHP <= 0)
                 photonView.RPC("UnitHasDied", RpcTarget.All);
-            //else
-            //  photonView.RPC("UpdateHealthBar", RpcTarget.All, (float) currentHP / (float) maxHP);
         }
 
         /*
@@ -84,7 +108,7 @@ namespace Units
             //but if it's 0, set to 0
             if (currentDef < 0)
                 currentDef = 0;
-
+            
             Debug.Log("Unit taking damage, current health = " + currentHP + "current defence = " + currentDef);
         }
 
@@ -105,8 +129,6 @@ namespace Units
 
             if (currentHP <= 0)
                 photonView.RPC("UnitHasDied", RpcTarget.All);
-            //else
-            //  photonView.RPC("UpdateHealthBar", RpcTarget.All, (float) currentHP / (float) maxHP);
         }
 
         /*
@@ -118,7 +140,7 @@ namespace Units
 
             if (currentDef > maxDefence)
                 currentDef = maxDefence;
-
+            
             Debug.Log("Unit being buffed, current defence = " + currentDef);
         }
 
@@ -142,15 +164,22 @@ namespace Units
          * Causes unit to miss a turn
          */
         [PunRPC]
-        private void MissTurn()
-        {
-            missTurn = true;
-        }
+        private void MissTurn() => missTurn = true;
+        
 
         /*
         * Invoked to change a units selected status
         */
-        public void ToggleSelect(bool selected) => isSelected = selected;
+        public void ToggleSelect(bool selected)
+        {
+            isSelected = selected;
+            
+            //updates selected quad
+            if (isSelected)
+                selectionQuad.SetActive(true);
+            else 
+                selectionQuad.SetActive(false);
+        } 
 
         /*
         * Invoked to change a units used status
@@ -166,6 +195,20 @@ namespace Units
          * Invoked to unmiss a turn
          */
         public void ToggleMissTurn(bool b) => missTurn = b;
+        
+        /*
+         * Invoked to toggle if a unit is selected in range 
+         */
+        public void ToggleUnitInRange(bool inRange)
+        {
+            //if destroyed
+            if (this == null) return;
+            
+            if (inRange)
+                quad.SetActive(true);
+            else
+                quad.SetActive(false);
+        }   
 
         /*
         * Read only getter methods for all private variables 
@@ -183,5 +226,6 @@ namespace Units
         public string GetUnitName() => unitName;
         public string GetUnitInformation() => unitInformation;
         public bool ShouldMissTurn() => missTurn;
+        public int GetActionPoints() => actionPoints;
     }
 }
