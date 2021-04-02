@@ -1600,12 +1600,12 @@ PrefabInstance:
         Move Range: 0
 
         Action
-        Points 0 / 0'
+        Points: 0 / 0'
       objectReference: {fileID: 0}
     - target: {fileID: 2883001559477809381, guid: 3d22c16c207711641a60c4c544110147,
         type: 3}
       propertyPath: m_fontSize
-      value: 41.4
+      value: 40.95
       objectReference: {fileID: 0}
     - target: {fileID: 2883001559741852189, guid: 3d22c16c207711641a60c4c544110147,
         type: 3}

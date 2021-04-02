@@ -6,15 +6,20 @@ using UnityEngine;
 
 namespace Attacks
 {
+    /*
+     * URL is a weak hitting single unit move (but bypasses shields)
+     */
     public class URLManipulation : AttackUnit
     {
         private Unit unit;
         private List<Unit> unitsInRange = new List<Unit>();
         private bool waiting;
         private bool unitSelected;
-        [SerializeField] private int damage = 1; //bypass shields
+        
+        [Header("Move Attributes")]
+        [SerializeField] private int damage = 1; 
         [SerializeField] private int attackRange = 1;
-        [SerializeField] private int pointsCost = 3;
+        [SerializeField] private int actionPoints = 3; //action points cost
 
         /*
          * Whenever the unit is selected, this is enabled (as we can't reference a prefab)
@@ -57,7 +62,7 @@ namespace Attacks
             // if unit instructed to miss
             if (unit.ShouldMissTurn()) return;
 
-            if (unit.GetActionPoints() < pointsCost)
+            if (unit.GetActionPoints() < actionPoints)
             {
                 NotEnoughActionPoints();
                 return;
@@ -104,13 +109,12 @@ namespace Attacks
 
                         if (unitsInRange.Contains(clickedUnit))
                         {
-                            Debug.Log("Unit selected in range");
                             //make unit unable to attack or move again
                             unit.ToggleAttackedThisTurn(true);
                             //special method for bypassing shields
                             BypassShields(clickedUnit, damage);
                             //decrement points cost and update UI
-                            unit.DecrementActionPoints(pointsCost);
+                            unit.DecrementActionPoints(actionPoints);
                             GameUI.instance.DisplayUnitStats(unit);
                             //stop waiting for input
                             waiting = false;

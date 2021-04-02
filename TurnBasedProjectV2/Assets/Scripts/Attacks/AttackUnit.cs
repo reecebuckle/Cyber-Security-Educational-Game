@@ -3,6 +3,7 @@ using Photon.Pun;
 using UI;
 using Units;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 
 namespace Attacks
 {
@@ -52,6 +53,8 @@ namespace Attacks
             unitToAttack.photonView.RPC("TakeDamage", RpcTarget.All, damage);
             //update enemy stats on your display
             GameUI.instance.DisplayEnemyStats(unitToAttack);
+            //update status bar
+            GameUI.instance.UpdateStatusBar(damage + " done to " + unitToAttack.GetUnitName());
         }
         
         /*
@@ -60,6 +63,8 @@ namespace Attacks
         protected void DefendAllyUnit(Unit unitToDefend, int defenceAmount)
         {
             unitToDefend.BoostDefence(defenceAmount);
+            //update status bar
+            GameUI.instance.UpdateStatusBar("Boosting defence of " + unitToDefend.GetUnitName() +" by " + defenceAmount);
         }
         
         /*
@@ -70,6 +75,8 @@ namespace Attacks
             unitToAttack.photonView.RPC("DamageShields",  RpcTarget.All, damage);
             //update enemy stats on your display
             GameUI.instance.DisplayEnemyStats(unitToAttack);
+            //update status bar
+            GameUI.instance.UpdateStatusBar("Targeting shields of "+ unitToAttack.GetUnitName());
         }
         
         /*
@@ -80,6 +87,8 @@ namespace Attacks
             unitToAttack.photonView.RPC("BypassDefence",  RpcTarget.All, damage);
             //update enemy stats on your display
             GameUI.instance.DisplayEnemyStats(unitToAttack);
+            //update status bar
+            GameUI.instance.UpdateStatusBar("Bypassing shields, " + damage + " done to " + unitToAttack.GetUnitName());
         }
         
         /*
@@ -106,19 +115,25 @@ namespace Attacks
         }
 
         /*
-         * TODO Displays UI showing no units in range
-         */
-        protected void NoUnitsInRange()
-        {
-            Debug.Log("No units in range");
-        }
+        * Updates status bar
+        */
+        protected void NoUnitsInRange() => GameUI.instance.UpdateStatusBar("No units in range...");
+        
         
         /*
-        * TODO Displays UI showing no units in range
+        * Updates status bar
         */
-        protected void NotEnoughActionPoints()
+        protected void NotEnoughActionPoints() => GameUI.instance.UpdateStatusBar("Not enough action points...");
+
+        /*
+         * Updates status bar
+         */
+        protected void UnitsAreInRange(int amount)
         {
-            Debug.Log("Not enough action points");
+            if (amount == 1)
+                GameUI.instance.UpdateStatusBar(amount + "unit in range...");
+           else 
+                GameUI.instance.UpdateStatusBar(amount + "units in range...");
         }
         
 

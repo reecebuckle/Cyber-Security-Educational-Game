@@ -105,6 +105,7 @@ namespace Units
         {
             selectedEnemyUnit = clickedUnit;
             GameUI.instance.DisplayEnemyStats(selectedEnemyUnit);
+            GameUI.instance.UpdateStatusBar("Selecting enemy unit: " + clickedUnit.GetUnitName());
         }
 
         /*
@@ -126,6 +127,7 @@ namespace Units
             // Will display selected unit for us or enemy
             GameUI.instance.ToggleUnitBar(selectedUnit);
             GameUI.instance.DisplayUnitStats(selectedUnit);
+            GameUI.instance.UpdateStatusBar("Selecting unit: " + clickedUnit.GetUnitName());
             
         }
 
@@ -142,7 +144,7 @@ namespace Units
                 
                 selectedUnit.ToggleSelect(false);
             }
-            
+
             selectedUnit = null;
         }
 
@@ -191,29 +193,32 @@ namespace Units
             unitsRemaining = units.Count;
             GameUI.instance.UpdateWaitingUnitsText(unitsRemaining);
             
+            //how many action points to give to all units
+            int actionPointGain = 2;
+            
+            //check to see we have a webserver
+            Unit webserver = units.Find(unit => unit.GetUnitID() == 5);
+            if (webserver != null)
+                actionPointGain++;
+            
+            //check to see we have a database and increment action points
+            Unit database = units.Find(unit => unit.GetUnitID() == 6);
+            if (database != null)
+                actionPointGain++;
+            
+            //reset all units moved/attacked and increment action points
             foreach (Unit u in units)
             {
-                Debug.Log("Incrementing action points");
-                
                 u.ToggleMovedThisTurn(false);
                 u.ToggleAttackedThisTurn(false);
-                u.IncrementActionPoints(2); //increment action points by 2
+                u.IncrementActionPoints(actionPointGain);
             }
-            
             //increment round number
             round++;
             GameUI.instance.UpdateRoundText(round);
-            /*
-             * //if database server exists, increment AP by 1
-                if (u.GetUnitID() == 5)
-                    u.IncrementActionPoints(1); 
-                
-                //if web server exists, increment AP by 1
-                if (u.GetUnitID() == 6)
-                    u.IncrementActionPoints(1); 
-             */
+            //update status bar
+            GameUI.instance.UpdateStatusBar("Each unit gained: " + actionPointGain + " AP");
         }
-        
         
         
         /*

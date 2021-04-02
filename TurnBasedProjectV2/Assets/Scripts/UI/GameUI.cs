@@ -1,4 +1,5 @@
-﻿using Managers;
+﻿using System.Collections;
+using Managers;
 using Photon.Pun;
 using TMPro;
 using Units;
@@ -9,37 +10,35 @@ namespace UI
 {
     public class GameUI : MonoBehaviourPun
     {
-        [Header("Simple Information")] 
-        public TextMeshProUGUI leftPlayerText;
+        [Header("Simple Information")] public TextMeshProUGUI leftPlayerText;
         public TextMeshProUGUI rightPlayerText;
         public TextMeshProUGUI waitingUnitsText;
         public TextMeshProUGUI roundText;
         public TextMeshProUGUI winText;
         public Button endTurnButton;
-        
-        [Header("Our Unit Information ")] 
-        public TextMeshProUGUI unitNameText;
+
+        [Header("Our Unit Information ")] public TextMeshProUGUI unitNameText;
         public TextMeshProUGUI unitInfoText;
         public GameObject unitStatsUI;
 
-        [Header("Enemy Unit Information ")] 
-        public TextMeshProUGUI enemyNameText;
+        [Header("Enemy Unit Information ")] public TextMeshProUGUI enemyNameText;
         public TextMeshProUGUI enemyInfoText;
         public GameObject enemyStatsUI;
-        
-        [Header("Unit Bar Options")]
-        public GameObject UnitBarScout;
+
+        [Header("Unit Bar Options")] public GameObject UnitBarScout;
         public GameObject UnitBarHacker;
         public GameObject UnitBarHeavy;
         public GameObject UnitBarAnalyst;
         public GameObject UnitBarDatabase;
         public GameObject UnitBarWebServer;
-       
-        [Header("Information Window")]
-        public TextMeshProUGUI informationNameText;
+
+        [Header("Status Bar")] public GameObject statusBar;
+        public TextMeshProUGUI statusText;
+
+        [Header("Information Window")] public TextMeshProUGUI informationNameText;
         public TextMeshProUGUI informationBodyText;
         public GameObject informationUI;
-        
+
         //Singleton reference of UI
         public static GameUI instance;
 
@@ -79,18 +78,12 @@ namespace UI
         /*
          * Displays number of units left to select
          */
-        public void UpdateWaitingUnitsText(int waitingUnits)
-        {
-            waitingUnitsText.text = waitingUnits + " Units Waiting";
-        }
+        public void UpdateWaitingUnitsText(int waitingUnits) => waitingUnitsText.text = waitingUnits + " Units Waiting";
 
         /*
          * Updates round text
          */
-        public void UpdateRoundText(int roundNumber)
-        {
-            roundText.text = "Round: " + roundNumber;
-        }
+        public void UpdateRoundText(int roundNumber) => roundText.text = "Round: " + roundNumber;
 
         /*
          * Displays winning text
@@ -100,7 +93,7 @@ namespace UI
             winText.gameObject.SetActive(true);
             winText.text = winnerName + " Wins";
         }
-        
+
         /*
          * Invoked when player Quits
          * TODO: Implement functionality
@@ -119,48 +112,48 @@ namespace UI
             DisableInformationBars();
 
             int unitID = unit.GetUnitID();
-            
+
             switch (unitID)
             {
                 //Scout
-                case 1 : 
+                case 1:
                     UnitBarScout.SetActive(true);
                     break;
-                
+
                 //Hacker
-                case 2 : 
+                case 2:
                     UnitBarHacker.SetActive(true);
                     break;
-                
+
                 //Heavy
-                case 3 : 
+                case 3:
                     UnitBarHeavy.SetActive(true);
                     break;
-                
+
                 //Heavy
-                case 4 : 
+                case 4:
                     UnitBarAnalyst.SetActive(true);
                     break;
-                
+
                 //Database
-                case 5 : 
+                case 5:
                     //UnitBarDatabase.SetActive(true);
                     Debug.Log("Special unit selected");
                     break;
-                
+
                 //Web server
-                case 6 : 
+                case 6:
                     Debug.Log("Special unit selected");
                     //UnitBarWebServer.SetActive(true);
                     break;
-                
-                default : 
+
+                default:
                     Debug.Log("No valid unit ID selected when setting unit bar!");
                     break;
             }
         }
-        
-        
+
+
         /*
          * Disables all action bars when a unit is selected 
          */
@@ -186,8 +179,9 @@ namespace UI
             unitNameText.text = unit.GetUnitName();
             unitInfoText.text = "";
             unitInfoText.text += string.Format("<b>Hp:</b> {0} / {1}", unit.GetCurrentHp(), unit.GetMaxHp() + "\n");
-            unitInfoText.text += string.Format("<b>Defence:</b> {0} / {1}", unit.GetCurrentDef(), unit.GetMaxDef() + "\n");
-            unitInfoText.text += string.Format("<b>Move Range:</b> {0}", unit.GetMovementDistance() + "\n"); 
+            unitInfoText.text +=
+                string.Format("<b>Defence:</b> {0} / {1}", unit.GetCurrentDef(), unit.GetMaxDef() + "\n");
+            unitInfoText.text += string.Format("<b>Move Range:</b> {0}", unit.GetMovementDistance() + "\n");
             //display no action points for the servers
             if (unit.GetUnitID() < 5)
                 unitInfoText.text += string.Format("<b>Action Points:</b> {0} / 6", unit.GetActionPoints());
@@ -203,12 +197,12 @@ namespace UI
         {
             //If true gets our selected unit, otherwise gets the enemy selected unit
             Unit unit = isOurs ? PlayerController.me.selectedUnit : PlayerController.me.selectedEnemyUnit;
-            
+
             informationNameText.text = unit.GetUnitName();
             informationBodyText.text = unit.GetUnitInformation();
             informationUI.SetActive(true);
         }
-        
+
         /*
         * Updates enemy stats when selecting / hovering over an enemy unit
         */
@@ -217,7 +211,8 @@ namespace UI
             enemyNameText.text = unit.GetUnitName();
             enemyInfoText.text = "";
             enemyInfoText.text += string.Format("<b>Hp:</b> {0} / {1}", unit.GetCurrentHp(), unit.GetMaxHp() + "\n");
-            enemyInfoText.text += string.Format("<b>Defence:</b> {0} / {1}", unit.GetCurrentDef(), unit.GetMaxDef() + "\n");
+            enemyInfoText.text +=
+                string.Format("<b>Defence:</b> {0} / {1}", unit.GetCurrentDef(), unit.GetMaxDef() + "\n");
             enemyInfoText.text += string.Format("<b>Move Range:</b> {0}", unit.GetMovementDistance());
             enemyStatsUI.SetActive(true);
         }
@@ -231,10 +226,11 @@ namespace UI
             Debug.Log("Updating stats after taking damage");
             enemyInfoText.text = "";
             enemyInfoText.text += string.Format("<b>Hp:</b> {0} / {1}", unit.GetCurrentHp(), unit.GetMaxHp() + "\n");
-            enemyInfoText.text += string.Format("<b>Defence:</b> {0} / {1}", unit.GetCurrentDef(), unit.GetMaxDef() + "\n");
+            enemyInfoText.text +=
+                string.Format("<b>Defence:</b> {0} / {1}", unit.GetCurrentDef(), unit.GetMaxDef() + "\n");
             enemyInfoText.text += string.Format("<b>Move Range:</b> {0}", unit.GetMovementDistance());
         }
-         
+
         /*
          * Displays Move Information of selected move in the information menu
          * Attach this script to each unit move, and link to the info button on that move
@@ -245,5 +241,26 @@ namespace UI
             informationBodyText.text = ability.Information();
             informationUI.SetActive(true);
         }
+
+        /*
+         * Updates status bar
+         */
+        public void UpdateStatusBar(string message)
+        {
+            statusText.text += string.Format(message);
+            StartCoroutine(DisplayStatusBar());
+        }
+        
+        /*
+         * Display status bar for 5 seconds
+         * //yield on a new YieldInstruction that waits for 5 seconds.
+         */
+        private IEnumerator DisplayStatusBar()
+        {
+            statusBar.SetActive(true);
+            yield return new WaitForSeconds(5); 
+            statusBar.SetActive(false);
+        }
+        
     }
 }

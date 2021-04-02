@@ -1,35 +1,38 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Photon.Realtime;
+using UI;
 using Units;
 using UnityEngine;
 
 namespace Attacks
 {
+    /*
+     * XXS is a single hitting close combat move (high damage)
+     */
     public class XSS : AttackUnit
     {
         private Unit unit;
         private List<Unit> unitsInRange = new List<Unit>();
         private bool waiting;
         private bool unitSelected;
+
+        [Header("Move Attributes")] 
         [SerializeField] private int damage = 2;
-        [SerializeField] private int moveRange = 1;
+        [SerializeField] private int attackRange = 1;
+        [SerializeField] private int actionPoints = 3;
+
 
         /*
          * Whenever the unit is selected, this is enabled (as we can't reference a prefab)
         */
-        private void OnEnable()
-        {
-            Debug.Log("Setting the selected unit");
-            unit = PlayerController.me.selectedUnit;
-        }
+        private void OnEnable() => unit = PlayerController.me.selectedUnit;
 
         /*
         * Whenever another unit is selected, this is cleared
         */
         private void OnDisable()
         {
-            Debug.Log("Disabling the attack handler");
             unit = null;
 
             foreach (Unit u in unitsInRange)
@@ -44,7 +47,6 @@ namespace Attacks
         */
         public void OnClickXSSAttack()
         {
-            Debug.Log("Initiating XSS attack");
             //Reset other selected units if swapping
             ResetSelection();
 
@@ -57,21 +59,27 @@ namespace Attacks
             // if unit instructed to miss
             if (unit.ShouldMissTurn()) return;
 
+            if (unit.GetActionPoints() < actionPoints)
+            {
+                NotEnoughActionPoints();
+                return;
+            }
+
             //returns units in range
-            unitsInRange = FindUnitsInRange(unit, moveRange);
+            unitsInRange = FindUnitsInRange(unit, attackRange);
 
             //return if no units in range
             if (unitsInRange.Count <= 0)
-                NoUnitsInRange();
-
-            else
             {
-                waiting = true;
-
-                //Loop through units in range, if they're OUR ENEMY unit, reduce their defences
-                foreach (Unit u in unitsInRange.Where(u => PlayerController.enemy.units.Contains(u)))
-                    u.ToggleUnitInRange(true);
+                NoUnitsInRange();
+                return;
             }
+
+            waiting = true;
+
+            //Loop through units in range, if they're OUR ENEMY unit, reduce their defences
+            foreach (Unit u in unitsInRange.Where(u => PlayerController.enemy.units.Contains(u)))
+                u.ToggleUnitInRange(true);
         }
 
         /*
@@ -99,9 +107,12 @@ namespace Attacks
 
                         if (unitsInRange.Contains(clickedUnit))
                         {
-                            Debug.Log("Unit Selected, attacking");
                             unit.ToggleAttackedThisTurn(true);
                             AttackEnemyUnit(clickedUnit, damage);
+                            //decrement points cost and update UI
+                            unit.DecrementActionPoints(actionPoints);
+                            GameUI.instance.DisplayUnitStats(unit);
+                            //stop waiting for input
                             waiting = false;
                             PlayerController.me.DeselectUnit();
                         }

@@ -1,40 +1,41 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using UI;
 using Units;
 using UnityEngine;
 
 namespace Attacks
 {
+    /*
+     * Delete Security Logs is a one target move that lowers the defence of all units in range
+     */
     public class DeleteSecurityLogs : AttackUnit
     {
         private Unit unit;
         private List<Unit> unitsInRange = new List<Unit>();
-        private bool waiting;
         private bool unitSelected;
+
+        [Header("Move Attributes")] 
+        [SerializeField] private int actionPoints = 3;
+        [SerializeField] private int attackRange = 1;
         [SerializeField] private int damage = 1; //1 damage to all unit's shields
 
         /*
         * Whenever the unit is selected, this is enabled (as we can't reference a prefab)
         */
-        private void OnEnable()
-        {
-            Debug.Log("Setting the selected unit");
-            unit = PlayerController.me.selectedUnit;
-        }
+        private void OnEnable() => unit = PlayerController.me.selectedUnit;
 
         /*
          * Whenever another unit is selected, this is cleared
          */
         private void OnDisable()
         {
-            Debug.Log("Disabling the attack handler");
             unit = null;
-            
+
             foreach (Unit u in unitsInRange)
                 u.ToggleUnitInRange(false);
-            
+
             unitsInRange.Clear();
-            waiting = false;
         }
 
         /*
@@ -54,28 +55,36 @@ namespace Attacks
             // if unit instructed to miss
             if (unit.ShouldMissTurn()) return;
 
-            //returns units in 1 x 1 range
-            unitsInRange = FindUnitsInRange(unit, 1);
+            if (unit.GetActionPoints() < actionPoints)
+            {
+                NotEnoughActionPoints();
+                return;
+            }
+
+            //returns units in range
+            unitsInRange = FindUnitsInRange(unit, attackRange);
 
             //return if no units in range
             if (unitsInRange.Count <= 0)
-                NoUnitsInRange();
-
-            else
             {
-                //TODO input a check to make sure we have a valid unit in range, otherwise wasted move?
-
-                //Loop through units in range, if they're OUR ENEMY unit, reduce their defences
-                foreach (Unit u in unitsInRange.Where(u => PlayerController.enemy.units.Contains(u)))
-                {
-                    u.ToggleUnitInRange(true);
-                    unit.ToggleAttackedThisTurn(true);
-                    ReduceDefence(u, damage);
-                }
-
-                //prevent from showing movement tiles after
-                PlayerController.me.DeselectUnit();
+                NoUnitsInRange();
+                return;
             }
+
+
+            //Loop through units in range, if they're OUR ENEMY unit, reduce their defences
+            foreach (Unit u in unitsInRange.Where(u => PlayerController.enemy.units.Contains(u)))
+            {
+                u.ToggleUnitInRange(true);
+                unit.ToggleAttackedThisTurn(true);
+                ReduceDefence(u, damage);
+            }
+
+            //decrement points cost and update UI
+            unit.DecrementActionPoints(actionPoints);
+            GameUI.instance.DisplayUnitStats(unit);
+            //prevent from showing movement tiles after
+            PlayerController.me.DeselectUnit();
         }
     }
 }

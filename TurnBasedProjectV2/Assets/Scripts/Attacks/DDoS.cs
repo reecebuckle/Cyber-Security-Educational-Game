@@ -1,33 +1,35 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using UI;
 using Units;
 using UnityEngine;
 
 namespace Attacks
 {
+    /*
+     * DDoS is a single target move that prevents a unit from operating from one turn!
+     */
     public class DDoS : AttackUnit
     {
         private Unit unit;
         private List<Unit> unitsInRange = new List<Unit>();
         private bool waiting;
         private bool unitSelected;
-        [SerializeField] private int attackRange = 2;
+
+        [Header("Move Attributes")] 
+        [SerializeField] private int actionPoints = 2;
+        [SerializeField] private int attackRange = 1;
 
         /*
         * Whenever the unit is selected, this is enabled (as we can't reference a prefab)
         */
-        private void OnEnable()
-        {
-            Debug.Log("Setting the selected unit");
-            unit = PlayerController.me.selectedUnit;
-        }
-        
+        private void OnEnable() => unit = PlayerController.me.selectedUnit;
+
         /*
          * Whenever another unit is selected, this is cleared
          */
         private void OnDisable()
         {
-            Debug.Log("Disabling the attack handler");
             unit = null;
 
             foreach (Unit u in unitsInRange)
@@ -44,7 +46,7 @@ namespace Attacks
         {
             //Reset other selected units if swapping
             ResetSelection();
-            
+
             //Always clear if there were previous units in range
             unitsInRange.Clear();
 
@@ -54,22 +56,27 @@ namespace Attacks
             // if unit instructed to miss
             if (unit.ShouldMissTurn()) return;
 
+            if (unit.GetActionPoints() < actionPoints)
+            {
+                NotEnoughActionPoints();
+                return;
+            }
+
             //returns units in range
             unitsInRange = FindUnitsInRange(unit, attackRange);
 
             //return if no units in range
-            if (unitsInRange.Count <= 0) 
-                NoUnitsInRange();
-            
-            else
+            if (unitsInRange.Count <= 0)
             {
-                waiting = true;
-
-                //Loop through units in range, toggle they're in range
-                foreach (Unit u in unitsInRange.Where(u => PlayerController.enemy.units.Contains(u)))
-                    u.ToggleUnitInRange(true);
+                NoUnitsInRange();
+                return;
             }
 
+            waiting = true;
+
+            //Loop through units in range, toggle they're in range
+            foreach (Unit u in unitsInRange.Where(u => PlayerController.enemy.units.Contains(u)))
+                u.ToggleUnitInRange(true);
         }
 
         /*
@@ -97,11 +104,13 @@ namespace Attacks
 
                         if (!unitsInRange.Contains(clickedUnit)) return;
                         
-                        Debug.Log("Unit Selected, attacking");
                         unit.ToggleAttackedThisTurn(true);
                         DDoSAttack(clickedUnit);
+                        //decrement points cost and update UI
+                        unit.DecrementActionPoints(actionPoints);
+                        GameUI.instance.DisplayUnitStats(unit);
+                        //stop waiting for input
                         waiting = false;
-                        //prevent from showing movement tiles after
                         PlayerController.me.DeselectUnit();
                     }
                 }
