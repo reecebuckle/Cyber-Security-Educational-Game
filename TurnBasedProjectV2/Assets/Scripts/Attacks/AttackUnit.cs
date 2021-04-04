@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using Photon.Pun;
 using UI;
 using Units;
@@ -11,6 +13,13 @@ namespace Attacks
     {
         private List<Unit> _unitsInRange = new List<Unit>();
         private List<Tile> _tilesInRange = new List<Tile>();
+        public bool moveSelected;
+        private GameObject[] tiles;
+
+        /*
+        * Cache all tiles right away for used when resetting tile options
+        */
+        private void Start() => tiles = GameObject.FindGameObjectsWithTag("Tile");
 
         /*
          * Returns units one tile in range
@@ -44,72 +53,174 @@ namespace Attacks
         }
         
         /*
+         * Checks the attack flow process to validate attacks
+         */
+        protected void AttackFlowProcess(Unit unitAttacking, int actionPoints)
+        {
+            //Reset other selected units if swapping
+            ResetSelection();
+            unitAttacking.ToggleWaitingToAttack(false);
+            
+            //return if unit has already attacked this turn,
+            if (unitAttacking.AttackedThisTurn()) return;
+
+            // if unit instructed to miss
+            if (unitAttacking.ShouldMissTurn()) return;
+
+            if (unitAttacking.GetActionPoints() < actionPoints)
+            {
+                NotEnoughActionPoints();
+                return;
+            }
+
+            //highlight tiles in range anyway
+            moveSelected = true;
+            unitAttacking.ToggleWaitingToAttack(true);
+            HighlightTilesInRange(unitAttacking);
+        }
+
+        /*
         * Invokes method to attack an enemy unit
         */
-        protected void AttackEnemyUnit(Unit unitToAttack, int damage)
+        protected void AttackEnemyUnit(Unit unitAttacking, Unit unitToAttack, int damage, int actionPoints)
         {
-            //reset tiles in range
-            //DeselectTilesInRange();
+            //Toggle that unit has attacked
+            unitAttacking.ToggleAttackedThisTurn(true);
+           
+            //Decrement action points cost
+            unitAttacking.DecrementActionPoints(actionPoints);
             unitToAttack.photonView.RPC("TakeDamage", RpcTarget.All, damage);
+            
+            //deselect mopve
+            moveSelected = false;
+            
+            //update your own stats 
+            GameUI.instance.DisplayUnitStats(unitAttacking);
             //update enemy stats on your display
             GameUI.instance.DisplayEnemyStats(unitToAttack);
             //update status bar
-            GameUI.instance.UpdateStatusBar(damage + " done to " + unitToAttack.GetUnitName());
+            GameUI.instance.AppendHistoryLog(damage + " done to " + unitToAttack.GetUnitName());
+            
+            //Deselect unit by default 
+            PlayerController.me.DeselectUnit();
         }
-        
+
         /*
         * Invokes method to attack an enemy unit
          */
-        protected void DefendAllyUnit(Unit unitToDefend, int defenceAmount)
+        protected void DefendAllyUnit(Unit unitActing, Unit unitToDefend, int defenceAmount)
         {
+            //Toggle that unit has attacked, only need to do once, but no harm doing multiple times
+            unitActing.ToggleAttackedThisTurn(true);
+            unitToDefend.ToggleUnitInRange(true);
+            
             unitToDefend.BoostDefence(defenceAmount);
             //update status bar
-            GameUI.instance.UpdateStatusBar("Boosting defence of " + unitToDefend.GetUnitName() +" by " + defenceAmount);
+            GameUI.instance.AppendHistoryLog("Boosting defence of " + unitToDefend.GetUnitName() + " by " +
+                                             defenceAmount);
         }
-        
+
         /*
          * Invokes method to attack an enemy unit's defence
         */
-        protected void ReduceDefence(Unit unitToAttack, int damage)
+        protected void ReduceDefence(Unit unitAttacking, Unit unitToAttack, int damage, int actionPoints)
         {
-            unitToAttack.photonView.RPC("DamageShields",  RpcTarget.All, damage);
+            //Toggle that unit has attacked
+            unitAttacking.ToggleAttackedThisTurn(true);
+            
+            //Decrement action points cost
+            unitAttacking.DecrementActionPoints(actionPoints);
+            
+            unitToAttack.photonView.RPC("DamageShields", RpcTarget.All, damage);
+            
+            //update your own stats 
+            GameUI.instance.DisplayUnitStats(unitAttacking);
             //update enemy stats on your display
             GameUI.instance.DisplayEnemyStats(unitToAttack);
             //update status bar
-            GameUI.instance.UpdateStatusBar("Targeting shields of "+ unitToAttack.GetUnitName());
+            GameUI.instance.AppendHistoryLog("Targeting shields of " + unitToAttack.GetUnitName());
+            
+            //Deselect unit by default 
+            PlayerController.me.DeselectUnit();
         }
         
         /*
          * Invokes method to attack an enemy unit's defence
         */
-        protected void BypassShields(Unit unitToAttack, int damage)
+        protected void ReduceMultiDefence(Unit unitAttacking, Unit unitToAttack, int damage)
         {
-            unitToAttack.photonView.RPC("BypassDefence",  RpcTarget.All, damage);
+            //toggle in range for display
+            
+            unitToAttack.ToggleUnitInRange(true);
+            //Toggle that unit has attacked
+            unitAttacking.ToggleAttackedThisTurn(true);
+            
+            unitToAttack.photonView.RPC("DamageShields", RpcTarget.All, damage);
+            
+            //update history log
+            GameUI.instance.AppendHistoryLog("Targeting shields of " + unitToAttack.GetUnitName());
+        }
+
+        /*
+         * Invokes method to attack an enemy unit's defence
+        */
+        protected void BypassShields(Unit unitAttacking, Unit unitToAttack, int damage, int actionPoints)
+        {
+            //Toggle that unit has attacked
+            unitAttacking.ToggleAttackedThisTurn(true);
+            
+            //Decrement action points cost
+            unitAttacking.DecrementActionPoints(actionPoints);
+            
+            unitToAttack.photonView.RPC("BypassDefence", RpcTarget.All, damage);
+            
+            //update your own stats 
+            GameUI.instance.DisplayUnitStats(unitAttacking);
             //update enemy stats on your display
             GameUI.instance.DisplayEnemyStats(unitToAttack);
             //update status bar
-            GameUI.instance.UpdateStatusBar("Bypassing shields, " + damage + " done to " + unitToAttack.GetUnitName());
+            GameUI.instance.AppendHistoryLog("Bypassing shields, " + damage + " done to " + unitToAttack.GetUnitName());
+            
+            //Deselect unit by default 
+            PlayerController.me.DeselectUnit();
         }
-        
+
         /*
          * Invokes method to attack an enemy unit's defence
         */
-        protected void DDoSAttack(Unit unitToAttack)
+        protected void DDoSAttack(Unit unitAttacking, Unit unitToAttack, int actionPoints)
         {
+            //Toggle that unit has attacked
+            unitAttacking.ToggleAttackedThisTurn(true);
+            
+            //Decrement action points cost
+            unitAttacking.DecrementActionPoints(actionPoints);
+            
             if (unitToAttack.GetUnitID() > 4)
                 Debug.Log("remove an AP from each unit");
             else
                 unitToAttack.photonView.RPC("MissTurn", RpcTarget.All);
+            
+            //update your own stats 
+            GameUI.instance.DisplayUnitStats(unitAttacking);
+            
+            //update status bar
+            GameUI.instance.AppendHistoryLog("Disabling enemy " + unitToAttack.GetUnitName() + " from acting next turn");
+            
+            //Deselect unit by default 
+            PlayerController.me.DeselectUnit();
         }
-        
+
         /*
          * Invoked at the start of selection in case any old units are selected
          */
-        protected void ResetSelection()
+        private void ResetSelection()
         {
+            moveSelected = false;
+
             foreach (Unit u in PlayerController.me.units)
                 u.ToggleSelect(false);
-            
+
             foreach (Unit u in PlayerController.enemy.units)
                 u.ToggleSelect(false);
         }
@@ -118,12 +229,12 @@ namespace Attacks
         * Updates status bar
         */
         protected void NoUnitsInRange() => GameUI.instance.UpdateStatusBar("No units in range...");
-        
-        
+
+
         /*
         * Updates status bar
         */
-        protected void NotEnoughActionPoints() => GameUI.instance.UpdateStatusBar("Not enough action points...");
+        private void NotEnoughActionPoints() => GameUI.instance.UpdateStatusBar("Not enough action points...");
 
         /*
          * Updates status bar
@@ -132,17 +243,17 @@ namespace Attacks
         {
             if (amount == 1)
                 GameUI.instance.UpdateStatusBar(amount + "unit in range...");
-           else 
+            else
                 GameUI.instance.UpdateStatusBar(amount + "units in range...");
         }
-        
 
-        /*
-         * TODO Remove methods
-         */
-        
-        private void HighlightTilesInRange(Unit unit)
+
+        public void HighlightTilesInRange(Unit unit)
         {
+            //Deselect any previous tiles
+            ResetAllTiles();
+            DeselectTilesInRange();
+
             //get tile below
             RaycastHit hit;
             Tile tile = null;
@@ -161,8 +272,14 @@ namespace Attacks
                 }
             }
         }
-        
-        private void DeselectTilesInRange()
+
+        protected void ResetAllTiles()
+        {
+            foreach (var tile in tiles)
+                tile.GetComponent<Tile>().Reset();
+        }
+
+        protected void DeselectTilesInRange()
         {
             //reset tiles in range
             foreach (Tile t in _tilesInRange)
@@ -170,7 +287,7 @@ namespace Attacks
 
             _tilesInRange.Clear();
         }
-        
+
         private Tile GetTargetTile()
         {
             RaycastHit hit;
@@ -181,6 +298,7 @@ namespace Attacks
 
             return tile;
         }
+        
         
     }
 }

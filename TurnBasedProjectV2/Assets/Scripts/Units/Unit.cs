@@ -29,6 +29,7 @@ namespace Units
         private bool attatckedThisTurn;
         private bool isSelected;
         private bool missTurn;
+        private bool waitingToAttack;
         
         /*
          * Initiate units current health and defence (which are variables
@@ -189,6 +190,11 @@ namespace Units
         * Invoked to change a units used status
         */
         public void ToggleAttackedThisTurn(bool attacked) => attatckedThisTurn = attacked;
+        
+        /*
+         * Invoked to allow unit to select to something when waiting to attack
+        */
+        public void ToggleWaitingToAttack(bool isWaiting) => waitingToAttack = isWaiting;
 
         /*
          * Invoked to unmiss a turn
@@ -226,5 +232,6 @@ namespace Units
         public string GetUnitInformation() => unitInformation;
         public bool ShouldMissTurn() => missTurn;
         public int GetActionPoints() => actionPoints;
+        public bool WaitingToAttack() => waitingToAttack;
     }
 }

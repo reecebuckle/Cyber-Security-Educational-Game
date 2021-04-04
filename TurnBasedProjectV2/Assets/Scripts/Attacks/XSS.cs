@@ -17,11 +17,11 @@ namespace Attacks
         private bool waiting;
         private bool unitSelected;
 
-        [Header("Move Attributes")] 
-        [SerializeField] private int damage = 2;
+        [Header("Move Attributes")] [SerializeField]
+        private int damage = 2;
+
         [SerializeField] private int attackRange = 1;
         [SerializeField] private int actionPoints = 3;
-
 
         /*
          * Whenever the unit is selected, this is enabled (as we can't reference a prefab)
@@ -33,37 +33,37 @@ namespace Attacks
         */
         private void OnDisable()
         {
+            DeselectMove();
             unit = null;
-
+        }
+        
+        /*
+         * Reset move status if deselecting unit or just selecting a different move
+         */
+        private void DeselectMove()
+        {
             foreach (Unit u in unitsInRange)
                 u.ToggleUnitInRange(false);
 
             unitsInRange.Clear();
+            moveSelected = false;
             waiting = false;
+            unit.ToggleWaitingToAttack(false);
+            
+            ResetAllTiles();
         }
+        
 
         /*
         * Event input system for receiving an asic attack (one unit left, right, up or down)
         */
         public void OnClickXSSAttack()
         {
-            //Reset other selected units if swapping
-            ResetSelection();
-
             //Always clear if there were previous units in range
             unitsInRange.Clear();
-
-            //return if unit has already attacked this turn,
-            if (unit.AttackedThisTurn()) return;
-
-            // if unit instructed to miss
-            if (unit.ShouldMissTurn()) return;
-
-            if (unit.GetActionPoints() < actionPoints)
-            {
-                NotEnoughActionPoints();
-                return;
-            }
+            
+            //Go through basic attack flow process (equivalent for each unit)
+            AttackFlowProcess(unit, actionPoints);
 
             //returns units in range
             unitsInRange = FindUnitsInRange(unit, attackRange);
@@ -107,14 +107,10 @@ namespace Attacks
 
                         if (unitsInRange.Contains(clickedUnit))
                         {
-                            unit.ToggleAttackedThisTurn(true);
-                            AttackEnemyUnit(clickedUnit, damage);
-                            //decrement points cost and update UI
-                            unit.DecrementActionPoints(actionPoints);
-                            GameUI.instance.DisplayUnitStats(unit);
+                            AttackEnemyUnit(unit, clickedUnit, damage, actionPoints);
                             //stop waiting for input
                             waiting = false;
-                            PlayerController.me.DeselectUnit();
+                            DeselectMove();
                         }
                     }
                 }

@@ -31,13 +31,24 @@ namespace Attacks
         */
         private void OnDisable()
         {
+            DeselectMove();
             unit = null;
-
+        }
+        
+        /*
+         * Reset move status if deselecting unit or just selecting a different move
+         */
+        private void DeselectMove()
+        {
             foreach (Unit u in unitsInRange)
                 u.ToggleUnitInRange(false);
 
             unitsInRange.Clear();
+            moveSelected = false;
             waiting = false;
+            unit.ToggleWaitingToAttack(false);
+            
+            ResetAllTiles();
         }
 
         /*
@@ -45,23 +56,11 @@ namespace Attacks
         */
         public void OnClickFirewallDefend()
         {
-            //Reset other selected units if swapping
-            ResetSelection();
-
             //Always clear if there were previous units in range
             unitsInRange.Clear();
-
-            //return if unit has already attacked this turn,
-            if (unit.AttackedThisTurn()) return;
-
-            // if unit instructed to miss
-            if (unit.ShouldMissTurn()) return;
-
-            if (unit.GetActionPoints() < actionPoints)
-            {
-                NotEnoughActionPoints();
-                return;
-            }
+            
+            //Go through basic attack flow process (equivalent for each unit)
+            AttackFlowProcess(unit, actionPoints);
 
             //returns units in range
             unitsInRange = FindUnitsInRange(unit, attackRange);
@@ -109,11 +108,8 @@ namespace Attacks
 
                     // return if unit is not OURS
                     if (!PlayerController.me.units.Contains(clickedUnit)) return;
-
-                    //make unit unable to attack or move again
-                    unit.ToggleAttackedThisTurn(true);
                     
-                    DefendAllyUnit(clickedUnit, defenceBoost);
+                    DefendAllyUnit(unit, clickedUnit, defenceBoost);
                     //decrement points cost and update UI
                     unit.DecrementActionPoints(actionPoints);
                     GameUI.instance.DisplayUnitStats(unit);
@@ -121,6 +117,7 @@ namespace Attacks
                     waiting = false;
                     //prevent from showing movement tiles after
                     PlayerController.me.DeselectUnit();
+                    DeselectMove();
                 }
             }
         }

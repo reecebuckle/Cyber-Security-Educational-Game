@@ -27,17 +27,28 @@ namespace Attacks
         private void OnEnable() => unit = PlayerController.me.selectedUnit;
 
         /*
-         * Whenever another unit is selected, this is cleared
-         */
+        * Whenever another unit is selected, this is cleared
+        */
         private void OnDisable()
         {
+            DeselectMove();
             unit = null;
-
+        }
+        
+        /*
+         * Reset move status if deselecting unit or just selecting a different move
+         */
+        private void DeselectMove()
+        {
             foreach (Unit u in unitsInRange)
                 u.ToggleUnitInRange(false);
 
             unitsInRange.Clear();
+            moveSelected = false;
             waiting = false;
+            unit.ToggleWaitingToAttack(false);
+            
+            ResetAllTiles();
         }
 
         /*
@@ -45,23 +56,11 @@ namespace Attacks
         */
         public void OnClickDataExposureAttack()
         {
-            //Reset other selected units if swapping
-            ResetSelection();
-
             //Always clear if there were previous units in range
             unitsInRange.Clear();
-
-            //return if unit has already attacked this turn,
-            if (unit.AttackedThisTurn()) return;
-
-            // if unit instructed to miss
-            if (unit.ShouldMissTurn()) return;
-
-            if (unit.GetActionPoints() < actionPoints)
-            {
-                NotEnoughActionPoints();
-                return;
-            }
+            
+            //Go through basic attack flow process (equivalent for each unit)
+            AttackFlowProcess(unit, actionPoints);
 
             //returns units in range
             unitsInRange = FindUnitsInRange(unit, attackRange);
@@ -108,18 +107,9 @@ namespace Attacks
 
                         if (unitsInRange.Contains(clickedUnit))
                         {
-                            //make unit unable to attack or move again
-                            unit.ToggleAttackedThisTurn(true);
-
-                            ReduceDefence(clickedUnit, damage);
-
-                            //decrement points cost and update UI
-                            unit.DecrementActionPoints(actionPoints);
-                            GameUI.instance.DisplayUnitStats(unit);
-                            //stop waiting for input
+                            ReduceDefence(unit, clickedUnit, damage, actionPoints);
                             waiting = false;
-                            //prevent from showing movement tiles after
-                            PlayerController.me.DeselectUnit();
+                            DeselectMove();
                         }
                     }
                 }

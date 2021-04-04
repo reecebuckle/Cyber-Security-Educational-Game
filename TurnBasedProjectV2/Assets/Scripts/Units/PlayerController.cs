@@ -146,6 +146,7 @@ namespace Units
                     selectedUnit.GetComponent<UnitController>().DeselectTiles();
 
                 selectedUnit.ToggleSelect(false);
+                selectedUnit.ToggleWaitingToAttack(false);
             }
 
             selectedUnit = null;
@@ -226,7 +227,7 @@ namespace Units
             _round++;
             GameUI.instance.UpdateRoundText(_round);
             //update status bar
-            GameUI.instance.UpdateStatusBar("Each unit gained: " + actionPointGain + " AP");
+            GameUI.instance.AppendHistoryLog("Each unit gained: " + actionPointGain + " AP");
         }
 
 

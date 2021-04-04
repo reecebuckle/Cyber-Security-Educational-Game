@@ -19,7 +19,7 @@ namespace Units
         [Header("BFS Variables")] public List<Tile> adjacencyList = new List<Tile>();
         public bool visited = false;
         public Tile parent = null;
-        public int distance = 0; //set default to 5
+        public int distance = 0; 
 
         private Material _matInstance;
 
@@ -33,8 +33,8 @@ namespace Units
         private void Update() => SelectTile();
 
         /*
-    * Highlights the selected tile
-    */
+        * Highlights the selected tile
+        */
         private void SelectTile()
         {
             if (current)
@@ -52,6 +52,15 @@ namespace Units
                _matInstance.SetFloat("_Metallic", 0.0f);
                _matInstance.color = Color.red;
             }
+            
+            else if (attack)
+            {
+                // _matInstance.SetFloat("_DisplayEmitAmount", 1.0f);
+                // GetComponent<Renderer>().material = _matInstance;
+                //_matInstance.SetFloat("_DisplayEmitAmount", 1.0f);
+                _matInstance.SetFloat("_Metallic", 0.0f);
+                _matInstance.color = Color.red;
+            }
 
             else if (selectable)
             {
@@ -60,16 +69,7 @@ namespace Units
                 _matInstance.SetFloat("_Metallic", 0.0f);
                 _matInstance.color = Color.green;
             }
-
-            else if (attack)
-            {
-               // _matInstance.SetFloat("_DisplayEmitAmount", 1.0f);
-               // GetComponent<Renderer>().material = _matInstance;
-               //_matInstance.SetFloat("_DisplayEmitAmount", 1.0f);
-               _matInstance.SetFloat("_Metallic", 0.0f);
-               _matInstance.color = Color.red;
-            }
-
+            
             else
             {
                 //_matInstance.SetFloat("_DisplayEmitAmount", 0.0f);
@@ -161,8 +161,7 @@ namespace Units
                 }
             }
         }
-
-
+        
         /*
         * Reset all variables after every turn or when FindNeighbours is invoked
         */

@@ -26,8 +26,8 @@ namespace Units
         //Stack gives us the path in reverse order
         public Stack<Tile> path = new Stack<Tile>();
         private Tile _currentTile; // current tile in the pathfinding process
-
-
+        
+        
         /*
         * Cache all tiles right away
         * Needs to be initialised once at the beginning of the game
@@ -126,8 +126,7 @@ namespace Units
                 }
             }
         }
-
-
+        
         /*
         * Move to target tile
         */
@@ -226,5 +225,11 @@ namespace Units
                 return true;
             else return false;
         }
+
+        /*
+         * Return all tiles
+         */
+        public GameObject[] GetAllTiles() => tiles;
+
     }
 }

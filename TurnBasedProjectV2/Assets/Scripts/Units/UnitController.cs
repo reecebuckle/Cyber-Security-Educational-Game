@@ -27,14 +27,16 @@ namespace Units
                 Move(unit);
             
             //return if unit isn't selected by the player controller
-            if (!unit.IsSelected())
-                return;
+            if (!unit.IsSelected()) return;
 
-            //TODO return if unit has attacked this turn already - maybe
+            //Uncomment this to allow unit to move AFTER attacking
             if (unit.AttackedThisTurn()) return;
             
             //return if unit has moved this turn or forced to skipp
             if (unit.MovedThisTurn() || unit.ShouldMissTurn()) return;
+            
+            //don't allow target to move if waiting to attack
+            if (unit.WaitingToAttack()) return;
             
             //this part of the block actually initiates the moving so checked last
             if (!moving)
@@ -63,16 +65,17 @@ namespace Units
 
                         if (t.selectable)
                         {
-                            PlayerController.me.DecrementUnitsRemaining(); 
+                            PlayerController.me.DecrementUnitsRemaining();
                             MoveToTile(t);
                         }
-                            
-                            
+
+
                     }
                 }
             }
+
         }
-        
+
 
         /*
         * Removes selectable tiles
