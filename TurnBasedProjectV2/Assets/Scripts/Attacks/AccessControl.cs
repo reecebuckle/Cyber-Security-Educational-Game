@@ -16,6 +16,7 @@ namespace Attacks
         private bool unitSelected;
 
         [Header("Move Attributes")] 
+        //
         [SerializeField] private int defenceBoost = 1;
         [SerializeField] private int actionPoints = 2;
         [SerializeField] private int attackRange = 1;

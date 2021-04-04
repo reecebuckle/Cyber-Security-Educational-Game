@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Attacks;
 using Managers;
 using Photon.Pun;
 using TMPro;
@@ -256,7 +257,7 @@ namespace UI
          * Displays Move Information of selected move in the information menu
          * Attach this script to each unit move, and link to the info button on that move
          */
-        public void DisplayMoveInfo(UnitAbility ability)
+        public void DisplayMoveInfo(AttackUnit ability)
         {
             informationNameText.text = ability.Name();
             informationBodyText.text = ability.Information();

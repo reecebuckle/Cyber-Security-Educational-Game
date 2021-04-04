@@ -13,8 +13,13 @@ namespace Attacks
     {
         private List<Unit> _unitsInRange = new List<Unit>();
         private List<Tile> _tilesInRange = new List<Tile>();
-        public bool moveSelected;
+        protected bool moveSelected;
         private GameObject[] tiles;
+        
+        [Header("Move Information")]
+        //
+        [SerializeField] private string abilityName;
+        [SerializeField] private string information;
 
         /*
         * Cache all tiles right away for used when resetting tile options
@@ -328,6 +333,11 @@ namespace Attacks
             return tile;
         }
         
+        /*
+        * Use expression body to return read only values pertaining to information about a unit ability 
+        */
+        public string Name() => abilityName;
+        public string Information() => information;
         
     }
 }
