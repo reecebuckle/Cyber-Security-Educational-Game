@@ -1,4 +1,5 @@
-﻿using Photon.Realtime;
+﻿using System.Collections;
+using Photon.Realtime;
 using UnityEngine;
 
 namespace Units
@@ -21,6 +22,10 @@ namespace Units
         */
         private void Update()
         {
+            //continue moving if another unit is selected, hence put this first!
+            if (moving)
+                Move(unit);
+            
             //return if unit isn't selected by the player controller
             if (!unit.IsSelected())
                 return;
@@ -30,18 +35,14 @@ namespace Units
             
             //return if unit has moved this turn or forced to skipp
             if (unit.MovedThisTurn() || unit.ShouldMissTurn()) return;
-
-
+            
+            //this part of the block actually initiates the moving so checked last
             if (!moving)
             {
                 FindSelectableTiles(unit);
                 WaitToSelectTileInRange();
             }
-            else
-            {
-                PlayerController.me.DecrementUnitsRemaining();
-                Move(unit);
-            }
+          
         }
 
         /*
@@ -61,7 +62,12 @@ namespace Units
                         Tile t = hit.collider.GetComponent<Tile>();
 
                         if (t.selectable)
+                        {
+                            PlayerController.me.DecrementUnitsRemaining(); 
                             MoveToTile(t);
+                        }
+                            
+                            
                     }
                 }
             }

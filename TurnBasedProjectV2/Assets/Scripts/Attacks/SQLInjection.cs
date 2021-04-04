@@ -72,6 +72,8 @@ namespace Attacks
                 NoUnitsInRange();
                 return;
             }
+            
+            waiting = true;
 
             //Loop through units in range and show them
             foreach (Unit u in unitsInRange.Where(u => PlayerController.enemy.units.Contains(u)))

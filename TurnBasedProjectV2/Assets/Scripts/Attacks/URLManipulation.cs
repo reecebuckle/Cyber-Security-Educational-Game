@@ -24,18 +24,14 @@ namespace Attacks
         /*
          * Whenever the unit is selected, this is enabled (as we can't reference a prefab)
         */
-        private void OnEnable()
-        {
-            Debug.Log("Setting the selected unit");
-            unit = PlayerController.me.selectedUnit;
-        }
+        private void OnEnable() => unit = PlayerController.me.selectedUnit;
+        
 
         /*
         * Whenever another unit is selected, this is cleared
         */
         private void OnDisable()
         {
-            Debug.Log("Disabling the attack handler");
             unit = null;
 
             foreach (Unit u in unitsInRange)

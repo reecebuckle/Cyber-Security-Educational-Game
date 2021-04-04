@@ -9,10 +9,12 @@ namespace Units
 {
     public class PlayerController : MonoBehaviourPun
     {
-        [Header("Reference to Photon Player")] 
+        [Header("Reference to Photon Player")]
+        //
         public Player photonPlayer; // Photon.Realtime.Player class
 
         [Header("Units for this Player")] 
+        //
         public string[] unitsToSpawn;
         public Transform[] unitSpawnPositions; // array of all spawn positions for this player
         public List<Unit> units = new List<Unit>(); // list of all our units
@@ -20,18 +22,19 @@ namespace Units
         public Unit selectedEnemyUnit; // currently selected enemy unit
 
         [Header("Reference to P1 and P2")] 
+        //
         public static PlayerController me; // local player
         public static PlayerController enemy; // non-local enemy player
 
-        private int unitsRemaining;
-        private int round = 0; //starts off at 0
+        private int _unitsRemaining;
+        private int _round = 0; //starts off at 0
 
         /*
         * Called when the game begins
         */
         [PunRPC]
-        private void Initialize(Player player){
-        
+        private void Initialize(Player player)
+        {
             photonPlayer = player;
             if (player.IsLocal)
             {
@@ -120,15 +123,15 @@ namespace Units
             // Unselect the current unit IF one is selected
             if (selectedUnit != null)
                 DeselectUnit();
-            
+
             clickedUnit.ToggleSelect(true);
             selectedUnit = clickedUnit;
+
             // TODO update this FindSelectableTiles(selectedUnit); here rather than in update??
             // Will display selected unit for us or enemy
             GameUI.instance.ToggleUnitBar(selectedUnit);
             GameUI.instance.DisplayUnitStats(selectedUnit);
             GameUI.instance.UpdateStatusBar("Selecting unit: " + clickedUnit.GetUnitName());
-            
         }
 
         /*
@@ -139,9 +142,9 @@ namespace Units
             if (selectedUnit != null)
             {
                 //exclude database and web server
-                if (selectedUnit.GetUnitID() < 5) 
+                if (selectedUnit.GetUnitID() < 5)
                     selectedUnit.GetComponent<UnitController>().DeselectTiles();
-                
+
                 selectedUnit.ToggleSelect(false);
             }
 
@@ -167,7 +170,7 @@ namespace Units
         public void EndTurn()
         {
             DeselectUnit();
-            
+
             //Remove selectable tiles if it was there
             foreach (Unit unit in units)
             {
@@ -177,7 +180,6 @@ namespace Units
                     unit.GetComponent<UnitController>().DeselectTiles();
                     unit.ToggleMissTurn(false);
                 }
-               
             }
 
             // Invoke the next turn method for the other player!
@@ -189,22 +191,28 @@ namespace Units
         */
         public void BeginTurn()
         {
-            Debug.Log("Beginning turn");
-            unitsRemaining = units.Count;
-            GameUI.instance.UpdateWaitingUnitsText(unitsRemaining);
-            
+            _unitsRemaining = units.Count;
+
             //how many action points to give to all units
             int actionPointGain = 2;
-            
+
             //check to see we have a webserver
             Unit webserver = units.Find(unit => unit.GetUnitID() == 5);
             if (webserver != null)
+            {
                 actionPointGain++;
-            
+                _unitsRemaining--; //not counting webserver as a valid movable unit
+            }
+
             //check to see we have a database and increment action points
             Unit database = units.Find(unit => unit.GetUnitID() == 6);
             if (database != null)
+            {
                 actionPointGain++;
+                _unitsRemaining--; //not counting webserver as a valid movable unit
+            }
+            
+            GameUI.instance.UpdateWaitingUnitsText(_unitsRemaining);
             
             //reset all units moved/attacked and increment action points
             foreach (Unit u in units)
@@ -213,24 +221,25 @@ namespace Units
                 u.ToggleAttackedThisTurn(false);
                 u.IncrementActionPoints(actionPointGain);
             }
+
             //increment round number
-            round++;
-            GameUI.instance.UpdateRoundText(round);
+            _round++;
+            GameUI.instance.UpdateRoundText(_round);
             //update status bar
             GameUI.instance.UpdateStatusBar("Each unit gained: " + actionPointGain + " AP");
         }
-        
-        
+
+
         /*
          * Decrements units remaining after a unit has moved
          */
         public void DecrementUnitsRemaining()
         {
-            unitsRemaining--;
-            if (unitsRemaining < 0)
-                unitsRemaining = 0;
+            _unitsRemaining--;
+            if (_unitsRemaining < 0)
+                _unitsRemaining = 0;
 
-            GameUI.instance.UpdateWaitingUnitsText(unitsRemaining);
+            GameUI.instance.UpdateWaitingUnitsText(_unitsRemaining);
         }
     }
 }

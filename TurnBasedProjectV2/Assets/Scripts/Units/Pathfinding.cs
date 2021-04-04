@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 
@@ -42,7 +43,7 @@ namespace Units
         /*
          * Utility function to return current tile underneath a selected Unit
         */
-        public void GetCurrentTile()
+        private void GetCurrentTile()
         {
             _currentTile = GetTargetTile();
             _currentTile.current = true;
@@ -125,6 +126,7 @@ namespace Units
                 }
             }
         }
+
 
         /*
         * Move to target tile

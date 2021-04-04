@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using Managers;
 using Photon.Pun;
 using TMPro;
@@ -10,34 +11,53 @@ namespace UI
 {
     public class GameUI : MonoBehaviourPun
     {
-        [Header("Simple Information")] public TextMeshProUGUI leftPlayerText;
+        [Header("Simple Information")]
+        //
+        public TextMeshProUGUI leftPlayerText;
         public TextMeshProUGUI rightPlayerText;
         public TextMeshProUGUI waitingUnitsText;
         public TextMeshProUGUI roundText;
         public TextMeshProUGUI winText;
         public Button endTurnButton;
 
-        [Header("Our Unit Information ")] public TextMeshProUGUI unitNameText;
+        [Header("Our Unit Information ")] 
+        //
+        public TextMeshProUGUI unitNameText;
         public TextMeshProUGUI unitInfoText;
         public GameObject unitStatsUI;
 
-        [Header("Enemy Unit Information ")] public TextMeshProUGUI enemyNameText;
+        [Header("Enemy Unit Information ")] 
+        //
+        public TextMeshProUGUI enemyNameText;
         public TextMeshProUGUI enemyInfoText;
         public GameObject enemyStatsUI;
 
-        [Header("Unit Bar Options")] public GameObject UnitBarScout;
+        [Header("Unit Bar Options")] 
+        //
+        public GameObject UnitBarScout;
         public GameObject UnitBarHacker;
         public GameObject UnitBarHeavy;
         public GameObject UnitBarAnalyst;
         public GameObject UnitBarDatabase;
         public GameObject UnitBarWebServer;
 
-        [Header("Status Bar")] public GameObject statusBar;
+        [Header("Status Bar")] 
+        //
+        public GameObject statusBar;
         public TextMeshProUGUI statusText;
 
-        [Header("Information Window")] public TextMeshProUGUI informationNameText;
+        [Header("Information Window")]
+        //
+        public TextMeshProUGUI informationNameText;
         public TextMeshProUGUI informationBodyText;
         public GameObject informationUI;
+
+        [Header("History Log")]
+        //
+        public GameObject historyUI;
+        public MessageLog messagePrefab;
+        public Transform historyContent;
+        private List<MessageLog> history = new List<MessageLog>();
 
         //Singleton reference of UI
         public static GameUI instance;
@@ -169,6 +189,7 @@ namespace UI
             informationUI.SetActive(false);
             unitStatsUI.SetActive(false);
             enemyStatsUI.SetActive(false);
+            statusBar.SetActive(false);
         }
 
         /*
@@ -241,14 +262,47 @@ namespace UI
             informationBodyText.text = ability.Information();
             informationUI.SetActive(true);
         }
+        
+        /*
+         * Alternative to status bar (history log)
+         */
+        public void AppendHistoryLog(string message)
+        {
+            //Prevent overflow
+            //if (history.Count >= 15)
+            //    history.Remove(history[0]);
+
+            MessageLog messageLine = Instantiate(messagePrefab, historyContent);
+            if (messageLine != null)
+            {
+                messageLine.SetMessageContent("\n " + $"<u> {message} </u>");
+                history.Add(messageLine);
+            }
+        }
 
         /*
          * Updates status bar
          */
         public void UpdateStatusBar(string message)
         {
-            statusText.text += string.Format(message);
-            StartCoroutine(DisplayStatusBar());
+            statusText.text = string.Format(message);
+            statusBar.SetActive(true);
+        }
+        
+        /*
+         * Open and close history Log
+         */
+        public void OnClickOpenHistoryLog() => historyUI.SetActive(true);
+        public void OnClickCloseHistoryLog() => historyUI.SetActive(false);
+        
+
+        /*
+         * Alternative to IEnumerator(button click)
+         */
+        public void OnClickCloseStatusBar()
+        {
+            statusText.text = "";
+            statusBar.SetActive(false);
         }
         
         /*
@@ -258,7 +312,7 @@ namespace UI
         private IEnumerator DisplayStatusBar()
         {
             statusBar.SetActive(true);
-            yield return new WaitForSeconds(5); 
+            yield return new WaitForSeconds(10); 
             statusBar.SetActive(false);
         }
         

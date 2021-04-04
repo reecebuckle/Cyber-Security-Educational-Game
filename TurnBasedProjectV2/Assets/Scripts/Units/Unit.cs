@@ -39,7 +39,6 @@ namespace Units
             currentDef = maxDefence;
             quad.SetActive(false);
             selectionQuad.SetActive(false);
-            actionPoints += 3; //set by 2 at default
         }
 
         // called when the unit is spawned in
