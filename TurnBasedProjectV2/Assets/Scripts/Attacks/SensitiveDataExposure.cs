@@ -60,7 +60,7 @@ namespace Attacks
             unitsInRange.Clear();
             
             //Go through basic attack flow process (equivalent for each unit)
-            AttackFlowProcess(unit, actionPoints);
+            AttackFlowProcess(unit, actionPoints, attackRange);
 
             //returns units in range
             unitsInRange = FindUnitsInRange(unit, attackRange);

@@ -55,7 +55,7 @@ namespace Attacks
         /*
          * Checks the attack flow process to validate attacks
          */
-        protected void AttackFlowProcess(Unit unitAttacking, int actionPoints)
+        protected void AttackFlowProcess(Unit unitAttacking, int actionPoints, int attackRange)
         {
             //Reset other selected units if swapping
             ResetSelection();
@@ -76,7 +76,11 @@ namespace Attacks
             //highlight tiles in range anyway
             moveSelected = true;
             unitAttacking.ToggleWaitingToAttack(true);
-            HighlightTilesInRange(unitAttacking);
+            
+            if(attackRange == 1)
+                HighlightTilesInRange(unitAttacking);
+            else
+                HighlightTilesInExtendedRange(unitAttacking);
         }
 
         /*
@@ -265,6 +269,31 @@ namespace Attacks
             {
                 tile.FindNeighboursInRange();
 
+                foreach (Tile t in tile.adjacencyList)
+                {
+                    _tilesInRange.Add(t);
+                    t.attack = true;
+                }
+            }
+        }
+        
+        public void HighlightTilesInExtendedRange(Unit unit)
+        {
+            //Deselect any previous tiles
+            ResetAllTiles();
+            DeselectTilesInRange();
+
+            //get tile below
+            RaycastHit hit;
+            Tile tile = null;
+
+            if (Physics.Raycast(unit.gameObject.transform.position, Vector3.down, out hit, 1))
+                tile = hit.collider.GetComponent<Tile>();
+
+            if (tile != null)
+            {
+                tile.FindNeighboursInExtendedRange();
+                
                 foreach (Tile t in tile.adjacencyList)
                 {
                     _tilesInRange.Add(t);
