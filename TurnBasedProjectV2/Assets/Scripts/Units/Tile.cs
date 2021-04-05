@@ -113,57 +113,27 @@ namespace Units
                 }
             }
         }
-
-
-        /*
-         * INVOKED BY ATTACK RANGE ALGORITHM FOR 1 TILE ADJACENT
-         */
-        public void FindNeighboursInRange()
-
-        {
-            Reset();
-            //Check the 4 directions (forwards, backwards, right and left)
-            CheckTilesInRange(Vector3.forward);
-            CheckTilesInRange(-Vector3.forward);
-            CheckTilesInRange(Vector3.right);
-            CheckTilesInRange(-Vector3.right);
-        }
-
-        private void CheckTilesInRange(Vector3 direction)
-        {
-            Vector3 halfExtents = new Vector3(0.25f, 0.25f, 0.25f);
-
-            //returns an array of colliders
-            Collider[] colliders = Physics.OverlapBox(transform.position + direction, halfExtents);
-
-            //Iterate through colliders, check if there's a tile present
-            foreach (Collider item in colliders)
-            {
-                Tile tile = item.GetComponent<Tile>();
-                adjacencyList.Add(tile);
-            }
-        }
-
-
+        
         /*
          * INVOKED BY ATTACK RANGE ALGORITHM FOR 2 TILES IN EACH DIRECTION
          */
-        public void FindNeighboursInExtendedRange()
+        public void FindNeighboursInExtendedRange(int attackRange)
 
         {
             Reset();
             //Check the 4 directions (forwards, backwards, right and left)
-            CheckTilesInExtendedDirection(Vector3.forward);
-            CheckTilesInExtendedDirection(-Vector3.forward);
-            CheckTilesInExtendedDirection(Vector3.right);
-            CheckTilesInExtendedDirection(-Vector3.right);
+            CheckTilesInExtendedDirection(Vector3.forward, attackRange);
+            CheckTilesInExtendedDirection(-Vector3.forward, attackRange);
+            CheckTilesInExtendedDirection(Vector3.right, attackRange);
+            CheckTilesInExtendedDirection(-Vector3.right,attackRange);
         }
 
         /*
         * For the first tile!
         */
-        private void CheckTilesInExtendedDirection(Vector3 direction)
+        private void CheckTilesInExtendedDirection(Vector3 direction, int attackRange)
         {
+            Debug.Log("Checking extended direcetion, range: " + attackRange);
             Vector3 halfExtents = new Vector3(0.25f, 0.25f, 0.25f);
 
             //returns an array of colliders
@@ -173,37 +143,25 @@ namespace Units
             foreach (Collider item in colliders)
             {
                 Tile tile = item.GetComponent<Tile>();
-                adjacencyList.Add(tile);
-
-                Tile tile2 = tile.TilesInExtendedDirection(direction);
-
-                if (tile2 != null)
-                    adjacencyList.Add(tile2);
-            }
-        }
-
-        /*
-         * For the second tile!
-         */
-        private Tile TilesInExtendedDirection(Vector3 direction)
-        {
-            Vector3 halfExtents = new Vector3(0.25f, 0.25f, 0.25f);
-
-            //returns an array of colliders
-            Collider[] colliders = Physics.OverlapBox(transform.position + direction, halfExtents);
-
-            //Iterate through colliders, check if there's a tile present
-            foreach (Collider item in colliders)
-            {
-                Tile tile = item.GetComponent<Tile>();
+                
                 if (tile != null)
-                    return tile;
+                {
+                    RaycastHit hit;
+
+                    //from centre of tile, look to see if something is there, if it is, add it to our adjacency list
+                    if (!Physics.Raycast(tile.transform.position, Vector3.up, out hit, 1))
+                    {
+                        adjacencyList.Add(tile);
+                        tile.attack = true;
+
+                        //if attack range is still above 1, recursively call method and decrement range until it reaches 1 (and do this on the new tile)
+                        if (attackRange > 1)
+                            tile.CheckTilesInExtendedDirection(direction, (attackRange - 1));
+                    }
+                }
             }
-
-            return null;
         }
-
-
+        
         /*
         * Reset all variables after every turn or when FindNeighbours is invoked
         */

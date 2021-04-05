@@ -14,11 +14,12 @@ namespace Attacks
         private Unit unit;
         private List<Unit> unitsInRange = new List<Unit>();
         private bool unitSelected;
+        private bool waiting;
 
         [Header("Move Attributes")] 
         //
         [SerializeField] private int defenceBoost = 1;
-        [SerializeField] private int actionPoints = 2;
+        [SerializeField] private int actionPoints = 3;
         [SerializeField] private int attackRange = 1;
 
         /*
@@ -59,7 +60,7 @@ namespace Attacks
             unitsInRange.Clear();
             
             //Go through basic attack flow process (equivalent for each unit)
-            AttackFlowProcess(unit, actionPoints, attackRange);
+            if (!AttackFlowProcess(unit, actionPoints, attackRange)) return;
 
             //returns units in range
             unitsInRange = FindUnitsInRange(unit, attackRange);
@@ -70,19 +71,55 @@ namespace Attacks
                 NoUnitsInRange();
                 return;
             }
+
+            GameUI.instance.UpdateStatusBar("Restores shields of all friendly units in range. Right-click a friendly in range...");
+            waiting = true;
             
             //Loop through units in range, if they're OUR unit, boost their defence by one
             foreach (Unit unitToDefend in unitsInRange.Where(u => PlayerController.me.units.Contains(u)))
-                DefendAllyUnit(unit, unitToDefend, defenceBoost);
+                unitToDefend.ToggleUnitInRange(true);
             
+        }
+        
+        /*
+        * Wait until a unit is selected
+        */
+        private void Update()
+        {
+            if (waiting)
+                WaitToSelectUnitInRange();
+        }
 
-            //decrement points cost and update UI
-            unit.DecrementActionPoints(actionPoints);
-            GameUI.instance.DisplayUnitStats(unit);
-            //prevent from showing movement tiles after
-            DeselectMove();
-            PlayerController.me.DeselectUnit();
-            DeselectMove();
+        private void WaitToSelectUnitInRange()
+        {
+            //wait for player input
+            if (Input.GetMouseButtonUp(1))
+            {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit))
+                {
+                    if (hit.collider.CompareTag("Unit"))
+                    {
+                        Unit clickedUnit = hit.collider.GetComponent<Unit>();
+
+                        if (unitsInRange.Contains(clickedUnit))
+                        {
+                            //Loop through units in range, if they're OUR unit, boost their defence by one
+                            foreach (Unit unitToDefend in unitsInRange.Where(u => PlayerController.me.units.Contains(u)))
+                                DefendAllyUnit(unit, unitToDefend, defenceBoost);
+
+                            //decrement points cost and update UI
+                            unit.DecrementActionPoints(actionPoints);
+                            GameUI.instance.DisplayUnitStats(unit);
+                            //prevent from showing movement tiles after
+                            PlayerController.me.DeselectUnit();
+                            DeselectMove();
+                        }
+                    }
+                }
+            }
         }
     }
 }

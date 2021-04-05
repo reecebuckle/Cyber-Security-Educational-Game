@@ -15,10 +15,12 @@ namespace Attacks
         private List<Tile> _tilesInRange = new List<Tile>();
         protected bool moveSelected;
         private GameObject[] tiles;
-        
+
         [Header("Move Information")]
         //
-        [SerializeField] private string abilityName;
+        [SerializeField]
+        private string abilityName;
+
         [SerializeField] private string information;
 
         /*
@@ -56,36 +58,43 @@ namespace Attacks
                 _unitsInRange.Add(otherUnit);
             }
         }
-        
+
         /*
          * Checks the attack flow process to validate attacks
          */
-        protected void AttackFlowProcess(Unit unitAttacking, int actionPoints, int attackRange)
+        protected bool AttackFlowProcess(Unit unitAttacking, int actionPoints, int attackRange)
         {
-            //Reset other selected units if swapping
+            // Reset other selected units if swapping
             ResetSelection();
             unitAttacking.ToggleWaitingToAttack(false);
-            
-            //return if unit has already attacked this turn,
-            if (unitAttacking.AttackedThisTurn()) return;
+
+            // return if unit has already attacked this turn,
+            if (unitAttacking.AttackedThisTurn())
+            {
+                UnitHasAlreadyAttacked();
+                return false;
+            }
 
             // if unit instructed to miss
-            if (unitAttacking.ShouldMissTurn()) return;
+            if (unitAttacking.ShouldMissTurn())
+            {
+                UnitCannotMove();
+                return false;
+            }
 
+            // if unit does not have enough action points
             if (unitAttacking.GetActionPoints() < actionPoints)
             {
                 NotEnoughActionPoints();
-                return;
+                return false;
             }
 
             //highlight tiles in range anyway
             moveSelected = true;
             unitAttacking.ToggleWaitingToAttack(true);
-            
-            if(attackRange == 1)
-                HighlightTilesInRange(unitAttacking);
-            else
-                HighlightTilesInExtendedRange(unitAttacking);
+
+            HighlightTilesInExtendedRange(unitAttacking, attackRange);
+            return true;
         }
 
         /*
@@ -95,21 +104,24 @@ namespace Attacks
         {
             //Toggle that unit has attacked
             unitAttacking.ToggleAttackedThisTurn(true);
-           
+
             //Decrement action points cost
             unitAttacking.DecrementActionPoints(actionPoints);
             unitToAttack.photonView.RPC("TakeDamage", RpcTarget.All, damage);
-            
+
             //deselect mopve
             moveSelected = false;
-            
+
             //update your own stats 
             GameUI.instance.DisplayUnitStats(unitAttacking);
             //update enemy stats on your display
             GameUI.instance.DisplayEnemyStats(unitToAttack);
             //update status bar
-            GameUI.instance.AppendHistoryLog(damage + " done to " + unitToAttack.GetUnitName());
-            
+            GameUI.instance.UpdateStatusBar("Targeting " + unitToAttack.GetUnitName());
+            //update history log
+            GameUI.instance.AppendHistoryLog(
+                "Attempting to deal " + damage + " damage to " + unitToAttack.GetUnitName());
+
             //Deselect unit by default 
             PlayerController.me.DeselectUnit();
         }
@@ -121,12 +133,12 @@ namespace Attacks
         {
             //Toggle that unit has attacked, only need to do once, but no harm doing multiple times
             unitActing.ToggleAttackedThisTurn(true);
-            unitToDefend.ToggleUnitInRange(true);
-            
+
             unitToDefend.BoostDefence(defenceAmount);
+
             //update status bar
-            GameUI.instance.AppendHistoryLog("Boosting defence of " + unitToDefend.GetUnitName() + " by " +
-                                             defenceAmount);
+            GameUI.instance.UpdateStatusBar("Restoring shields of " + unitToDefend.GetUnitName() + " by " +
+                                            defenceAmount);
         }
 
         /*
@@ -136,38 +148,41 @@ namespace Attacks
         {
             //Toggle that unit has attacked
             unitAttacking.ToggleAttackedThisTurn(true);
-            
+
             //Decrement action points cost
             unitAttacking.DecrementActionPoints(actionPoints);
-            
+
             unitToAttack.photonView.RPC("DamageShields", RpcTarget.All, damage);
-            
+
             //update your own stats 
             GameUI.instance.DisplayUnitStats(unitAttacking);
             //update enemy stats on your display
             GameUI.instance.DisplayEnemyStats(unitToAttack);
             //update status bar
-            GameUI.instance.AppendHistoryLog("Targeting shields of " + unitToAttack.GetUnitName());
-            
+            GameUI.instance.UpdateStatusBar("Targeting shields of " + unitToAttack.GetUnitName());
+            //update history log
+            GameUI.instance.AppendHistoryLog(
+                "Attempting to deal " + damage + " damage to " + unitToAttack.GetUnitName());
+
             //Deselect unit by default 
             PlayerController.me.DeselectUnit();
         }
-        
+
         /*
          * Invokes method to attack an enemy unit's defence
         */
         protected void ReduceMultiDefence(Unit unitAttacking, Unit unitToAttack, int damage)
         {
-            //toggle in range for display
-            
-            unitToAttack.ToggleUnitInRange(true);
             //Toggle that unit has attacked
             unitAttacking.ToggleAttackedThisTurn(true);
-            
+
             unitToAttack.photonView.RPC("DamageShields", RpcTarget.All, damage);
-            
+
+            //update status bar
+            GameUI.instance.UpdateStatusBar("Targeting shields of " + unitToAttack.GetUnitName());
             //update history log
-            GameUI.instance.AppendHistoryLog("Targeting shields of " + unitToAttack.GetUnitName());
+            GameUI.instance.AppendHistoryLog("Attempted to reduce shields of " + unitToAttack.GetUnitName() + " by " +
+                                             damage);
         }
 
         /*
@@ -177,19 +192,22 @@ namespace Attacks
         {
             //Toggle that unit has attacked
             unitAttacking.ToggleAttackedThisTurn(true);
-            
+
             //Decrement action points cost
             unitAttacking.DecrementActionPoints(actionPoints);
-            
+
             unitToAttack.photonView.RPC("BypassDefence", RpcTarget.All, damage);
-            
+
             //update your own stats 
             GameUI.instance.DisplayUnitStats(unitAttacking);
             //update enemy stats on your display
             GameUI.instance.DisplayEnemyStats(unitToAttack);
             //update status bar
-            GameUI.instance.AppendHistoryLog("Bypassing shields, " + damage + " done to " + unitToAttack.GetUnitName());
-            
+            GameUI.instance.UpdateStatusBar("Bypassing shields of " + unitToAttack.GetUnitName());
+            //update history log
+            GameUI.instance.AppendHistoryLog(
+                "Attempting to deal " + damage + " damage to " + unitToAttack.GetUnitName());
+
             //Deselect unit by default 
             PlayerController.me.DeselectUnit();
         }
@@ -201,21 +219,23 @@ namespace Attacks
         {
             //Toggle that unit has attacked
             unitAttacking.ToggleAttackedThisTurn(true);
-            
+
             //Decrement action points cost
             unitAttacking.DecrementActionPoints(actionPoints);
-            
+
             if (unitToAttack.GetUnitID() > 4)
                 Debug.Log("remove an AP from each unit");
             else
                 unitToAttack.photonView.RPC("MissTurn", RpcTarget.All);
-            
+
             //update your own stats 
             GameUI.instance.DisplayUnitStats(unitAttacking);
-            
             //update status bar
-            GameUI.instance.AppendHistoryLog("Disabling enemy " + unitToAttack.GetUnitName() + " from acting next turn");
-            
+            GameUI.instance.UpdateStatusBar("Targeting " + unitToAttack.GetUnitName());
+            //update history log
+            GameUI.instance.AppendHistoryLog("Disabling enemy " + unitToAttack.GetUnitName() +
+                                             " from acting next turn");
+
             //Deselect unit by default 
             PlayerController.me.DeselectUnit();
         }
@@ -237,13 +257,24 @@ namespace Attacks
         /*
         * Updates status bar
         */
-        protected void NoUnitsInRange() => GameUI.instance.UpdateStatusBar("No units in range...");
-
+        protected void UnitHasAlreadyAttacked() =>
+            GameUI.instance.UpdateStatusBar("Unit has already attacked this turn...");
 
         /*
         * Updates status bar
         */
-        private void NotEnoughActionPoints() => GameUI.instance.UpdateStatusBar("Not enough action points...");
+        protected void UnitCannotMove() => GameUI.instance.UpdateStatusBar("Unit has had it's turn disabled...");
+
+        /*
+        * Updates status bar
+        */
+        protected void NoUnitsInRange() => GameUI.instance.UpdateStatusBar("No valid units in range...");
+
+        /*
+        * Updates status bar
+        */
+        private void NotEnoughActionPoints() =>
+            GameUI.instance.UpdateStatusBar("Not enough action points to use action...");
 
         /*
          * Updates status bar
@@ -257,87 +288,38 @@ namespace Attacks
         }
 
 
-        public void HighlightTilesInRange(Unit unit)
+        public void HighlightTilesInExtendedRange(Unit unit, int attackRange)
         {
             //Deselect any previous tiles
             ResetAllTiles();
-            DeselectTilesInRange();
 
-            //get tile below
             RaycastHit hit;
             Tile tile = null;
 
             if (Physics.Raycast(unit.gameObject.transform.position, Vector3.down, out hit, 1))
-                tile = hit.collider.GetComponent<Tile>();
-
-            if (tile != null)
             {
-                tile.FindNeighboursInRange();
-
-                foreach (Tile t in tile.adjacencyList)
-                {
-                    _tilesInRange.Add(t);
-                    t.attack = true;
-                }
-            }
-        }
-        
-        public void HighlightTilesInExtendedRange(Unit unit)
-        {
-            //Deselect any previous tiles
-            ResetAllTiles();
-            DeselectTilesInRange();
-
-            //get tile below
-            RaycastHit hit;
-            Tile tile = null;
-
-            if (Physics.Raycast(unit.gameObject.transform.position, Vector3.down, out hit, 1))
                 tile = hit.collider.GetComponent<Tile>();
-
-            if (tile != null)
-            {
-                tile.FindNeighboursInExtendedRange();
-                
-                foreach (Tile t in tile.adjacencyList)
+                if (tile != null)
                 {
-                    _tilesInRange.Add(t);
-                    t.attack = true;
+                    tile.attack = true;
+                    tile.FindNeighboursInExtendedRange(attackRange);
                 }
             }
         }
 
+        /*
+         * Resets all tiles
+         */
         protected void ResetAllTiles()
         {
             foreach (var tile in tiles)
                 tile.GetComponent<Tile>().Reset();
         }
 
-        protected void DeselectTilesInRange()
-        {
-            //reset tiles in range
-            foreach (Tile t in _tilesInRange)
-                t.Reset();
-
-            _tilesInRange.Clear();
-        }
-
-        private Tile GetTargetTile()
-        {
-            RaycastHit hit;
-            Tile tile = null;
-
-            if (Physics.Raycast(transform.position, Vector3.down, out hit, 1))
-                tile = hit.collider.GetComponent<Tile>();
-
-            return tile;
-        }
-        
         /*
         * Use expression body to return read only values pertaining to information about a unit ability 
         */
         public string Name() => abilityName;
         public string Information() => information;
-        
     }
 }

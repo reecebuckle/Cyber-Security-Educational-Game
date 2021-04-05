@@ -17,8 +17,8 @@ namespace Attacks
         private bool unitSelected;
 
         [Header("Move Attributes")] 
-        [SerializeField] private int actionPoints = 2;
-        [SerializeField] private int damage = 1;
+        [SerializeField] private int actionPoints = 4;
+        [SerializeField] private int damage = 2;
         [SerializeField] private int attackRange = 2;
 
         /*
@@ -60,7 +60,7 @@ namespace Attacks
             unitsInRange.Clear();
             
             //Go through basic attack flow process (equivalent for each unit)
-            AttackFlowProcess(unit, actionPoints, attackRange);
+            if (!AttackFlowProcess(unit, actionPoints, attackRange)) return;
 
             //returns units in range
             unitsInRange = FindUnitsInRange(unit, attackRange);
@@ -73,7 +73,8 @@ namespace Attacks
             }
 
             waiting = true;
-
+            GameUI.instance.UpdateStatusBar("Damages target. Select an enemy unit to attack...");
+            
             //Loop through units in range and show them
             foreach (Unit u in unitsInRange.Where(u => PlayerController.enemy.units.Contains(u)))
                 u.ToggleUnitInRange(true);

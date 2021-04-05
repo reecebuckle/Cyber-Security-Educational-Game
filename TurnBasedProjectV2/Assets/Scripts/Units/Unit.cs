@@ -78,9 +78,10 @@ namespace Units
         {
             //Removes damage from armour then, then remainder from health
             CalculateDamage(damage);
-
-            Debug.Log("Unit taking damage, current health = " + currentHP + "current defence = " + currentDef);
-
+            
+            if (photonView.IsMine)
+                GameUI.instance.AppendHistoryLog(unitName + " taking damage. Health: " + currentHP + ". Defence: " + currentDef + ".");
+            
             if (currentHP <= 0)
                 photonView.RPC("UnitHasDied", RpcTarget.All);
         }
@@ -102,6 +103,12 @@ namespace Units
         [PunRPC]
         private void DamageShields(int damage)
         {
+            if (currentDef == 0)
+            {
+                GameUI.instance.AppendHistoryLog(unitName + " shields already down. No net result!");
+                return;
+            }
+
             //reduce current defence by damage
             currentDef -= damage;
 
@@ -109,7 +116,8 @@ namespace Units
             if (currentDef < 0)
                 currentDef = 0;
             
-            Debug.Log("Unit taking damage, current health = " + currentHP + "current defence = " + currentDef);
+            if (photonView.IsMine)
+                GameUI.instance.AppendHistoryLog(unitName + " shields taking damage. Defence: " + currentDef + ".");
         }
 
         /*
@@ -124,9 +132,10 @@ namespace Units
             //but if it's 0, set to 0
             if (currentHP < 0)
                 currentHP = 0;
-
-            Debug.Log("Unit taking damage, current health = " + currentHP + "current defence = " + currentDef);
-
+            
+            if (photonView.IsMine)
+                GameUI.instance.AppendHistoryLog(unitName + " taking damage (ignoring shields). Health: " + currentHP + ".");
+            
             if (currentHP <= 0)
                 photonView.RPC("UnitHasDied", RpcTarget.All);
         }
@@ -138,10 +147,10 @@ namespace Units
         {
             currentDef += defence;
 
-            if (currentDef > maxDefence)
+            if (currentDef > maxDefence + 2)
                 currentDef = maxDefence;
             
-            Debug.Log("Unit being buffed, current defence = " + currentDef);
+            GameUI.instance.AppendHistoryLog(unitName + " shields restored to " + currentDef);
         }
 
         /*
@@ -151,9 +160,13 @@ namespace Units
         private void UnitHasDied()
         {
             if (!photonView.IsMine)
+            {
+                GameUI.instance.AppendHistoryLog("Enemy " + unitName + " has died!");
                 PlayerController.enemy.units.Remove(this);
+            }
             else
             {
+                GameUI.instance.AppendHistoryLog(unitName + " has died!");
                 PlayerController.me.units.Remove(this);
                 GameManager.instance.CheckWinCondition();
                 PhotonNetwork.Destroy(gameObject);
@@ -164,7 +177,13 @@ namespace Units
          * Causes unit to miss a turn
          */
         [PunRPC]
-        private void MissTurn() => missTurn = true;
+        private void MissTurn()
+        {
+            //update status bar
+            if (photonView.IsMine)
+                GameUI.instance.AppendHistoryLog(unitName + " will miss the next turn");
+            missTurn = true;
+        } 
         
 
         /*

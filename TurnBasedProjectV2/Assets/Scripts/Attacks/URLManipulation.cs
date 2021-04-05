@@ -60,7 +60,7 @@ namespace Attacks
             unitsInRange.Clear();
             
             //Go through basic attack flow process (equivalent for each unit)
-            AttackFlowProcess(unit, actionPoints, attackRange);
+            if (!AttackFlowProcess(unit, actionPoints, attackRange)) return;
 
             //returns units in range
             unitsInRange = FindUnitsInRange(unit, attackRange);
@@ -73,6 +73,8 @@ namespace Attacks
             }
 
             waiting = true;
+            GameUI.instance.UpdateStatusBar("Bypasses shields. Select an enemy unit to attack...");
+
             //Loop through units in range, if they're OUR ENEMY unit, show that it's in range
             foreach (Unit u in unitsInRange.Where(u => PlayerController.enemy.units.Contains(u)))
                 u.ToggleUnitInRange(true);

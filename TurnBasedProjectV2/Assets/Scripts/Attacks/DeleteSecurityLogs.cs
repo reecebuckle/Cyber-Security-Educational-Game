@@ -14,9 +14,10 @@ namespace Attacks
         private Unit unit;
         private List<Unit> unitsInRange = new List<Unit>();
         private bool unitSelected;
+        private bool waiting;
 
         [Header("Move Attributes")] 
-        [SerializeField] private int actionPoints = 3;
+        [SerializeField] private int actionPoints = 2;
         [SerializeField] private int attackRange = 1;
         [SerializeField] private int damage = 1; //1 damage to all unit's shields
 
@@ -58,7 +59,7 @@ namespace Attacks
             unitsInRange.Clear();
             
             //Go through basic attack flow process (equivalent for each unit)
-            AttackFlowProcess(unit, actionPoints, attackRange);
+            if (!AttackFlowProcess(unit, actionPoints, attackRange)) return;
 
             //returns units in range
             unitsInRange = FindUnitsInRange(unit, attackRange);
@@ -69,17 +70,49 @@ namespace Attacks
                 NoUnitsInRange();
                 return;
             }
+            
+            waiting = true;
+            GameUI.instance.UpdateStatusBar("Targets shields of all enemy units in range. Right click an enemy to use");
 
             //Loop through units in range, if they're OUR ENEMY unit, reduce their defences
             foreach (Unit unitToAttack in unitsInRange.Where(u => PlayerController.enemy.units.Contains(u)))
-                ReduceMultiDefence(unit, unitToAttack, damage);
+                unitToAttack.ToggleUnitInRange(true);
+        }
+        
+        /*
+        * Wait until a unit is selected
+        */
+        private void Update()
+        {
+            if (waiting)
+                WaitToSelectUnitInRange();
+        }
+        
+        private void WaitToSelectUnitInRange()
+        {
+            //wait for player input
+            if (Input.GetMouseButtonUp(1))
+            {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit))
+                {
+                    if (hit.collider.CompareTag("Unit"))
+                    {
+                        //Loop through units in range, if they're OUR ENEMY unit, reduce their defences
+                        foreach (Unit unitToAttack in unitsInRange.Where(u => PlayerController.enemy.units.Contains(u)))
+                            ReduceMultiDefence(unit, unitToAttack, damage);
             
-            //decrement points cost and update UI
-            unit.DecrementActionPoints(actionPoints);
-            GameUI.instance.DisplayUnitStats(unit);
-            //prevent from showing movement tiles after
-            PlayerController.me.DeselectUnit();
-            DeselectMove();
+                        //decrement points cost and update UI
+                        unit.DecrementActionPoints(actionPoints);
+                        GameUI.instance.DisplayUnitStats(unit);
+                        //prevent from showing movement tiles after
+                        PlayerController.me.DeselectUnit();
+                        DeselectMove();
+                    }
+                }
+            }
         }
     }
 }

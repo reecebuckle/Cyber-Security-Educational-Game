@@ -13,17 +13,19 @@ namespace Units
         //
         public Player photonPlayer; // Photon.Realtime.Player class
 
-        [Header("Units for this Player")] 
+        [Header("Units for this Player")]
         //
         public string[] unitsToSpawn;
+
         public Transform[] unitSpawnPositions; // array of all spawn positions for this player
         public List<Unit> units = new List<Unit>(); // list of all our units
         public Unit selectedUnit; // currently selected unit
         public Unit selectedEnemyUnit; // currently selected enemy unit
 
-        [Header("Reference to P1 and P2")] 
+        [Header("Reference to P1 and P2")]
         //
         public static PlayerController me; // local player
+
         public static PlayerController enemy; // non-local enemy player
 
         private int _unitsRemaining;
@@ -183,6 +185,9 @@ namespace Units
                 }
             }
 
+            //update status bar
+            GameUI.instance.AppendHistoryLog("Ending turn");
+
             // Invoke the next turn method for the other player!
             GameManager.instance.photonView.RPC("SetNextTurn", RpcTarget.All);
         }
@@ -192,6 +197,12 @@ namespace Units
         */
         public void BeginTurn()
         {
+            //increment round number
+            _round++;
+            GameUI.instance.UpdateRoundText(_round);
+            //update status bar
+            GameUI.instance.AppendHistoryLog("Beginning new turn. Round: " + _round);
+
             _unitsRemaining = units.Count;
 
             //how many action points to give to all units
@@ -201,20 +212,30 @@ namespace Units
             Unit webserver = units.Find(unit => unit.GetUnitID() == 5);
             if (webserver != null)
             {
-                actionPointGain++;
-                _unitsRemaining--; //not counting webserver as a valid movable unit
+                if (webserver.ShouldMissTurn())
+                    GameUI.instance.AppendHistoryLog("Webserver temporarily disabled for one turn");
+                else
+                {
+                    actionPointGain++;
+                    _unitsRemaining--; //not counting webserver as a valid movable unit for this round
+                }
             }
 
             //check to see we have a database and increment action points
             Unit database = units.Find(unit => unit.GetUnitID() == 6);
             if (database != null)
             {
-                actionPointGain++;
-                _unitsRemaining--; //not counting webserver as a valid movable unit
+                if (database.ShouldMissTurn())
+                    GameUI.instance.AppendHistoryLog("Database temporarily disabled for one turn");
+                else
+                {
+                    actionPointGain++;
+                    _unitsRemaining--; //not counting webserver as a valid movable unit for this round
+                }
             }
-            
+
             GameUI.instance.UpdateWaitingUnitsText(_unitsRemaining);
-            
+
             //reset all units moved/attacked and increment action points
             foreach (Unit u in units)
             {
@@ -222,14 +243,9 @@ namespace Units
                 u.ToggleAttackedThisTurn(false);
                 u.IncrementActionPoints(actionPointGain);
             }
-
-            //increment round number
-            _round++;
-            GameUI.instance.UpdateRoundText(_round);
             //update status bar
             GameUI.instance.AppendHistoryLog("Each unit gained: " + actionPointGain + " AP");
         }
-
 
         /*
          * Decrements units remaining after a unit has moved

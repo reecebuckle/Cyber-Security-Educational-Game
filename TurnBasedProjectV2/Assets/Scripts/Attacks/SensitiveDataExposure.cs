@@ -18,8 +18,9 @@ namespace Attacks
 
         [Header("Move Attributes")] 
         [SerializeField] private int attackRange = 2;
-        [SerializeField] private int actionPoints = 2;
-        [SerializeField] private int damage = 3; //3 damage to one units shield
+        [SerializeField] private int damage = 2; 
+        [SerializeField] private int actionPoints = 3;
+        
 
         /*
         * Whenever the unit is selected, this is enabled (as we can't reference a prefab)
@@ -60,7 +61,7 @@ namespace Attacks
             unitsInRange.Clear();
             
             //Go through basic attack flow process (equivalent for each unit)
-            AttackFlowProcess(unit, actionPoints, attackRange);
+            if (!AttackFlowProcess(unit, actionPoints, attackRange)) return;
 
             //returns units in range
             unitsInRange = FindUnitsInRange(unit, attackRange);
@@ -73,6 +74,8 @@ namespace Attacks
             }
 
             waiting = true;
+            GameUI.instance.UpdateStatusBar("Targets shields. Select an enemy unit to attack...");
+
 
             //Loop through units in range and show them
             foreach (Unit u in unitsInRange.Where(u => PlayerController.enemy.units.Contains(u)))
