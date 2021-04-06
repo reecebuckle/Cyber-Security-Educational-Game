@@ -17,7 +17,7 @@ namespace Units
         [SerializeField] private int maxDefence; // current defence points a unit has
         [SerializeField] private int unitID; // ID reference of unit
         [SerializeField] private string unitName; // ID reference of unit
-        [SerializeField] private string unitInformation; // ID reference of unit
+        [SerializeField] private string[] unitInformation; // ID reference of unit
         [SerializeField] private GameObject quad; //quad that shows up when in range
         [SerializeField] private GameObject selectionQuad; //quad that shows up when selected
         
@@ -248,7 +248,7 @@ namespace Units
         public bool AttackedThisTurn() => attatckedThisTurn;
         public int GetUnitID() => unitID;
         public string GetUnitName() => unitName;
-        public string GetUnitInformation() => unitInformation;
+        public string[] GetUnitInformation() => unitInformation;
         public bool ShouldMissTurn() => missTurn;
         public int GetActionPoints() => actionPoints;
         public bool WaitingToAttack() => waitingToAttack;

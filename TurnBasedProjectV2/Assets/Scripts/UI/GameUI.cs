@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Attacks;
 using Managers;
@@ -220,8 +221,17 @@ namespace UI
             //If true gets our selected unit, otherwise gets the enemy selected unit
             Unit unit = isOurs ? PlayerController.me.selectedUnit : PlayerController.me.selectedEnemyUnit;
 
-            informationNameText.text = unit.GetUnitName();
-            informationBodyText.text = unit.GetUnitInformation();
+            informationNameText.text = (unit.GetUnitName());
+            informationBodyText.text = "";
+            string[] informationList = unit.GetUnitInformation();
+            //foreach (var line in informationList) 
+            //   informationBodyText.text += line + " \n " + " \n ";
+
+            for (int i = 0; i < (informationList.Length - 1); i++)
+                informationBodyText.text += informationList[i] + " \n " + " \n ";
+
+            informationBodyText.text += informationList[informationList.Length - 1];
+            
             informationUI.SetActive(true);
         }
 
@@ -260,7 +270,18 @@ namespace UI
         public void DisplayMoveInfo(AttackUnit ability)
         {
             informationNameText.text = ability.Name();
-            informationBodyText.text = ability.Information();
+            
+            informationBodyText.text = "";
+            string[] informationList = ability.Information();
+            
+            //foreach (var line in informationList)
+            //    informationBodyText.text += line + " \n " + " \n ";
+            
+            for (int i = 0; i < (informationList.Length - 1); i++)
+                informationBodyText.text += informationList[i] + " \n " + " \n ";
+
+            informationBodyText.text += informationList[informationList.Length - 1];
+            
             informationUI.SetActive(true);
         }
         

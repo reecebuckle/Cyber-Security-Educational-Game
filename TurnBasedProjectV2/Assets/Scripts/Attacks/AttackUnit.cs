@@ -21,7 +21,7 @@ namespace Attacks
         [SerializeField]
         private string abilityName;
 
-        [SerializeField] private string information;
+        [SerializeField] private string[] information;
 
         /*
         * Cache all tiles right away for used when resetting tile options
@@ -320,6 +320,6 @@ namespace Attacks
         * Use expression body to return read only values pertaining to information about a unit ability 
         */
         public string Name() => abilityName;
-        public string Information() => information;
+        public string[] Information() => information;
     }
 }
