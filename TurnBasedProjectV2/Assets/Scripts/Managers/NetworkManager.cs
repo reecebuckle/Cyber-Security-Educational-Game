@@ -51,9 +51,6 @@ namespace Managers
          * Utility function to load next scene 
          */
         [PunRPC]
-        public void ChangeScene(string sceneName)
-        {
-            PhotonNetwork.LoadLevel(sceneName);
-        }
+        public void ChangeScene(string sceneName) => PhotonNetwork.LoadLevel(sceneName);
     }
 }

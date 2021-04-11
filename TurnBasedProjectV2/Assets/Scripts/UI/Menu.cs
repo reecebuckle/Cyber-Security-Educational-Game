@@ -9,16 +9,22 @@ namespace UI
 {
     public class Menu : MonoBehaviourPunCallbacks
     {
-        [Header("Screens")] public GameObject mainScreen;
+        [Header("Screens")] 
+        //
+        public GameObject mainScreen;
         public GameObject lobbyScreen;
 
-        [Header("Main Screen")] public Button playButton;
+        [Header("Main Screen")] 
+        //
+        public Button playButton;
 
-        [Header("Lobby Screen")] public TextMeshProUGUI player1NameText;
+        [Header("Lobby Screen")] 
+        //
+        public TextMeshProUGUI player1NameText;
         public TextMeshProUGUI player2NameText;
         public TextMeshProUGUI gameStartingText;
 
-        void Start()
+        private void Start()
         {
             // disable the play button before we connect to the master server
             playButton.interactable = false;
@@ -32,7 +38,7 @@ namespace UI
         }
 
         // toggles the currently visible screen
-        public void SetScreen(GameObject screen)
+        private void SetScreen(GameObject screen)
         {
             // disable all screens
             mainScreen.SetActive(false);
@@ -48,24 +54,26 @@ namespace UI
             PhotonNetwork.NickName = nameInput.text;
         }
 
-        // called when the "Play" button is pressed
-        public void OnPlayButton()
-        {
-            NetworkManager.instance.CreateOrJoinRoom();
-        }
+        /*
+         * Invoked When Play Pressed
+         */
+        public void OnPlayButton() => NetworkManager.instance.CreateOrJoinRoom();
+        
 
-        // called when we join a room
+        /*
+         * Invoked when we create a room
+         */
         public override void OnJoinedRoom()
         {
             SetScreen(lobbyScreen);
             photonView.RPC("UpdateLobbyUI", RpcTarget.All);
         }
 
-        // called when a player leaves the room
-        public override void OnPlayerLeftRoom(Player otherPlayer)
-        {
-            UpdateLobbyUI();
-        }
+        /*
+         * Invoked when player leaves room
+         */
+        public override void OnPlayerLeftRoom(Player otherPlayer) => UpdateLobbyUI();
+        
 
         // updates the lobby screen UI
         [PunRPC]

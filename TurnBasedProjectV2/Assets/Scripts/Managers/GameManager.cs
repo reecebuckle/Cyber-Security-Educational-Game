@@ -8,11 +8,8 @@ namespace Managers
     {
         public PlayerController leftPlayer;
         public PlayerController rightPlayer;
-
         public PlayerController curPlayer; // the player who's currently having their turn
-
         public float postGameTime; // time between the game ending and us going back to the menu
-
         // Create a singleton instance of the Game Manager
         public static GameManager instance;
 

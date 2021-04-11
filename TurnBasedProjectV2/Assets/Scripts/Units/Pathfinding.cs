@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Map;
 using Photon.Pun;
 using UnityEngine;
 
@@ -10,23 +11,22 @@ using UnityEngine;
  */
 namespace Units
 {
-    public class Pathfinding : MonoBehaviourPun
+    public class Pathfinding : MonoBehaviour // TODO reverse this to pun if bugged
     {
         //is the unit currently in movement?
         public bool moving = false;
 
-        Vector3 velocity = new Vector3();
-        Vector3 heading = new Vector3();
-        float halfHeight = 0;
+        private Vector3 velocity = new Vector3();
+        private Vector3 heading = new Vector3();
+        private float halfHeight = 0;
 
         //selectableTiles show when it's the units turn 
-        List<Tile> selectableTiles = new List<Tile>();
-        GameObject[] tiles;
+        private List<Tile> selectableTiles = new List<Tile>();
+        private  GameObject[] tiles;
 
         //Stack gives us the path in reverse order
-        public Stack<Tile> path = new Stack<Tile>();
+        private Stack<Tile> path = new Stack<Tile>();
         private Tile _currentTile; // current tile in the pathfinding process
-        
         
         /*
         * Cache all tiles right away

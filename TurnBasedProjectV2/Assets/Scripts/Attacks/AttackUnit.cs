@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
+using Map;
 using Photon.Pun;
 using UI;
 using Units;
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
 
 namespace Attacks
 {
@@ -18,9 +16,7 @@ namespace Attacks
 
         [Header("Move Information")]
         //
-        [SerializeField]
-        private string abilityName;
-
+        [SerializeField] private string abilityName;
         [SerializeField] private string[] information;
 
         /*
@@ -257,13 +253,13 @@ namespace Attacks
         /*
         * Updates status bar
         */
-        protected void UnitHasAlreadyAttacked() =>
+        private void UnitHasAlreadyAttacked() =>
             GameUI.instance.UpdateStatusBar("Unit has already attacked this turn...");
 
         /*
         * Updates status bar
         */
-        protected void UnitCannotMove() => GameUI.instance.UpdateStatusBar("Unit has had it's turn disabled...");
+        private void UnitCannotMove() => GameUI.instance.UpdateStatusBar("Unit has had it's turn disabled...");
 
         /*
         * Updates status bar
@@ -288,7 +284,7 @@ namespace Attacks
         }
 
 
-        public void HighlightTilesInExtendedRange(Unit unit, int attackRange)
+        private void HighlightTilesInExtendedRange(Unit unit, int attackRange)
         {
             //Deselect any previous tiles
             ResetAllTiles();
