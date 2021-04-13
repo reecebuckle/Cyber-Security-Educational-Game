@@ -40,7 +40,7 @@ namespace Map
             if (current)
             {
                 _matInstance.SetFloat("_Metallic", 0.0f);
-                _matInstance.color = Color.blue;
+                _matInstance.color = Color.green;
             }
 
             else if (target)
@@ -62,7 +62,7 @@ namespace Map
             else if (selectable)
             {
                 _matInstance.SetFloat("_Metallic", 0.0f);
-                _matInstance.color = Color.green;
+                _matInstance.color = Color.white;
             }
 
             else
