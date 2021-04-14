@@ -56,13 +56,13 @@ namespace Map
                 // GetComponent<Renderer>().material = _matInstance;
                 //_matInstance.SetFloat("_DisplayEmitAmount", 1.0f);
                 _matInstance.SetFloat("_Metallic", 0.0f);
-                _matInstance.color = Color.red;
+                _matInstance.color = Color.magenta;
             }
 
             else if (selectable)
             {
                 _matInstance.SetFloat("_Metallic", 0.0f);
-                _matInstance.color = Color.white;
+                _matInstance.color = Color.green;
             }
 
             else
@@ -79,11 +79,12 @@ namespace Map
         {
             Reset();
 
-            //Check the 4 directions (forwards, backwards, right and left)
+            //Check the 4 directions (forwards, left, down and right)
             CheckTile(Vector3.forward);
+            CheckTile(-Vector3.right);
             CheckTile(-Vector3.forward);
             CheckTile(Vector3.right);
-            CheckTile(-Vector3.right);
+           
         }
 
         /*
@@ -121,11 +122,11 @@ namespace Map
 
         {
             Reset();
-            //Check the 4 directions (forwards, backwards, right and left)
+            //Check the 4 directions (forwards, down, left, right)
             CheckTilesInExtendedDirection(Vector3.forward, attackRange);
+            CheckTilesInExtendedDirection(-Vector3.right, attackRange);
             CheckTilesInExtendedDirection(-Vector3.forward, attackRange);
-            CheckTilesInExtendedDirection(Vector3.right, attackRange);
-            CheckTilesInExtendedDirection(-Vector3.right,attackRange);
+            CheckTilesInExtendedDirection(Vector3.right,attackRange);
         }
 
         /*
