@@ -48,7 +48,7 @@ namespace Attacks
             waiting = false;
             unit.ToggleWaitingToAttack(false);
             
-            //ResetAllTiles();
+            //ResetTilesInList();
         }
 
         /*

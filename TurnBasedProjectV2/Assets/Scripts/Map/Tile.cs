@@ -29,8 +29,6 @@ namespace Map
         public int distance = 0;
 
         private Material _matInstance;
-        
-        private enum TileState { current, target, attack, selectable, reset, wait}
 
         private void Start()
         {
@@ -160,7 +158,6 @@ namespace Map
          * INVOKED BY ATTACK RANGE ALGORITHM FOR 1 OR MORE TILES IN EACH DIRECTION
          */
         public void FindNeighboursInExtendedRange(int attackRange)
-
         {
             Reset();
             //Check the 4 directions (forwards, down, left, right)

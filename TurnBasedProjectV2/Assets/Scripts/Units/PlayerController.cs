@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Managers;
+using Map;
 using Photon.Pun;
 using Photon.Realtime;
 using UI;
@@ -21,6 +22,7 @@ namespace Units
         public List<Unit> units = new List<Unit>(); // list of all our units
         public Unit selectedUnit; // currently selected unit
         public Unit selectedEnemyUnit; // currently selected enemy unit
+        public List<Tile> _tiles = new List<Tile>();
 
         [Header("Reference to P1 and P2")]
         //
@@ -48,6 +50,10 @@ namespace Units
 
             // set the player text
             GameUI.instance.SetPlayerText(this);
+
+            GameObject[] tileObjects = GameObject.FindGameObjectsWithTag("Tile");
+            foreach (GameObject tile in tileObjects)
+                _tiles.Add(tile.GetComponent<Tile>());
         }
 
         /*
@@ -123,15 +129,20 @@ namespace Units
             if (selectedUnit != null)
                 DeselectUnit();
 
-            
+
             clickedUnit.ToggleSelect(true);
             selectedUnit = clickedUnit;
-            selectedUnit.GetComponent<UnitController>().FindTiles();
-            
+
             // Will display selected unit for us or enemy
             GameUI.instance.ToggleUnitBar(selectedUnit);
             GameUI.instance.DisplayUnitStats(selectedUnit);
             GameUI.instance.UpdateStatusBar("Selecting unit: " + clickedUnit.GetUnitName());
+
+            // Only find tiles if the unit hasn't moved and shouldn't miss the turn
+            if (selectedUnit.MovedThisTurn()) return;
+            if (selectedUnit.ShouldMissTurn()) return;
+
+            selectedUnit.GetComponent<UnitController>().FindTiles();
         }
 
         /*
@@ -174,7 +185,12 @@ namespace Units
 
             //Remove selectable tiles if it was there
             foreach (Unit unit in units)
-            {
+                unit.ToggleMissTurn(false);
+
+            foreach (var tile in _tiles)
+                tile.Reset();
+
+            /*{
                 //exclude database and web server
                 if (unit.GetUnitID() < 5)
                 {
@@ -182,6 +198,7 @@ namespace Units
                     unit.ToggleMissTurn(false);
                 }
             }
+            */
 
             //update status bar
             GameUI.instance.AppendHistoryLog("Ending turn");
@@ -241,6 +258,7 @@ namespace Units
                 u.ToggleAttackedThisTurn(false);
                 u.IncrementActionPoints(actionPointGain);
             }
+
             //update status bar
             GameUI.instance.AppendHistoryLog("Each unit gained: " + actionPointGain + " AP");
         }

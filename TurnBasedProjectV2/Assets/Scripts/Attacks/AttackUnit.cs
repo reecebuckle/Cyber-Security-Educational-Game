@@ -13,6 +13,7 @@ namespace Attacks
         private List<Tile> _tilesInRange = new List<Tile>();
         protected bool moveSelected;
         private GameObject[] tiles;
+        private List<Tile> _tiles;
 
         [Header("Move Information")]
         //
@@ -22,7 +23,10 @@ namespace Attacks
         /*
         * Cache all tiles right away for used when resetting tile options
         */
-        private void Start() => tiles = GameObject.FindGameObjectsWithTag("Tile");
+        private void Start()
+        {
+            _tiles = PlayerController.me._tiles;
+        } 
 
         /*
          * Returns units one tile in range
@@ -295,7 +299,7 @@ namespace Attacks
                 tile = hit.collider.GetComponent<Tile>();
                 if (tile != null)
                 {
-                    //tile.attack = true;
+                    //_tilesInRange.Add(tile);
                     tile.MarkAttack();
                     tile.FindNeighboursInExtendedRange(attackRange);
                 }
@@ -316,10 +320,10 @@ namespace Attacks
         /*
          * Resets all tiles
          */
-        protected void ResetAllTiles()
+        private void ResetAllTiles()
         {
-            foreach (var tile in tiles)
-                tile.GetComponent<Tile>().Reset();
+            foreach (var tile in _tiles)
+                tile.Reset();
         }
 
         /*

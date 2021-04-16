@@ -47,7 +47,7 @@ namespace Attacks
             moveSelected = false;
             unit.ToggleWaitingToAttack(false);
             
-            //ResetAllTiles();
+            //ResetTilesInList();
         }
 
         /*
