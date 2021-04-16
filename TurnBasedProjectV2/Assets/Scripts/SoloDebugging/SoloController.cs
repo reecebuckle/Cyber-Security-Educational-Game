@@ -2,6 +2,7 @@
 using Map;
 using Photon.Pun;
 using Photon.Realtime;
+using UI;
 using Units;
 using UnityEngine;
 
@@ -13,12 +14,16 @@ namespace SoloDebugging
 
     public class SoloController : Pathfinding
     {
-        private Unit selectedUnit;
-
+        public Unit selectedUnit;
+        
         /*
-         * Cache all tiles on the map on the first frame when starting the player controller
-         */
-        private void Start() => CacheAllTiles();
+        * Get reference of unit
+        */
+        private void Start()
+        {
+            //unit = GetComponent<Unit>();
+            CacheAllTiles();
+        }
 
         private void Update()
         {
@@ -26,14 +31,27 @@ namespace SoloDebugging
 
             if (selectedUnit != null)
             {
+                //continue moving if another unit is selected, hence put this first!
+                if (moving)
+                    Move(selectedUnit);
+            
+                //return if unit isn't selected by the player controller
+                //if (!selectedUnit.IsSelected()) return;
+
+                //Uncomment this to allow unit to move AFTER attacking
+                //if (selectedUnit.AttackedThisTurn()) return;
+            
+                //return if unit has moved this turn or forced to skipp
+                //if (selectedUnit.MovedThisTurn() || selectedUnit.ShouldMissTurn()) return;
+            
+                //don't allow target to move if waiting to attack
+               // if (selectedUnit.WaitingToAttack()) return;
+            
+                //this part of the block actually initiates the moving so checked last
                 if (!moving)
                 {
                     FindSelectableTiles(selectedUnit);
-                    SelectTileInRange();
-                }
-                else
-                {
-                    Move(selectedUnit);
+                    WaitToSelectTileInRange();
                 }
             }
         }
@@ -54,39 +72,37 @@ namespace SoloDebugging
                     //TODO check if this is our unit somewhere
                     if (hit.collider.CompareTag("Unit"))
                     {
-                        Unit unit = hit.collider.GetComponent<Unit>();
-
-                        Debug.Log("Unit Selected");
-                        selectedUnit = unit;
+                        Unit u = hit.collider.GetComponent<Unit>();
+                        selectedUnit = u;
+                        
+                       // GameUI.instance.ToggleUnitBar(selectedUnit);
+                       // GameUI.instance.DisplayUnitStats(selectedUnit);
+                        // GameUI.instance.UpdateStatusBar("Selecting unit: " + selectedUnit.GetUnitName());
                     }
                 }
             }
         }
 
         /*
-         * Invoked IF a tile is selected within the selected units range
-         */
-        private void SelectTileInRange()
+       * Invoked IF a tile is selected within the selected units range
+       */
+        private void WaitToSelectTileInRange()
         {
-            if (Input.GetMouseButtonUp(0))
+            if (!Input.GetMouseButtonUp(0)) return;
+            
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit))
             {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                if (!hit.collider.CompareTag("Tile")) return;
+                    
+                Tile t = hit.collider.GetComponent<Tile>();
 
-                RaycastHit hit;
-                if (Physics.Raycast(ray, out hit))
-                {
-                    if (hit.collider.CompareTag("Tile"))
-                    {
-                        Debug.Log("Tile selected");
-                        Tile t = hit.collider.GetComponent<Tile>();
-
-                        if (t.selectable)
-                        {
-                            MoveToTile(t);
-                        }
-                    }
-                }
+                if (t.selectable)
+                    MoveToTile(t);
             }
+
         }
     }
 }

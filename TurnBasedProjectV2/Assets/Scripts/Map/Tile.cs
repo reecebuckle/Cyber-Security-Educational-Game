@@ -11,6 +11,7 @@ namespace Map
     public class Tile : MonoBehaviour
     {
         [Header("Boolean Variables")] public bool walkable = true;
+        public bool changed = false;
         public bool current = false;
         public bool target = false;
         public bool selectable = false;
@@ -51,16 +52,16 @@ namespace Map
 
             else if (attack)
             {
-                //TODO leaving in case need to back track 
-                // _matInstance.SetFloat("_DisplayEmitAmount", 1.0f);
-                // GetComponent<Renderer>().material = _matInstance;
-                //_matInstance.SetFloat("_DisplayEmitAmount", 1.0f);
                 _matInstance.SetFloat("_Metallic", 0.0f);
                 _matInstance.color = Color.magenta;
             }
 
             else if (selectable)
             {
+                //OLD LESS EFFICIENT METHOD
+                //GetComponent<Renderer>().material.SetFloat("_Metallic", 0.0f);
+                //GetComponent<Renderer>().material.color = Color.green;
+                
                 _matInstance.SetFloat("_Metallic", 0.0f);
                 _matInstance.color = Color.green;
             }
