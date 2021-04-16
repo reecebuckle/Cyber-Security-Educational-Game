@@ -160,12 +160,10 @@ namespace UI
                 //Database
                 case 5:
                     //UnitBarDatabase.SetActive(true);
-                    Debug.Log("Special unit selected");
                     break;
 
                 //Web server
                 case 6:
-                    Debug.Log("Special unit selected");
                     //UnitBarWebServer.SetActive(true);
                     break;
 

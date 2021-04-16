@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 /*
  * Attached to every tile/node in order to highlight and calculate distance
@@ -10,34 +12,76 @@ namespace Map
 {
     public class Tile : MonoBehaviour
     {
-        [Header("Boolean Variables")] public bool walkable = true;
+        [Header("Boolean Variables")] 
+        //
+        public bool walkable = true;
         public bool changed = false;
         public bool current = false;
         public bool target = false;
         public bool selectable = false;
         public bool attack = false;
 
-        [Header("BFS Variables")] public List<Tile> adjacencyList = new List<Tile>();
+        [Header("BFS Variables")] 
+        //
+        public List<Tile> adjacencyList = new List<Tile>();
         public bool visited = false;
         public Tile parent = null;
         public int distance = 0;
 
         private Material _matInstance;
+        
+        private enum TileState { current, target, attack, selectable, reset, wait}
 
         private void Start()
         {
             _matInstance = GetComponent<Renderer>().material;
             _matInstance.EnableKeyword("_DisplayEmitAmount");
         }
-
-
-        private void Update() => SelectTile();
+        
+        // TODO Old Method which would check from the tile
+        //private void Update() => SelectTile();
 
         /*
-        * Highlights the selected tile
-        */
-        private void SelectTile()
+         * These methods update the tile colour (initially was in update)
+         */
+        public void MarkSelectable()
         {
+            selectable = true;
+            _matInstance.SetFloat("_Metallic", 0.0f);
+            _matInstance.color = Color.green;
+        }
+        
+        public void MarkAttack()
+        {
+            _matInstance.SetFloat("_Metallic", 0.0f);
+            _matInstance.color = Color.magenta;
+        }
+        
+        public void MarkTarget()
+        {
+            target = true;
+            _matInstance.SetFloat("_Metallic", 0.0f);
+            _matInstance.color = Color.red;
+        }
+        
+        public void MarkCurrent()
+        {
+            current = true; 
+            _matInstance.SetFloat("_Metallic", 0.0f);
+            _matInstance.color = Color.green;
+        }
+        
+        public void MarkReset()
+        {
+            _matInstance.SetFloat("_Metallic", 1.0f);
+            _matInstance.color = Color.white;
+        }
+        
+        /*
+        * Highlights the selected tile (old method, could also be called from within the code
+        */
+        private void SelectTile() {
+
             if (current)
             {
                 _matInstance.SetFloat("_Metallic", 0.0f);
@@ -58,10 +102,6 @@ namespace Map
 
             else if (selectable)
             {
-                //OLD LESS EFFICIENT METHOD
-                //GetComponent<Renderer>().material.SetFloat("_Metallic", 0.0f);
-                //GetComponent<Renderer>().material.color = Color.green;
-                
                 _matInstance.SetFloat("_Metallic", 0.0f);
                 _matInstance.color = Color.green;
             }
@@ -117,7 +157,7 @@ namespace Map
         }
         
         /*
-         * INVOKED BY ATTACK RANGE ALGORITHM FOR 2 TILES IN EACH DIRECTION
+         * INVOKED BY ATTACK RANGE ALGORITHM FOR 1 OR MORE TILES IN EACH DIRECTION
          */
         public void FindNeighboursInExtendedRange(int attackRange)
 
@@ -154,7 +194,7 @@ namespace Map
                     if (!Physics.Raycast(tile.transform.position, Vector3.up, out hit, 1))
                     {
                         adjacencyList.Add(tile);
-                        tile.attack = true;
+                        tile.MarkAttack();
 
                         //if attack range is still above 1, recursively call method and decrement range until it reaches 1 (and do this on the new tile)
                         if (attackRange > 1)
@@ -169,6 +209,8 @@ namespace Map
         */
         public void Reset()
         {
+            //Clear Colour and fix all variables 
+            MarkReset();
             adjacencyList.Clear();
 
             current = false;

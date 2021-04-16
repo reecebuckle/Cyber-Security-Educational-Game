@@ -297,10 +297,22 @@ namespace Attacks
                 tile = hit.collider.GetComponent<Tile>();
                 if (tile != null)
                 {
-                    tile.attack = true;
+                    //tile.attack = true;
+                    tile.MarkAttack();
                     tile.FindNeighboursInExtendedRange(attackRange);
                 }
             }
+        }
+        
+        /*
+         * Reset tiles in list
+         */
+        protected void ResetTilesInList()
+        {
+            foreach (var tile in _tilesInRange)
+                tile.GetComponent<Tile>().Reset();
+            
+            _tilesInRange.Clear();
         }
 
         /*

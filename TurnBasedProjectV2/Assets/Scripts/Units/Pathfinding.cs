@@ -46,7 +46,7 @@ namespace Units
         private void GetCurrentTile()
         {
             _currentTile = GetTargetTile();
-            _currentTile.current = true;
+            _currentTile.MarkCurrent();
         }
 
         /*
@@ -105,7 +105,7 @@ namespace Units
                 selectableTiles.Add(t);
 
                 //activate selectable trigger (red) of tile
-                t.selectable = true;
+                t.MarkSelectable();
 
                 //if distance is greater than move amount, skip BFS
                 if (t.distance < unit.GetMovementDistance())
@@ -133,7 +133,7 @@ namespace Units
         protected void MoveToTile(Tile tile)
         {
             path.Clear();
-            tile.target = true;
+            tile.MarkTarget();
             moving = true;
 
             Tile nextTile = tile;
@@ -207,6 +207,7 @@ namespace Units
             {
                 //if there is a current tile, set it to false
                 _currentTile.current = false;
+                _currentTile.MarkReset();
                 _currentTile = null;
             }
 

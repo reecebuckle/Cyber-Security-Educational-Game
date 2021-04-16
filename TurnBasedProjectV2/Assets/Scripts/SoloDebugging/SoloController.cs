@@ -50,7 +50,7 @@ namespace SoloDebugging
                 //this part of the block actually initiates the moving so checked last
                 if (!moving)
                 {
-                    FindSelectableTiles(selectedUnit);
+                    //FindSelectableTiles(selectedUnit);
                     WaitToSelectTileInRange();
                 }
             }
@@ -75,9 +75,9 @@ namespace SoloDebugging
                         Unit u = hit.collider.GetComponent<Unit>();
                         selectedUnit = u;
                         
-                       // GameUI.instance.ToggleUnitBar(selectedUnit);
-                       // GameUI.instance.DisplayUnitStats(selectedUnit);
-                        // GameUI.instance.UpdateStatusBar("Selecting unit: " + selectedUnit.GetUnitName());
+                        //Finds selectable tiles in range - only needs to be called ONCE
+                        FindSelectableTiles(selectedUnit);
+                        
                     }
                 }
             }
