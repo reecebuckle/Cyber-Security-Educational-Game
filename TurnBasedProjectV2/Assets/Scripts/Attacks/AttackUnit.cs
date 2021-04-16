@@ -34,8 +34,7 @@ namespace Attacks
             FindUnitWithDirection(sourceUnit, -Vector3.forward, distance);
             FindUnitWithDirection(sourceUnit, Vector3.right, distance);
             FindUnitWithDirection(sourceUnit, -Vector3.right, distance);
-
-            Debug.Log("Units in range: " + _unitsInRange.Count);
+            
             return _unitsInRange;
         }
 
@@ -50,7 +49,6 @@ namespace Attacks
             if (Physics.Raycast(sourceUnit.gameObject.transform.position, direction, out hit, distance))
             {
                 otherUnit = hit.collider.GetComponent<Unit>();
-                print(hit.collider.gameObject.name);
                 _unitsInRange.Add(otherUnit);
             }
         }
@@ -105,7 +103,7 @@ namespace Attacks
             unitAttacking.DecrementActionPoints(actionPoints);
             unitToAttack.photonView.RPC("TakeDamage", RpcTarget.All, damage);
 
-            //deselect mopve
+            //deselect move
             moveSelected = false;
 
             //update your own stats 

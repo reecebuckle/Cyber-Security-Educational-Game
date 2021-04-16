@@ -175,7 +175,6 @@ namespace Map
         */
         private void CheckTilesInExtendedDirection(Vector3 direction, int attackRange)
         {
-            Debug.Log("Checking extended direcetion, range: " + attackRange);
             Vector3 halfExtents = new Vector3(0.25f, 0.25f, 0.25f);
 
             //returns an array of colliders

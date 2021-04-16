@@ -41,11 +41,8 @@ namespace Units
             
             //this part of the block actually initiates the moving so checked last
             if (!moving)
-            {
-                FindSelectableTiles(unit);
                 WaitToSelectTileInRange();
-            }
-          
+
         }
 
         /*
@@ -76,6 +73,11 @@ namespace Units
             }
 
         }
+        
+        /*
+         * Find selectable tiles
+         */
+        public void FindTiles() => FindSelectableTiles(unit);
 
 
         /*

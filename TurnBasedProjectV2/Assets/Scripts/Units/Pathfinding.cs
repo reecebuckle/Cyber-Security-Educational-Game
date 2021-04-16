@@ -16,13 +16,13 @@ namespace Units
         //is the unit currently in movement?
         public bool moving = false;
 
-        private Vector3 velocity = new Vector3();
-        private Vector3 heading = new Vector3();
-        private float halfHeight = 0;
+        private Vector3 _velocity = new Vector3();
+        private Vector3 _heading = new Vector3();
+        private float _halfHeight = 0;
 
         //selectableTiles show when it's the units turn 
         private List<Tile> selectableTiles = new List<Tile>();
-        private  GameObject[] tiles;
+        private GameObject[] _tiles;
 
         //Stack gives us the path in reverse order
         private Stack<Tile> path = new Stack<Tile>();
@@ -34,10 +34,10 @@ namespace Units
         */
         protected void CacheAllTiles()
         {
-            tiles = GameObject.FindGameObjectsWithTag("Tile");
+            _tiles = GameObject.FindGameObjectsWithTag("Tile");
             // Find where the unit sits on the tile
             // Going to be calculated a lot, so performance friendly to calculate once at the beginning
-            halfHeight = GetComponent<Collider>().bounds.extents.y;
+            _halfHeight = GetComponent<Collider>().bounds.extents.y;
         }
 
         /*
@@ -68,7 +68,7 @@ namespace Units
         */
         private void ComputeAdjacencyList()
         {
-            foreach (GameObject tile in tiles)
+            foreach (GameObject tile in _tiles)
             {
                 Tile t = tile.GetComponent<Tile>();
                 t.FindNeighbours();
@@ -156,7 +156,7 @@ namespace Units
                 Tile t = path.Peek();
                 Vector3 targetPos = t.transform.position;
 
-                targetPos.y += halfHeight + t.GetComponent<Collider>().bounds.extents.y;
+                targetPos.y += _halfHeight + t.GetComponent<Collider>().bounds.extents.y;
 
                 //if distance is very small then....
                 if (Vector3.Distance(transform.position, targetPos) >= 0.05f)
@@ -165,8 +165,8 @@ namespace Units
                     CalculateHorizontalVelocity(unit);
 
                     //face direction of movement
-                    transform.forward = heading;
-                    transform.position += velocity * Time.deltaTime;
+                    transform.forward = _heading;
+                    transform.position += _velocity * Time.deltaTime;
                 }
                 else
                 {
@@ -185,7 +185,7 @@ namespace Units
         /*
         * Move forward in the direction of the heading
         */
-        private void CalculateHorizontalVelocity(Unit unit) => velocity = heading * unit.GetMovementSpeed();
+        private void CalculateHorizontalVelocity(Unit unit) => _velocity = _heading * unit.GetMovementSpeed();
 
 
         /*
@@ -193,9 +193,9 @@ namespace Units
          */
         private void CalculateHeading(Vector3 targetPos)
         {
-            heading = targetPos - transform.position;
+            _heading = targetPos - transform.position;
             //normalise (unit vector magnitude of 1)
-            heading.Normalize();
+            _heading.Normalize();
         }
 
         /*
@@ -216,21 +216,5 @@ namespace Units
 
             selectableTiles.Clear();
         }
-
-        /*
-        * Returns true if tiles are found, false if not (prevents double checking)
-         */
-        public bool AreTilesFound()
-        {
-            if (selectableTiles.Count > 0)
-                return true;
-            else return false;
-        }
-
-        /*
-         * Return all tiles
-         */
-        public GameObject[] GetAllTiles() => tiles;
-
     }
 }

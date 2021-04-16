@@ -55,8 +55,6 @@ namespace Units
         */
         private void SpawnUnits()
         {
-            Debug.Log("Spawning Units... ");
-
             for (int x = 0; x < unitsToSpawn.Length; ++x)
             {
                 GameObject unit =
@@ -79,7 +77,6 @@ namespace Units
 
         /*
         * Checks if a unit has been selected!
-        * TODO: Deprecated method removing to externalise the mouse manager
         */
         private void WaitToSelectUnit()
         {
@@ -126,10 +123,11 @@ namespace Units
             if (selectedUnit != null)
                 DeselectUnit();
 
+            
             clickedUnit.ToggleSelect(true);
             selectedUnit = clickedUnit;
-
-            // TODO update this FindSelectableTiles(selectedUnit); here rather than in update??
+            selectedUnit.GetComponent<UnitController>().FindTiles();
+            
             // Will display selected unit for us or enemy
             GameUI.instance.ToggleUnitBar(selectedUnit);
             GameUI.instance.DisplayUnitStats(selectedUnit);

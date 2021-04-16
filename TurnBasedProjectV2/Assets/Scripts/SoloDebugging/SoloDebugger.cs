@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace SoloDebugging
 {
+    /*
+    * Solo debugger used for instantiating units
+    */
     public class SoloDebugger : MonoBehaviour
     {
         [Header("Reference to Solo Spawn Prefabs")]
