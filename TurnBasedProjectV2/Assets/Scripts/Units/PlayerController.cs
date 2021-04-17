@@ -128,8 +128,7 @@ namespace Units
             // Unselect the current unit IF one is selected
             if (selectedUnit != null)
                 DeselectUnit();
-
-
+            
             clickedUnit.ToggleSelect(true);
             selectedUnit = clickedUnit;
 
@@ -141,7 +140,9 @@ namespace Units
             // Only find tiles if the unit hasn't moved and shouldn't miss the turn
             if (selectedUnit.MovedThisTurn()) return;
             if (selectedUnit.ShouldMissTurn()) return;
+            if (selectedUnit.AttackedThisTurn()) return;
 
+            // Find the tiles within range 
             selectedUnit.GetComponent<UnitController>().FindTiles();
         }
 
@@ -165,7 +166,8 @@ namespace Units
 
 
         /*
-         * Selects the next available unit
+        * TODO Unused method 
+        * Selects the next available unit
         */
         private void SelectNextAvailableUnit()
         {
@@ -183,27 +185,18 @@ namespace Units
         {
             DeselectUnit();
 
-            //Remove selectable tiles if it was there
+            //Reset any units that were previously forced to miss turn
             foreach (Unit unit in units)
                 unit.ToggleMissTurn(false);
 
+            //Remove selectable tiles if it was there
             foreach (var tile in _tiles)
                 tile.Reset();
 
-            /*{
-                //exclude database and web server
-                if (unit.GetUnitID() < 5)
-                {
-                    unit.GetComponent<UnitController>().DeselectTiles();
-                    unit.ToggleMissTurn(false);
-                }
-            }
-            */
-
-            //update status bar
+            //Update status bar
             GameUI.instance.AppendHistoryLog("Ending turn");
 
-            // Invoke the next turn method for the other player!
+            //Invoke the next turn method for the other player!
             GameManager.instance.photonView.RPC("SetNextTurn", RpcTarget.All);
         }
 
@@ -212,18 +205,18 @@ namespace Units
         */
         public void BeginTurn()
         {
-            //increment round number
+            //Increment round number
             _round++;
             GameUI.instance.UpdateRoundText(_round);
-            //update status bar
+            //Update status bar
             GameUI.instance.AppendHistoryLog("Beginning new turn. Round: " + _round);
 
             _unitsRemaining = units.Count;
 
-            //how many action points to give to all units
+            //How many action points to give to all units
             int actionPointGain = 2;
 
-            //check to see we have a webserver
+            //Check to see we have a webserver
             Unit webserver = units.Find(unit => unit.GetUnitID() == 5);
             if (webserver != null)
             {
@@ -236,7 +229,7 @@ namespace Units
                 }
             }
 
-            //check to see we have a database and increment action points
+            //Check to see we have a database and increment action points
             Unit database = units.Find(unit => unit.GetUnitID() == 6);
             if (database != null)
             {
@@ -251,7 +244,7 @@ namespace Units
 
             GameUI.instance.UpdateWaitingUnitsText(_unitsRemaining);
 
-            //reset all units moved/attacked and increment action points
+            //Reset all units moved/attacked and increment action points
             foreach (Unit u in units)
             {
                 u.ToggleMovedThisTurn(false);

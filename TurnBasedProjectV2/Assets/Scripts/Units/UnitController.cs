@@ -7,14 +7,14 @@ namespace Units
 {
     public class UnitController : Pathfinding
     {
-        public Unit unit;
+        private Unit _unit;
         
         /*
         * Get reference of unit
         */
         private void Start()
         {
-            unit = GetComponent<Unit>();
+            _unit = GetComponent<Unit>();
             CacheAllTiles();
         }
 
@@ -25,19 +25,22 @@ namespace Units
         {
             //continue moving if another unit is selected, hence put this first!
             if (moving)
-                Move(unit);
+                Move(_unit);
             
             //return if unit isn't selected by the player controller
-            if (!unit.IsSelected()) return;
+            if (!_unit.IsSelected()) return;
 
             //Uncomment this to allow unit to move AFTER attacking
-            if (unit.AttackedThisTurn()) return;
+            if (_unit.AttackedThisTurn()) return;
             
-            //return if unit has moved this turn or forced to skipp
-            if (unit.MovedThisTurn() || unit.ShouldMissTurn()) return;
+            //return if unit has moved this turn 
+            if (_unit.MovedThisTurn()) return;
+            
+            //return if this should skip turn
+            if (_unit.ShouldMissTurn()) return;
             
             //don't allow target to move if waiting to attack
-            if (unit.WaitingToAttack()) return;
+            if (_unit.WaitingToAttack()) return;
             
             //this part of the block actually initiates the moving so checked last
             if (!moving)
@@ -50,26 +53,24 @@ namespace Units
         */
         private void WaitToSelectTileInRange()
         {
-            if (Input.GetMouseButtonUp(0))
+            //return if any other button that isn't LMC 
+            if (!Input.GetMouseButtonUp(0)) return;
+            
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit))
             {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-                RaycastHit hit;
-                if (Physics.Raycast(ray, out hit))
-                {
-                    if (hit.collider.CompareTag("Tile"))
-                    {
-                        Tile t = hit.collider.GetComponent<Tile>();
-
-                        if (t.selectable)
-                        {
-                            PlayerController.me.DecrementUnitsRemaining();
-                            MoveToTile(t);
-                        }
-
-
-                    }
-                }
+                //return if collider isn't a tile
+                if (!hit.collider.CompareTag("Tile")) return;
+                    
+                Tile tile = hit.collider.GetComponent<Tile>();
+                        
+                //return if tile isn't selectable
+                if (!tile.selectable) return;
+                        
+                PlayerController.me.DecrementUnitsRemaining();
+                MoveToTile(tile);
             }
 
         }
@@ -77,9 +78,8 @@ namespace Units
         /*
          * Find selectable tiles
          */
-        public void FindTiles() => FindSelectableTiles(unit);
-
-
+        public void FindTiles() => FindSelectableTiles(_unit);
+        
         /*
         * Removes selectable tiles
         */

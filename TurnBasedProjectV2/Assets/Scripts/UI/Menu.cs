@@ -100,7 +100,7 @@ namespace UI
         {
             // if we have 2 players in the lobby, load the Game scene
             if (PhotonNetwork.PlayerList.Length == 2)
-                NetworkManager.instance.photonView.RPC("ChangeScene", RpcTarget.All, "Main Game");
+                NetworkManager.instance.photonView.RPC("ChangeScene", RpcTarget.All, "Main Game Web Version");
             else gameStartingText.gameObject.SetActive(false);
         }
 

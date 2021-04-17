@@ -33,7 +33,8 @@ namespace Map
         private void Start()
         {
             _matInstance = GetComponent<Renderer>().material;
-            _matInstance.EnableKeyword("_DisplayEmitAmount");
+            //Todo uncomment for base game
+            //_matInstance.EnableKeyword("_DisplayEmitAmount");
         }
         
         // TODO Old Method which would check from the tile
@@ -45,34 +46,35 @@ namespace Map
         public void MarkSelectable()
         {
             selectable = true;
-            _matInstance.SetFloat("_Metallic", 0.0f);
+            //_matInstance.SetFloat("_Metallic", 0.0f);
             _matInstance.color = Color.green;
         }
         
         public void MarkAttack()
         {
-            _matInstance.SetFloat("_Metallic", 0.0f);
+            //_matInstance.SetFloat("_Metallic", 0.0f);
             _matInstance.color = Color.magenta;
         }
         
         public void MarkTarget()
         {
             target = true;
-            _matInstance.SetFloat("_Metallic", 0.0f);
+            //_matInstance.SetFloat("_Metallic", 0.0f);
             _matInstance.color = Color.red;
         }
         
         public void MarkCurrent()
         {
             current = true; 
-            _matInstance.SetFloat("_Metallic", 0.0f);
+            //_matInstance.SetFloat("_Metallic", 0.0f);
             _matInstance.color = Color.green;
         }
         
         public void MarkReset()
         {
-            _matInstance.SetFloat("_Metallic", 1.0f);
-            _matInstance.color = Color.white;
+            //_matInstance.SetFloat("_Metallic", 1.0f);
+            // todo change this to white for non web servers
+            _matInstance.color = Color.black;
         }
         
         /*
@@ -107,7 +109,7 @@ namespace Map
             else
             {
                 _matInstance.SetFloat("_Metallic", 1.0f);
-                _matInstance.color = Color.white;
+                _matInstance.color = Color.black;
             }
         }
 
