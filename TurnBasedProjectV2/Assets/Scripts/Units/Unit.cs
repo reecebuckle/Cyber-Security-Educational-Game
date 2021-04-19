@@ -13,31 +13,32 @@ namespace Units
         //
         [SerializeField] private float moveSpeed; // units movement speed
         [SerializeField] private int moveDistance; // max distance we can move per turn
-        [SerializeField] private int maxHP; // maximum health points a unit has
-        [SerializeField] private int maxDefence; // current defence points a unit has
         [SerializeField] private int unitID; // ID reference of unit
         [SerializeField] private string unitName; // ID reference of unit
         [SerializeField] private string[] unitInformation; // ID reference of unit
         [SerializeField] private GameObject quad; //quad that shows up when in range
         [SerializeField] private GameObject selectionQuad; //quad that shows up when selected
-        
-        private int currentHP; // current hit points a unit has
-        private int currentDef; // current defence a unit has
-        private int actionPoints; //current number of action points a unit can have
 
-        private bool hasMovedThisTurn;
-        private bool attatckedThisTurn;
-        private bool isSelected;
-        private bool missTurn;
-        private bool waitingToAttack;
+        public int MaxHp {get; set; } // maximum health points a unit has
+        public int MaxDefence {get; set; } // current defence points a unit has
+        public int CurrentHp { get; set; }
+        public int CurrentDef { get; set; }
+
+        private int _actionPoints; //current number of action points a unit can have
+
+        private bool _hasMovedThisTurn;
+        private bool _attackedThisTurn;
+        private bool _isSelected;
+        private bool _missTurn;
+        private bool _waitingToAttack;
         
         /*
          * Initiate units current health and defence (which are variables
          */
         private void Start()
         {
-            currentHP = maxHP;
-            currentDef = maxDefence;
+            CurrentHp = MaxHp;
+            CurrentDef = MaxDefence;
             quad.SetActive(false);
             selectionQuad.SetActive(false);
         }
@@ -55,9 +56,9 @@ namespace Units
          */
         public void IncrementActionPoints(int amount)
         {
-            actionPoints += amount;
-            if (actionPoints > 6)
-                actionPoints = 6;
+            _actionPoints += amount;
+            if (_actionPoints > 6)
+                _actionPoints = 6;
         }
         
         /*
@@ -65,9 +66,9 @@ namespace Units
          */
         public void DecrementActionPoints(int amount)
         {
-            actionPoints -= amount;
-            if (actionPoints < 0)
-                actionPoints = 0;
+            _actionPoints -= amount;
+            if (_actionPoints < 0)
+                _actionPoints = 0;
         }
 
         /*
@@ -80,9 +81,9 @@ namespace Units
             CalculateDamage(damage);
             
             if (photonView.IsMine)
-                GameUI.instance.AppendHistoryLog(unitName + " taking damage. Health: " + currentHP + ". Defence: " + currentDef + ".");
+                GameUI.instance.AppendHistoryLog(unitName + " taking damage. Health: " + CurrentHp + ". Defence: " + CurrentDef + ".");
             
-            if (currentHP <= 0)
+            if (CurrentHp <= 0)
                 photonView.RPC("UnitHasDied", RpcTarget.All);
         }
 
@@ -91,10 +92,10 @@ namespace Units
          */
         private void CalculateDamage(int damage)
         {
-            int defenceDamage = Math.Min(currentDef, damage);
-            int healthDamage = Math.Min(currentHP, damage - defenceDamage);
-            currentDef -= defenceDamage;
-            currentHP -= healthDamage;
+            int defenceDamage = Math.Min(CurrentDef, damage);
+            int healthDamage = Math.Min(CurrentHp, damage - defenceDamage);
+            CurrentDef -= defenceDamage;
+            CurrentHp -= healthDamage;
         }
 
         /*
@@ -103,21 +104,21 @@ namespace Units
         [PunRPC]
         private void DamageShields(int damage)
         {
-            if (currentDef == 0)
+            if (CurrentDef == 0)
             {
                 GameUI.instance.AppendHistoryLog(unitName + " shields already down. No net result!");
                 return;
             }
 
             //reduce current defence by damage
-            currentDef -= damage;
+            CurrentDef -= damage;
 
             //but if it's 0, set to 0
-            if (currentDef < 0)
-                currentDef = 0;
+            if (CurrentDef < 0)
+                CurrentDef = 0;
             
             if (photonView.IsMine)
-                GameUI.instance.AppendHistoryLog(unitName + " shields taking damage. Defence: " + currentDef + ".");
+                GameUI.instance.AppendHistoryLog(unitName + " shields taking damage. Defence: " + CurrentDef + ".");
         }
 
         /*
@@ -127,16 +128,16 @@ namespace Units
         private void BypassDefence(int damage)
         {
             //reduce current defence by damage
-            currentHP -= damage;
+            CurrentHp -= damage;
 
             //but if it's 0, set to 0
-            if (currentHP < 0)
-                currentHP = 0;
+            if (CurrentHp < 0)
+                CurrentHp = 0;
             
             if (photonView.IsMine)
-                GameUI.instance.AppendHistoryLog(unitName + " taking damage (ignoring shields). Health: " + currentHP + ".");
+                GameUI.instance.AppendHistoryLog(unitName + " taking damage (ignoring shields). Health: " + CurrentHp + ".");
             
-            if (currentHP <= 0)
+            if (CurrentHp <= 0)
                 photonView.RPC("UnitHasDied", RpcTarget.All);
         }
 
@@ -145,12 +146,16 @@ namespace Units
          */
         public void BoostDefence(int defence)
         {
-            currentDef += defence;
+            CalculateNewDefence(defence);
+            GameUI.instance.AppendHistoryLog(unitName + " shields restored to " + CurrentDef);
+        }
 
-            if (currentDef > maxDefence + 2)
-                currentDef = maxDefence;
-            
-            GameUI.instance.AppendHistoryLog(unitName + " shields restored to " + currentDef);
+        public void CalculateNewDefence(int defence)
+        {
+            CurrentDef += defence;
+
+            if (CurrentDef > MaxDefence + 2)
+                CurrentDef = MaxDefence;
         }
 
         /*
@@ -182,7 +187,7 @@ namespace Units
             //update status bar
             if (photonView.IsMine)
                 GameUI.instance.AppendHistoryLog(unitName + " will miss the next turn");
-            missTurn = true;
+            _missTurn = true;
         } 
         
 
@@ -191,10 +196,10 @@ namespace Units
         */
         public void ToggleSelect(bool selected)
         {
-            isSelected = selected;
+            _isSelected = selected;
             
             //updates selected quad
-            if (isSelected)
+            if (_isSelected)
                 selectionQuad.SetActive(true);
             else 
                 selectionQuad.SetActive(false);
@@ -203,22 +208,22 @@ namespace Units
         /*
         * Invoked to change a units used status
         */
-        public void ToggleMovedThisTurn(bool hasMoved) => hasMovedThisTurn = hasMoved;
+        public void ToggleMovedThisTurn(bool hasMoved) => _hasMovedThisTurn = hasMoved;
 
         /*
         * Invoked to change a units used status
         */
-        public void ToggleAttackedThisTurn(bool attacked) => attatckedThisTurn = attacked;
+        public void ToggleAttackedThisTurn(bool attacked) => _attackedThisTurn = attacked;
         
         /*
          * Invoked to allow unit to select to something when waiting to attack
         */
-        public void ToggleWaitingToAttack(bool isWaiting) => waitingToAttack = isWaiting;
+        public void ToggleWaitingToAttack(bool isWaiting) => _waitingToAttack = isWaiting;
 
         /*
          * Invoked to unmiss a turn
          */
-        public void ToggleMissTurn(bool b) => missTurn = b;
+        public void ToggleMissTurn(bool b) => _missTurn = b;
         
         /*
          * Invoked to toggle if a unit is selected in range 
@@ -237,20 +242,20 @@ namespace Units
         /*
         * Read only getter methods for all private variables 
         */
-        public bool MovedThisTurn() => hasMovedThisTurn;
-        public bool IsSelected() => isSelected;
+        public bool MovedThisTurn() => _hasMovedThisTurn;
+        public bool IsSelected() => _isSelected;
         public int GetMovementDistance() => moveDistance;
         public float GetMovementSpeed() => moveSpeed;
-        public int GetCurrentHp() => currentHP;
-        public int GetMaxHp() => maxHP;
-        public int GetCurrentDef() => currentDef;
-        public int GetMaxDef() => maxDefence;
-        public bool AttackedThisTurn() => attatckedThisTurn;
+        //public int GetCurrentHp() => _currentHp;
+        //public int GetMaxHp() => maxHP;
+        //public int GetCurrentDef() => CurrentDef;
+        //public int GetMaxDef() => maxDefence;
+        public bool AttackedThisTurn() => _attackedThisTurn;
         public int GetUnitID() => unitID;
         public string GetUnitName() => unitName;
         public string[] GetUnitInformation() => unitInformation;
-        public bool ShouldMissTurn() => missTurn;
-        public int GetActionPoints() => actionPoints;
-        public bool WaitingToAttack() => waitingToAttack;
+        public bool ShouldMissTurn() => _missTurn;
+        public int GetActionPoints() => _actionPoints;
+        public bool WaitingToAttack() => _waitingToAttack;
     }
 }

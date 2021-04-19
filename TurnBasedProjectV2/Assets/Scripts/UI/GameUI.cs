@@ -199,9 +199,9 @@ namespace UI
         {
             unitNameText.text = unit.GetUnitName();
             unitInfoText.text = "";
-            unitInfoText.text += string.Format("<b>Hp:</b> {0} / {1}", unit.GetCurrentHp(), unit.GetMaxHp() + "\n");
+            unitInfoText.text += string.Format("<b>Hp:</b> {0} / {1}", unit.CurrentHp, unit.MaxHp + "\n");
             unitInfoText.text +=
-                string.Format("<b>Defence:</b> {0} / {1}", unit.GetCurrentDef(), unit.GetMaxDef() + "\n");
+                string.Format("<b>Defence:</b> {0} / {1}", unit.CurrentDef, unit.MaxDefence + "\n");
             unitInfoText.text += string.Format("<b>Move Range:</b> {0}", unit.GetMovementDistance() + "\n");
             //display no action points for the servers
             if (unit.GetUnitID() < 5)
@@ -240,9 +240,9 @@ namespace UI
         {
             enemyNameText.text = unit.GetUnitName();
             enemyInfoText.text = "";
-            enemyInfoText.text += string.Format("<b>Hp:</b> {0} / {1}", unit.GetCurrentHp(), unit.GetMaxHp() + "\n");
+            enemyInfoText.text += string.Format("<b>Hp:</b> {0} / {1}", unit.CurrentHp, unit.MaxHp + "\n");
             enemyInfoText.text +=
-                string.Format("<b>Defence:</b> {0} / {1}", unit.GetCurrentDef(), unit.GetMaxDef() + "\n");
+                string.Format("<b>Defence:</b> {0} / {1}", unit.CurrentDef, unit.MaxDefence + "\n");
             enemyInfoText.text += string.Format("<b>Move Range:</b> {0}", unit.GetMovementDistance());
             enemyStatsUI.SetActive(true);
         }
@@ -255,9 +255,9 @@ namespace UI
         {
             Debug.Log("Updating stats after taking damage");
             enemyInfoText.text = "";
-            enemyInfoText.text += string.Format("<b>Hp:</b> {0} / {1}", unit.GetCurrentHp(), unit.GetMaxHp() + "\n");
+            enemyInfoText.text += string.Format("<b>Hp:</b> {0} / {1}", unit.CurrentHp, unit.MaxHp + "\n");
             enemyInfoText.text +=
-                string.Format("<b>Defence:</b> {0} / {1}", unit.GetCurrentDef(), unit.GetMaxDef() + "\n");
+                string.Format("<b>Defence:</b> {0} / {1}", unit.CurrentDef, unit.MaxDefence + "\n");
             enemyInfoText.text += string.Format("<b>Move Range:</b> {0}", unit.GetMovementDistance());
         }
 
