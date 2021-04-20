@@ -23,8 +23,8 @@ namespace Units
         public int MaxDefence {get; set; } // current defence points a unit has
         public int CurrentHp { get; set; }
         public int CurrentDef { get; set; }
-
-        private int _actionPoints; //current number of action points a unit can have
+        public int ActionPoints { get; set; } //current number of action points a unit can have
+        public int MaxActionPoints { get; set; } //current number of action points a unit can have
 
         private bool _hasMovedThisTurn;
         private bool _attackedThisTurn;
@@ -41,6 +41,7 @@ namespace Units
             CurrentDef = MaxDefence;
             quad.SetActive(false);
             selectionQuad.SetActive(false);
+            MaxActionPoints = 6;
         }
 
         // called when the unit is spawned in
@@ -56,9 +57,16 @@ namespace Units
          */
         public void IncrementActionPoints(int amount)
         {
-            _actionPoints += amount;
-            if (_actionPoints > 6)
-                _actionPoints = 6;
+            //Remove negative inputs and throw an error
+            if (amount < 0)
+            {
+                Debug.Log("Action point value is less than 0!");
+                amount = 0;
+            }
+            
+            ActionPoints += amount;
+            if (ActionPoints > MaxActionPoints)
+                ActionPoints = MaxActionPoints;
         }
         
         /*
@@ -66,9 +74,16 @@ namespace Units
          */
         public void DecrementActionPoints(int amount)
         {
-            _actionPoints -= amount;
-            if (_actionPoints < 0)
-                _actionPoints = 0;
+            //Remove negative inputs and throw an error
+            if (amount < 0)
+            {
+                Debug.Log("Action point value is less than 0!");
+                amount = 0;
+            }
+                
+            ActionPoints -= amount;
+            if (ActionPoints < 0)
+                ActionPoints = 0;
         }
 
         /*
@@ -90,8 +105,15 @@ namespace Units
         /*
          * First subtracts damage from defence, and then from health
          */
-        private void CalculateDamage(int damage)
+        public void CalculateDamage(int damage)
         {
+            //Remove negative inputs and throw an error
+            if (damage < 0)
+            {
+                Debug.Log("Damage is less than 0!");
+                damage = 0;
+            }
+            
             int defenceDamage = Math.Min(CurrentDef, damage);
             int healthDamage = Math.Min(CurrentHp, damage - defenceDamage);
             CurrentDef -= defenceDamage;
@@ -127,12 +149,7 @@ namespace Units
         [PunRPC]
         private void BypassDefence(int damage)
         {
-            //reduce current defence by damage
-            CurrentHp -= damage;
-
-            //but if it's 0, set to 0
-            if (CurrentHp < 0)
-                CurrentHp = 0;
+            CalculateBypassDefence(damage);
             
             if (photonView.IsMine)
                 GameUI.instance.AppendHistoryLog(unitName + " taking damage (ignoring shields). Health: " + CurrentHp + ".");
@@ -142,19 +159,46 @@ namespace Units
         }
 
         /*
+         * Invoked when a units defence is bypassed
+         */
+        public void CalculateBypassDefence(int damage)
+        {
+            
+            //Remove negative inputs and throw an error
+            if (damage < 0)
+            {
+                Debug.Log("Damage is less than 0!");
+                damage = 0;
+            }
+            //reduce current defence by damage
+            CurrentHp -= damage;
+
+            //but if it's 0, set to 0
+            if (CurrentHp < 0)
+                CurrentHp = 0;
+        }
+
+        /*
          * Invoked when a units defence is boosted
          */
         public void BoostDefence(int defence)
         {
-            CalculateNewDefence(defence);
+            CalculateBoostDefence(defence);
             GameUI.instance.AppendHistoryLog(unitName + " shields restored to " + CurrentDef);
         }
 
-        public void CalculateNewDefence(int defence)
+        public void CalculateBoostDefence(int defence)
         {
+            //Remove negative inputs and throw an error
+            if (defence < 0)
+            {
+                Debug.Log("Defence is less than 0!");
+                defence = 0;
+            }
+            
             CurrentDef += defence;
-
-            if (CurrentDef > MaxDefence + 2)
+            
+            if (CurrentDef > MaxDefence)
                 CurrentDef = MaxDefence;
         }
 
@@ -246,16 +290,12 @@ namespace Units
         public bool IsSelected() => _isSelected;
         public int GetMovementDistance() => moveDistance;
         public float GetMovementSpeed() => moveSpeed;
-        //public int GetCurrentHp() => _currentHp;
-        //public int GetMaxHp() => maxHP;
-        //public int GetCurrentDef() => CurrentDef;
-        //public int GetMaxDef() => maxDefence;
         public bool AttackedThisTurn() => _attackedThisTurn;
         public int GetUnitID() => unitID;
         public string GetUnitName() => unitName;
         public string[] GetUnitInformation() => unitInformation;
         public bool ShouldMissTurn() => _missTurn;
-        public int GetActionPoints() => _actionPoints;
+        public int GetActionPoints() => ActionPoints;
         public bool WaitingToAttack() => _waitingToAttack;
     }
 }
