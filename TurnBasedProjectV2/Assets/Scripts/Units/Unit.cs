@@ -4,13 +4,20 @@ using Managers;
 using Photon.Pun;
 using UI;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Units
 {
     public class Unit : MonoBehaviourPun
     {
+      
+        /*
+         * Set in inspector once at call time
+         */
         [Header("Unit Properties")]
         //
+        [SerializeField] private int setHp; 
+        [SerializeField] private int setDefence;
         [SerializeField] private float moveSpeed; // units movement speed
         [SerializeField] private int moveDistance; // max distance we can move per turn
         [SerializeField] private int unitID; // ID reference of unit
@@ -19,10 +26,10 @@ namespace Units
         [SerializeField] private GameObject quad; //quad that shows up when in range
         [SerializeField] private GameObject selectionQuad; //quad that shows up when selected
 
-        public int MaxHp {get; set; } // maximum health points a unit has
-        public int MaxDefence {get; set; } // current defence points a unit has
-        public int CurrentHp { get; set; }
-        public int CurrentDef { get; set; }
+        public int MaxHp {get; set; } // max health points a unit has
+        public int MaxDefence {get; set; } // max defence points a unit has
+        public int CurrentHp {get; set; } // current HP
+        public int CurrentDef {get; set; } // current defence points a unit has
         public int ActionPoints { get; set; } //current number of action points a unit can have
         public int MaxActionPoints { get; set; } //current number of action points a unit can have
 
@@ -33,12 +40,14 @@ namespace Units
         private bool _waitingToAttack;
         
         /*
-         * Initiate units current health and defence (which are variables
+         * Initiate units current health and defence (which are variables)
          */
         private void Start()
         {
-            CurrentHp = MaxHp;
-            CurrentDef = MaxDefence;
+            CurrentHp = setHp;
+            MaxHp = setHp;
+            CurrentDef = setDefence;
+            MaxDefence = setDefence;
             quad.SetActive(false);
             selectionQuad.SetActive(false);
             MaxActionPoints = 6;
@@ -57,7 +66,6 @@ namespace Units
          */
         public void IncrementActionPoints(int amount)
         {
-            //Remove negative inputs and throw an error
             if (amount < 0)
             {
                 Debug.Log("Action point value is less than 0!");
@@ -65,6 +73,7 @@ namespace Units
             }
             
             ActionPoints += amount;
+
             if (ActionPoints > MaxActionPoints)
                 ActionPoints = MaxActionPoints;
         }
@@ -80,8 +89,9 @@ namespace Units
                 Debug.Log("Action point value is less than 0!");
                 amount = 0;
             }
-                
+            
             ActionPoints -= amount;
+
             if (ActionPoints < 0)
                 ActionPoints = 0;
         }
@@ -116,8 +126,10 @@ namespace Units
             
             int defenceDamage = Math.Min(CurrentDef, damage);
             int healthDamage = Math.Min(CurrentHp, damage - defenceDamage);
+            
             CurrentDef -= defenceDamage;
             CurrentHp -= healthDamage;
+
         }
 
         /*
@@ -172,6 +184,7 @@ namespace Units
             }
             //reduce current defence by damage
             CurrentHp -= damage;
+   
 
             //but if it's 0, set to 0
             if (CurrentHp < 0)
@@ -295,7 +308,6 @@ namespace Units
         public string GetUnitName() => unitName;
         public string[] GetUnitInformation() => unitInformation;
         public bool ShouldMissTurn() => _missTurn;
-        public int GetActionPoints() => ActionPoints;
         public bool WaitingToAttack() => _waitingToAttack;
     }
 }

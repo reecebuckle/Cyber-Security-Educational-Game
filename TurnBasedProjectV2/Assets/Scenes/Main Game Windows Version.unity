@@ -20336,8 +20336,8 @@ MonoBehaviour:
     which can cripple a company\u2019s reputation. "
   - In more severe outcomes, such information could be used to commit fraud and identity
     theft.
-  attackRange: 2
-  damage: 3
+  attackRange: 5
+  damage: 2
   actionPoints: 2
 --- !u!114 &1200922805
 MonoBehaviour:
@@ -24771,7 +24771,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Basic Name
+  m_text: Unit Name
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ce85d033ec6baee4499e05df9eb240f8, type: 2}
   m_sharedMaterial: {fileID: 8990877205265546464, guid: ce85d033ec6baee4499e05df9eb240f8,
@@ -30388,14 +30388,14 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Hp: 0 / 0
+  m_text: 'Hp: 1 / 1
 
-    Defence: 0 / 0
+    Defence: 3 / 3
 
-    Move Range: 0
+    Move Range: 5
 
-    Action Points: 0
-    / 0'
+    Action Points: 3
+    / 6'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ce85d033ec6baee4499e05df9eb240f8, type: 2}
   m_sharedMaterial: {fileID: 8990877205265546464, guid: ce85d033ec6baee4499e05df9eb240f8,
@@ -36952,7 +36952,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2883001559209455831
 RectTransform:
   m_ObjectHideFlags: 0

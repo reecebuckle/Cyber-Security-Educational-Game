@@ -205,7 +205,7 @@ namespace UI
             unitInfoText.text += string.Format("<b>Move Range:</b> {0}", unit.GetMovementDistance() + "\n");
             //display no action points for the servers
             if (unit.GetUnitID() < 5)
-                unitInfoText.text += string.Format("<b>Action Points:</b> {0} / 6", unit.GetActionPoints());
+                unitInfoText.text += string.Format("<b>Action Points:</b> {0} / 6", unit.ActionPoints);
             unitStatsUI.SetActive(true);
         }
 

@@ -81,7 +81,7 @@ namespace Attacks
             }
 
             // if unit does not have enough action points
-            if (unitAttacking.GetActionPoints() < actionPoints)
+            if (unitAttacking.ActionPoints < actionPoints)
             {
                 NotEnoughActionPoints();
                 return false;
