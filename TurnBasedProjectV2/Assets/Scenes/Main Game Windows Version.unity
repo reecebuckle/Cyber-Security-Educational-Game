@@ -14359,12 +14359,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitsToSpawn:
-  - Red Analyst V3
-  - Red Scout V3
-  - Red Heavy V3
-  - Red Hacker V3
-  - Red Database Server
-  - Red Web Server
+  - Yellow Analyst
+  - Yellow Scout
+  - Yellow Heavy
+  - Yellow Hacker
+  - Yellow Database Server
+  - Yellow Web Server
   unitSpawnPositions:
   - {fileID: 189778126}
   - {fileID: 1402792523}
@@ -29336,10 +29336,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitsToSpawn:
-  - Green Analyst V3
-  - Green Scout V3
-  - Green Heavy V3
-  - Green Hacker V3
+  - Green Analyst
+  - Green Scout
+  - Green Heavy
+  - Green Hacker
   - Green Database Server
   - Green Web Server
   unitSpawnPositions:
