@@ -9,35 +9,38 @@ namespace UI
 {
     public class Menu : MonoBehaviourPunCallbacks
     {
-        [Header("Screens")] 
+        [Header("Screens")]
         //
         public GameObject mainScreen;
+
         public GameObject lobbyScreen;
 
-        [Header("Main Screen")] 
+        [Header("Main Screen")]
         //
         public Button playButton;
 
-        [Header("Lobby Screen")] 
+        [Header("Lobby Screen")]
         //
         public TextMeshProUGUI player1NameText;
+
         public TextMeshProUGUI player2NameText;
         public TextMeshProUGUI gameStartingText;
 
         private void Start()
         {
-            // disable the play button before we connect to the master server
             playButton.interactable = false;
             gameStartingText.gameObject.SetActive(false);
         }
 
-        // called when we connect to the master server
-        public override void OnConnectedToMaster()
-        {
-            playButton.interactable = true;
-        }
+        /*
+         * Invoked when we connect to the master server 
+         */
+        public override void OnConnectedToMaster() => playButton.interactable = true;
 
-        // toggles the currently visible screen
+
+        /*
+         * Toggles the currently visible screen
+         */
         private void SetScreen(GameObject screen)
         {
             // disable all screens
@@ -48,17 +51,17 @@ namespace UI
             screen.SetActive(true);
         }
 
-        // updates the player's nickname
-        public void OnUpdatePlayerNameInput(TMP_InputField nameInput)
-        {
-            PhotonNetwork.NickName = nameInput.text;
-        }
+        /*
+         * Invoked when a player inputs a name
+         */
+        public void OnUpdatePlayerNameInput(TMP_InputField nameInput) => PhotonNetwork.NickName = nameInput.text;
+
 
         /*
          * Invoked When Play Pressed
          */
         public void OnPlayButton() => NetworkManager.instance.CreateOrJoinRoom();
-        
+
 
         /*
          * Invoked when we create a room
@@ -73,19 +76,20 @@ namespace UI
          * Invoked when player leaves room
          */
         public override void OnPlayerLeftRoom(Player otherPlayer) => UpdateLobbyUI();
-        
 
-        // updates the lobby screen UI
+
+        /*
+         * Assigns player names to the UI text components
+         */
         [PunRPC]
         private void UpdateLobbyUI()
         {
-            // set the player name texts
             player1NameText.text = PhotonNetwork.CurrentRoom.GetPlayer(1).NickName;
             player2NameText.text = PhotonNetwork.PlayerList.Length == 2
                 ? PhotonNetwork.CurrentRoom.GetPlayer(2).NickName
                 : "...";
 
-            // set the game starting text
+
             if (PhotonNetwork.PlayerList.Length == 2)
             {
                 gameStartingText.gameObject.SetActive(true);
@@ -93,18 +97,26 @@ namespace UI
                 if (PhotonNetwork.IsMasterClient)
                     Invoke("TryStartGame", 3.0f);
             }
+            else // Return if there aren't two players
+                PhotonNetwork.LeaveRoom();
         }
 
-        // checks if 2 players are in the lobby and if so - start the game
+        /*
+         * Checks if 2 players are in the lobby and if so - start the game
+         */
         private void TryStartGame()
         {
             // if we have 2 players in the lobby, load the Game scene
             if (PhotonNetwork.PlayerList.Length == 2)
                 NetworkManager.instance.photonView.RPC("ChangeScene", RpcTarget.All, "Main Game Windows Version");
-            else gameStartingText.gameObject.SetActive(false);
+
+            else
+                gameStartingText.gameObject.SetActive(false);
         }
 
-        // called when the "Leave" button is pressed
+        /*
+         * Invoked when the "Leave" button is pressed
+         */
         public void OnLeaveButton()
         {
             PhotonNetwork.LeaveRoom();

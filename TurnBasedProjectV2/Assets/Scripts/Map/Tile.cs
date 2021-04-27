@@ -33,12 +33,8 @@ namespace Map
         private void Start()
         {
             _matInstance = GetComponent<Renderer>().material;
-            //Todo uncomment for base game
-            _matInstance.EnableKeyword("_DisplayEmitAmount");
+            _matInstance.EnableKeyword("_DisplayEmitAmount"); //uncomment for web version
         }
-        
-        // TODO Old Method which would check from the tile
-        //private void Update() => SelectTile();
 
         /*
          * These methods update the tile colour (initially was in update)
@@ -77,41 +73,6 @@ namespace Map
             _matInstance.color = Color.black;
         }
         
-        /*
-        * Highlights the selected tile (old method, could also be called from within the code
-        */
-        private void SelectTile() {
-
-            if (current)
-            {
-                _matInstance.SetFloat("_Metallic", 0.0f);
-                _matInstance.color = Color.green;
-            }
-
-            else if (target)
-            {
-                _matInstance.SetFloat("_Metallic", 0.0f);
-                _matInstance.color = Color.red;
-            }
-
-            else if (attack)
-            {
-                _matInstance.SetFloat("_Metallic", 0.0f);
-                _matInstance.color = Color.magenta;
-            }
-
-            else if (selectable)
-            {
-                _matInstance.SetFloat("_Metallic", 0.0f);
-                _matInstance.color = Color.green;
-            }
-
-            else
-            {
-                _matInstance.SetFloat("_Metallic", 1.0f);
-                _matInstance.color = Color.black;
-            }
-        }
 
         /*
         * INVOKED BY THE PATHFINDING SCRIPT TO FIND VALID PATHS TO MOVE TOWARDS (IN BFS MOTION)
@@ -219,6 +180,42 @@ namespace Map
             visited = false;
             parent = null;
             distance = 0;
+        }
+        
+        /*
+         * Deprecated method that highlights the selected tile (old method, could also be called from within the code
+        */
+        private void SelectTile() {
+
+            if (current)
+            {
+                _matInstance.SetFloat("_Metallic", 0.0f);
+                _matInstance.color = Color.green;
+            }
+
+            else if (target)
+            {
+                _matInstance.SetFloat("_Metallic", 0.0f);
+                _matInstance.color = Color.red;
+            }
+
+            else if (attack)
+            {
+                _matInstance.SetFloat("_Metallic", 0.0f);
+                _matInstance.color = Color.magenta;
+            }
+
+            else if (selectable)
+            {
+                _matInstance.SetFloat("_Metallic", 0.0f);
+                _matInstance.color = Color.green;
+            }
+
+            else
+            {
+                _matInstance.SetFloat("_Metallic", 1.0f);
+                _matInstance.color = Color.black;
+            }
         }
     }
 }
