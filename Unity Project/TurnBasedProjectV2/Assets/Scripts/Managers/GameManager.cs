@@ -96,11 +96,26 @@ namespace Managers
             // go back to the menu after a few seconds
             Invoke("GoBackToMenu", postGameTime);
         }
+        
+        /*
+        * Called when a player has defeated all of the other player's units
+        */
+        [PunRPC]
+        private void WinGameBySurrender(PlayerController winningPlayer)
+        {
+
+            // Display the winning text
+            GameUI.instance.DisplayWinText(winningPlayer.photonPlayer.NickName);
+
+            // go back to the menu after a few seconds
+            Invoke("GoBackToMenu", postGameTime);
+        }
+        
 
         /*
         * Returns to main menu
         */
-        private void GoBackToMenu()
+        public void GoBackToMenu()
         {
             PhotonNetwork.LeaveRoom();
             NetworkManager.instance.ChangeScene("Menu");

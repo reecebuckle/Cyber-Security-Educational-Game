@@ -105,7 +105,12 @@ namespace Attacks
 
                         if (unitsInRange.Contains(clickedUnit))
                         {
-                            AttackEnemyUnit(unit, clickedUnit, damage, actionPoints);
+                            // Deal critical damage to database server
+                            if (clickedUnit.GetUnitID() == 5)
+                                AttackEnemyUnit(unit, clickedUnit, damage + 1, actionPoints);
+                            else
+                                AttackEnemyUnit(unit, clickedUnit, damage, actionPoints);
+                            
                             waiting = false;
                             DeselectMove();
                         }

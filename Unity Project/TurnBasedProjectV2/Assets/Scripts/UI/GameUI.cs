@@ -117,14 +117,10 @@ namespace UI
         }
 
         /*
-         * Invoked when player Quits
-         * TODO: Implement functionality
+         * Invoked when player Quits, Enemy wins by default
          */
-        public void QuitGame()
-        {
-            Debug.Log("Change scene to menu and disconnect from unity network here");
-            //GameManager.instance.WinGame(0);
-        }
+        public void QuitGame() => NetworkManager.instance.photonView.RPC("WinGameBySurrender", RpcTarget.All, PlayerController.enemy);
+        
 
         /*
          * Invoked by player controller when a unit IS selected, to display the relevant stats

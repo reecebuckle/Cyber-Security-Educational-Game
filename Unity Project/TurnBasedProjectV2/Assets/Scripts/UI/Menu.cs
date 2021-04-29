@@ -119,6 +119,7 @@ namespace UI
          */
         public void OnLeaveButton()
         {
+            if ()
             PhotonNetwork.LeaveRoom();
             SetScreen(mainScreen);
         }

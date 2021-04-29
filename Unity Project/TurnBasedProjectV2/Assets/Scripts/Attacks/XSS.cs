@@ -108,7 +108,12 @@ namespace Attacks
 
                         if (unitsInRange.Contains(clickedUnit))
                         {
-                            AttackEnemyUnit(unit, clickedUnit, damage, actionPoints);
+                            //Deal critical damage to web server
+                            if (clickedUnit.GetUnitID() == 6)
+                                AttackEnemyUnit(unit, clickedUnit, damage + 1, actionPoints);
+                            else
+                                AttackEnemyUnit(unit, clickedUnit, damage, actionPoints);
+                           
                             //stop waiting for input
                             waiting = false;
                             DeselectMove();

@@ -173,9 +173,13 @@ namespace Attacks
         {
             //Toggle that unit has attacked
             unitAttacking.ToggleAttackedThisTurn(true);
-
-            unitToAttack.photonView.RPC("DamageShields", RpcTarget.All, damage);
-
+            
+            // Deal triple-critical damage to analyst units 
+            if (unitToAttack.GetUnitID() == 4)
+                unitToAttack.photonView.RPC("DamageShields", RpcTarget.All, (damage*3));
+            else 
+                unitToAttack.photonView.RPC("DamageShields", RpcTarget.All, damage);
+            
             //update status bar
             GameUI.instance.UpdateStatusBar("Targeting shields of " + unitToAttack.GetUnitName());
             //update history log
