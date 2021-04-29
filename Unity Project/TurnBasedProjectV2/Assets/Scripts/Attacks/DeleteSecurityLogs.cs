@@ -72,7 +72,7 @@ namespace Attacks
             }
             
             waiting = true;
-            GameUI.instance.UpdateStatusBar("Targets shields of all enemy units in range. Right click an enemy to use");
+            GameUI.instance.UpdateStatusBar("Targets shields of all enemy units in range. Critically hits Analysts. Right click an enemy to attack...");
 
             //Loop through units in range, if they're OUR ENEMY unit, reduce their defences
             foreach (Unit unitToAttack in unitsInRange.Where(u => PlayerController.enemy.units.Contains(u)))

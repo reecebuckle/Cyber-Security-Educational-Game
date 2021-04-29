@@ -1,6 +1,7 @@
 ﻿using Photon.Pun;
 using UI;
 using Units;
+using UnityEngine;
 
 namespace Managers
 {
@@ -9,7 +10,6 @@ namespace Managers
         public PlayerController leftPlayer;
         public PlayerController rightPlayer;
         public PlayerController curPlayer; // the player who's currently having their turn
-        public float postGameTime; // time between the game ending and us going back to the menu
         // Create a singleton instance of the Game Manager
         public static GameManager instance;
 
@@ -94,29 +94,29 @@ namespace Managers
             GameUI.instance.DisplayWinText(player.photonPlayer.NickName);
 
             // go back to the menu after a few seconds
-            Invoke("GoBackToMenu", postGameTime);
+            Invoke("GoBackToMenu", 5f);
         }
         
         /*
-        * Called when a player has defeated all of the other player's units
+        * Called when opponent player surrenders
         */
         [PunRPC]
-        private void WinGameBySurrender(PlayerController winningPlayer)
+        private void WinGameBySurrender()
         {
-
+            Debug.Log("Doing something");
             // Display the winning text
-            GameUI.instance.DisplayWinText(winningPlayer.photonPlayer.NickName);
-
+            GameUI.instance.DisplayWinText(PlayerController.me.photonPlayer.NickName);
+            
             // go back to the menu after a few seconds
-            Invoke("GoBackToMenu", postGameTime);
+            Invoke("GoBackToMenu", 5f);
         }
-        
 
         /*
         * Returns to main menu
         */
         public void GoBackToMenu()
         {
+            Debug.Log("Doing something again ");
             PhotonNetwork.LeaveRoom();
             NetworkManager.instance.ChangeScene("Menu");
         }

@@ -119,7 +119,13 @@ namespace UI
         /*
          * Invoked when player Quits, Enemy wins by default
          */
-        public void QuitGame() => NetworkManager.instance.photonView.RPC("WinGameBySurrender", RpcTarget.All, PlayerController.enemy);
+        public void QuitGame()
+        {
+            photonView.RPC("WinGameBySurrender", RpcTarget.Others);
+            DisplayWinText(PlayerController.enemy.photonPlayer.NickName);
+            GameManager.instance.Invoke("GoBackToMenu", 5f);
+
+        } 
         
 
         /*
@@ -196,12 +202,19 @@ namespace UI
             unitNameText.text = unit.GetUnitName();
             unitInfoText.text = "";
             unitInfoText.text += string.Format("<b>Hp:</b> {0} / {1}", unit.CurrentHp, unit.MaxHp + "\n");
-            unitInfoText.text +=
-                string.Format("<b>Defence:</b> {0} / {1}", unit.CurrentDef, unit.MaxDefence + "\n");
-            unitInfoText.text += string.Format("<b>Move Range:</b> {0}", unit.GetMovementDistance() + "\n");
-            //display no action points for the servers
+            unitInfoText.text += string.Format("<b>Defence:</b> {0} / {1}", unit.CurrentDef, unit.MaxDefence + "\n");
+         
+            //display no action points or movement range for the servers
             if (unit.GetUnitID() < 5)
+            {
+                unitInfoText.text += string.Format("<b>Move Range:</b> {0}", unit.GetMovementDistance() + "\n");
                 unitInfoText.text += string.Format("<b>Action Points:</b> {0} / 6", unit.ActionPoints);
+            }
+            
+            //instead display action point
+            if (unit.GetUnitID() > 4) 
+                unitInfoText.text += "<b>AP Gain: + 1</b>";
+            
             unitStatsUI.SetActive(true);
         }
 

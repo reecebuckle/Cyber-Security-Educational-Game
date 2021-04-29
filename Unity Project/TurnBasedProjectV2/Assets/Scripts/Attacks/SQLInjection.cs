@@ -73,7 +73,7 @@ namespace Attacks
             }
 
             waiting = true;
-            GameUI.instance.UpdateStatusBar("Damages target. Select an enemy unit to attack...");
+            GameUI.instance.UpdateStatusBar("Damages target. Critically hits Database Server. Select an enemy unit to attack...");
             
             //Loop through units in range and show them
             foreach (Unit u in unitsInRange.Where(u => PlayerController.enemy.units.Contains(u)))

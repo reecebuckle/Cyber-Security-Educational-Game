@@ -84,21 +84,18 @@ namespace UI
         [PunRPC]
         private void UpdateLobbyUI()
         {
+            // set the player name texts
             player1NameText.text = PhotonNetwork.CurrentRoom.GetPlayer(1).NickName;
-            player2NameText.text = PhotonNetwork.PlayerList.Length == 2
-                ? PhotonNetwork.CurrentRoom.GetPlayer(2).NickName
-                : "...";
+            player2NameText.text = PhotonNetwork.PlayerList.Length == 2 ? PhotonNetwork.CurrentRoom.GetPlayer(2).NickName : "...";
 
-
-            if (PhotonNetwork.PlayerList.Length == 2)
+            // set the game starting text
+            if(PhotonNetwork.PlayerList.Length == 2)
             {
                 gameStartingText.gameObject.SetActive(true);
 
-                if (PhotonNetwork.IsMasterClient)
+                if(PhotonNetwork.IsMasterClient)
                     Invoke("TryStartGame", 3.0f);
             }
-            else // Return if there aren't two players
-                PhotonNetwork.LeaveRoom();
         }
 
         /*
@@ -119,7 +116,6 @@ namespace UI
          */
         public void OnLeaveButton()
         {
-            if ()
             PhotonNetwork.LeaveRoom();
             SetScreen(mainScreen);
         }

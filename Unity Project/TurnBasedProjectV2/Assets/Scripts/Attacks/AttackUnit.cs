@@ -23,11 +23,8 @@ namespace Attacks
         /*
         * Cache all tiles right away for used when resetting tile options
         */
-        private void Start()
-        {
-            _tiles = PlayerController.me._tiles;
-        } 
-
+        private void Start() => _tiles = PlayerController.me._tiles;
+        
         /*
          * Returns units one tile in range
          */
@@ -117,8 +114,7 @@ namespace Attacks
             //update status bar
             GameUI.instance.UpdateStatusBar("Targeting " + unitToAttack.GetUnitName());
             //update history log
-            GameUI.instance.AppendHistoryLog(
-                "Attempting to deal " + damage + " damage to " + unitToAttack.GetUnitName());
+            GameUI.instance.AppendHistoryLog("Dealing " + damage + " damage to " + unitToAttack.GetUnitName());
 
             //Deselect unit by default 
             PlayerController.me.DeselectUnit();
@@ -159,9 +155,7 @@ namespace Attacks
             //update status bar
             GameUI.instance.UpdateStatusBar("Targeting shields of " + unitToAttack.GetUnitName());
             //update history log
-            GameUI.instance.AppendHistoryLog(
-                "Attempting to deal " + damage + " damage to " + unitToAttack.GetUnitName());
-
+            GameUI.instance.AppendHistoryLog("Damaging shields of " + unitToAttack.GetUnitName() + " by " +damage);
             //Deselect unit by default 
             PlayerController.me.DeselectUnit();
         }
@@ -176,15 +170,25 @@ namespace Attacks
             
             // Deal triple-critical damage to analyst units 
             if (unitToAttack.GetUnitID() == 4)
-                unitToAttack.photonView.RPC("DamageShields", RpcTarget.All, (damage*3));
-            else 
+            {
+                
+                unitToAttack.photonView.RPC("DamageShields", RpcTarget.All, (damage * 3));
+                //update history log
+                GameUI.instance.AppendHistoryLog("Critical hit on: " + unitToAttack.GetUnitName() + "! Dealing " + (damage*3));
+                //update status bar
+                GameUI.instance.UpdateStatusBar("Targeting shields of " + unitToAttack.GetUnitName() + ". Critical Hit!");
+            }
+            else
+            {
                 unitToAttack.photonView.RPC("DamageShields", RpcTarget.All, damage);
+                //update history log
+                GameUI.instance.AppendHistoryLog("Damaging shields of " + unitToAttack.GetUnitName() + " by " +damage);
+                //update status bar
+                GameUI.instance.UpdateStatusBar("Targeting shields of " + unitToAttack.GetUnitName());
+            }
+
             
-            //update status bar
-            GameUI.instance.UpdateStatusBar("Targeting shields of " + unitToAttack.GetUnitName());
-            //update history log
-            GameUI.instance.AppendHistoryLog("Attempted to reduce shields of " + unitToAttack.GetUnitName() + " by " +
-                                             damage);
+            
         }
 
         /*
@@ -208,7 +212,7 @@ namespace Attacks
             GameUI.instance.UpdateStatusBar("Bypassing shields of " + unitToAttack.GetUnitName());
             //update history log
             GameUI.instance.AppendHistoryLog(
-                "Attempting to deal " + damage + " damage to " + unitToAttack.GetUnitName());
+                "Dealing " + damage + " physical damage to " + unitToAttack.GetUnitName());
 
             //Deselect unit by default 
             PlayerController.me.DeselectUnit();

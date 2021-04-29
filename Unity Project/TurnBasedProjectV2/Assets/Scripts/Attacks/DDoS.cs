@@ -72,7 +72,7 @@ namespace Attacks
             }
 
             waiting = true;
-            GameUI.instance.UpdateStatusBar("Disables an unit for one turn. Select an enemy unit to attack...");
+            GameUI.instance.UpdateStatusBar("Disables a unit for one turn. Select an enemy unit to attack...");
             
             //Loop through units in range, toggle they're in range
             foreach (Unit u in unitsInRange.Where(u => PlayerController.enemy.units.Contains(u)))
