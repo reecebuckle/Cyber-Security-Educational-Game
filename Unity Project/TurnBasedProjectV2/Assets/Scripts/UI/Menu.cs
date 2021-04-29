@@ -9,23 +9,17 @@ namespace UI
 {
     public class Menu : MonoBehaviourPunCallbacks
     {
-        [Header("Screens")]
-        //
-        public GameObject mainScreen;
-
-        public GameObject lobbyScreen;
-
-        [Header("Main Screen")]
-        //
+        [Header("UI Elements")]
+        public GameObject menu;
+        public GameObject connecting;
         public Button playButton;
-
-        [Header("Lobby Screen")]
-        //
-        public TextMeshProUGUI player1NameText;
-
-        public TextMeshProUGUI player2NameText;
+        public TextMeshProUGUI player1;
+        public TextMeshProUGUI player2;
         public TextMeshProUGUI gameStartingText;
 
+        /*
+         * Invoked in the first frame
+         */
         private void Start()
         {
             playButton.interactable = false;
@@ -36,48 +30,42 @@ namespace UI
          * Invoked when we connect to the master server 
          */
         public override void OnConnectedToMaster() => playButton.interactable = true;
-
-
-        /*
-         * Toggles the currently visible screen
-         */
-        private void SetScreen(GameObject screen)
-        {
-            // disable all screens
-            mainScreen.SetActive(false);
-            lobbyScreen.SetActive(false);
-
-            // enable the requested screen
-            screen.SetActive(true);
-        }
-
-        /*
-         * Invoked when a player inputs a name
-         */
-        public void OnUpdatePlayerNameInput(TMP_InputField nameInput) => PhotonNetwork.NickName = nameInput.text;
-
-
-        /*
-         * Invoked When Play Pressed
-         */
-        public void OnPlayButton() => NetworkManager.instance.CreateOrJoinRoom();
-
-
+    
         /*
          * Invoked when we create a room
          */
         public override void OnJoinedRoom()
         {
-            SetScreen(lobbyScreen);
+            menu.SetActive(false);
+            connecting.SetActive(true);
             photonView.RPC("UpdateLobbyUI", RpcTarget.All);
         }
-
+        
         /*
          * Invoked when player leaves room
          */
         public override void OnPlayerLeftRoom(Player otherPlayer) => UpdateLobbyUI();
 
-
+        /*
+         * Invoked when a player inputs a name
+         */
+        public void OnUpdatePlayerNameInput(TMP_InputField nameInput) => PhotonNetwork.NickName = nameInput.text;
+        
+        /*
+         * Invoked When Play Pressed
+         */
+        public void PlayButton() => NetworkManager.instance.CreateOrJoinRoom();
+        
+        /*
+       * Invoked when the "Leave" button is pressed
+       */
+        public void LeaveButton()
+        {
+            PhotonNetwork.LeaveRoom();
+            connecting.SetActive(false);
+            menu.SetActive(true);
+        }
+        
         /*
          * Assigns player names to the UI text components
          */
@@ -85,39 +73,30 @@ namespace UI
         private void UpdateLobbyUI()
         {
             // set the player name texts
-            player1NameText.text = PhotonNetwork.CurrentRoom.GetPlayer(1).NickName;
-            player2NameText.text = PhotonNetwork.PlayerList.Length == 2 ? PhotonNetwork.CurrentRoom.GetPlayer(2).NickName : "...";
+            player1.text = PhotonNetwork.CurrentRoom.GetPlayer(1).NickName;
+            player2.text = PhotonNetwork.PlayerList.Length == 2 ? PhotonNetwork.CurrentRoom.GetPlayer(2).NickName : "...";
 
-            // set the game starting text
-            if(PhotonNetwork.PlayerList.Length == 2)
-            {
-                gameStartingText.gameObject.SetActive(true);
+            // return if not two people
+            if (PhotonNetwork.PlayerList.Length != 2) return;
+            
+            gameStartingText.gameObject.SetActive(true);
 
-                if(PhotonNetwork.IsMasterClient)
-                    Invoke("TryStartGame", 3.0f);
-            }
+            if(PhotonNetwork.IsMasterClient)
+                Invoke("StartGame", 3.0f);
         }
 
         /*
          * Checks if 2 players are in the lobby and if so - start the game
          */
-        private void TryStartGame()
+        private void StartGame()
         {
             // if we have 2 players in the lobby, load the Game scene
             if (PhotonNetwork.PlayerList.Length == 2)
                 NetworkManager.instance.photonView.RPC("ChangeScene", RpcTarget.All, "Main Game Windows Version");
-
             else
                 gameStartingText.gameObject.SetActive(false);
         }
 
-        /*
-         * Invoked when the "Leave" button is pressed
-         */
-        public void OnLeaveButton()
-        {
-            PhotonNetwork.LeaveRoom();
-            SetScreen(mainScreen);
-        }
+      
     }
 }

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -820,7 +820,7 @@ GameObject:
   m_Component:
   - component: {fileID: 554567410}
   m_Layer: 5
-  m_Name: LobbyScreen
+  m_Name: Connection Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1125,7 +1125,7 @@ GameObject:
   m_Component:
   - component: {fileID: 851608544}
   m_Layer: 5
-  m_Name: MainScreen
+  m_Name: Main Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1373,11 +1373,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffa0128e888d50b40ac86f3f8dee8b68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainScreen: {fileID: 851608543}
-  lobbyScreen: {fileID: 554567409}
+  menu: {fileID: 0}
+  connecting: {fileID: 0}
   playButton: {fileID: 1524917644}
-  player1NameText: {fileID: 62869647}
-  player2NameText: {fileID: 1530341949}
+  player1: {fileID: 0}
+  player2: {fileID: 0}
   gameStartingText: {fileID: 742276332}
 --- !u!4 &881992207
 Transform:
@@ -1559,7 +1559,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 881992206}
-        m_MethodName: OnLeaveButton
+        m_MethodName: LeaveButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2298,7 +2298,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 881992206}
-        m_MethodName: OnPlayButton
+        m_MethodName: PlayButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
