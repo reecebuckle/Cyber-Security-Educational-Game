@@ -47,8 +47,7 @@ namespace Attacks
 
             unitsInRange.Clear();
             moveSelected = false;
-            unit.ToggleWaitingToAttack(false);
-
+            unit.WaitingToAttack = false;
             ResetAllTiles();
         }
 
@@ -76,7 +75,7 @@ namespace Attacks
                 return;
             }
 
-            GameUI.instance.UpdateStatusBar("Restores shields of all friendly units in range. Right-click a friendly in range...");
+            GameUI.instance.UpdateStatusBar("Restores shields of all friendly units in range. Select any unit in range...");
             waiting = true;
             
             //Loop through units in range, if they're OUR unit, boost their defence by one
@@ -97,7 +96,7 @@ namespace Attacks
         private void WaitToSelectUnitInRange()
         {
             //wait for player input
-            if (Input.GetMouseButtonUp(1))
+            if (Input.GetMouseButtonUp(0))
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 

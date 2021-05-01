@@ -60,7 +60,7 @@ namespace SoloDebugging
         {
             // Reset other selected units if swapping
             ResetSelection();
-            unitAttacking.ToggleWaitingToAttack(false);
+            unitAttacking.WaitingToAttack = false;
 
             // return if unit has already attacked this turn,
             if (unitAttacking.AttackedThisTurn())
@@ -85,7 +85,7 @@ namespace SoloDebugging
 
             //highlight tiles in range anyway
             moveSelected = true;
-            unitAttacking.ToggleWaitingToAttack(true);
+            unitAttacking.WaitingToAttack = true;
 
             HighlightTilesInExtendedRange(unitAttacking, attackRange);
             return true;

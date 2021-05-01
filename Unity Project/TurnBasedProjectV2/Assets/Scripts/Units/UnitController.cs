@@ -41,7 +41,7 @@ namespace Units
             if (_unit.ShouldMissTurn()) return;
 
             //don't allow target to move if waiting to attack
-            if (_unit.WaitingToAttack()) return;
+            if (_unit.WaitingToAttack) return;
 
             //this part of the block actually initiates the moving so checked last
             if (!moving)

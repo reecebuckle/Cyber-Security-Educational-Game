@@ -93,15 +93,14 @@ namespace Units
                 RaycastHit hit;
                 if (Physics.Raycast(ray, out hit))
                 {
-                    if (hit.collider.CompareTag("Unit"))
-                    {
-                        Unit clickedUnit = hit.collider.GetComponent<Unit>();
+                    if (!hit.collider.CompareTag("Unit")) return;
+                    
+                    Unit clickedUnit = hit.collider.GetComponent<Unit>();
 
-                        if (units.Contains(clickedUnit))
-                            SelectUnit(clickedUnit);
-                        else
-                            SelectEnemeyUnit(clickedUnit);
-                    }
+                    if (units.Contains(clickedUnit))
+                        SelectUnit(clickedUnit);
+                    else
+                        SelectEnemeyUnit(clickedUnit);
                 }
             }
         }
@@ -121,9 +120,17 @@ namespace Units
         */
         private void SelectUnit(Unit clickedUnit)
         {
+            // Return if unit is waiting to attack unless press once
+            if (selectedUnit != null){
+                if (selectedUnit.WaitingToAttack)
+                {
+                    selectedUnit.WaitingToAttack = false;
+                    return;
+                }
+            }
+            
             // If we click a unit we've already selected, DO nothing
-            if (clickedUnit.IsSelected())
-                return;
+            if (clickedUnit.IsSelected()) return;
 
             // Unselect the current unit IF one is selected
             if (selectedUnit != null)
@@ -161,7 +168,7 @@ namespace Units
                     selectedUnit.GetComponent<UnitController>().DeselectTiles();
 
                 selectedUnit.ToggleSelect(false);
-                selectedUnit.ToggleWaitingToAttack(false);
+                selectedUnit.WaitingToAttack = false;
             }
 
             selectedUnit = null;

@@ -32,13 +32,13 @@ namespace Units
         public int CurrentDef {get; set; } // current defence points a unit has
         public int ActionPoints { get; set; } //current number of action points a unit can have
         public int MaxActionPoints { get; set; } //current number of action points a unit can have
+        public bool WaitingToAttack { get; set; } // is the unity waiting to attack or not?
 
         private bool _hasMovedThisTurn;
         private bool _attackedThisTurn;
         private bool _isSelected;
         private bool _missTurn;
-        private bool _waitingToAttack;
-        
+
         /*
          * Initiate units current health and defence (which are variables)
          */
@@ -281,11 +281,6 @@ namespace Units
         public void ToggleAttackedThisTurn(bool attacked) => _attackedThisTurn = attacked;
         
         /*
-         * Invoked to allow unit to select to something when waiting to attack
-        */
-        public void ToggleWaitingToAttack(bool isWaiting) => _waitingToAttack = isWaiting;
-
-        /*
          * Invoked to unmiss a turn
          */
         public void ToggleMissTurn(bool b) => _missTurn = b;
@@ -316,6 +311,5 @@ namespace Units
         public string GetUnitName() => unitName;
         public string[] GetUnitInformation() => unitInformation;
         public bool ShouldMissTurn() => _missTurn;
-        public bool WaitingToAttack() => _waitingToAttack;
     }
 }

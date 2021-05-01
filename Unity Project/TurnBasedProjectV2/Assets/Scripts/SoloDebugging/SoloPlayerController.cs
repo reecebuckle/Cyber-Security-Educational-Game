@@ -87,7 +87,7 @@ namespace SoloDebugging
                     selectedUnit.GetComponent<SoloController>().DeselectTiles();
 
                 selectedUnit.ToggleSelect(false);
-                selectedUnit.ToggleWaitingToAttack(false);
+                selectedUnit.WaitingToAttack = false;
             }
 
             selectedUnit = null;

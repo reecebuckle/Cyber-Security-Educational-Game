@@ -47,7 +47,7 @@ namespace Attacks
             unitsInRange.Clear();
             moveSelected = false;
             waiting = false;
-            unit.ToggleWaitingToAttack(false);
+            unit.WaitingToAttack = false;
             
             ResetAllTiles();
         }
@@ -77,7 +77,7 @@ namespace Attacks
             }
 
             waiting = true;
-            GameUI.instance.UpdateStatusBar("Restores shields. Right-click a friendly unit in range...");
+            GameUI.instance.UpdateStatusBar("Restores shields. Select a friendly unit in range...");
 
             //Loop through units in range, if they're OUR unit, highlight them
             foreach (Unit u in unitsInRange.Where(u => PlayerController.me.units.Contains(u)))
@@ -96,7 +96,7 @@ namespace Attacks
         private void WaitToSelectUnitInRange()
         {
             //wait for player input (right click for now)
-            if (Input.GetMouseButtonUp(1))
+            if (Input.GetMouseButtonUp(0))
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 

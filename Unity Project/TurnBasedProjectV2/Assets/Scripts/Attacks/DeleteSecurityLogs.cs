@@ -46,7 +46,7 @@ namespace Attacks
 
             unitsInRange.Clear();
             moveSelected = false;
-            unit.ToggleWaitingToAttack(false);
+            unit.WaitingToAttack = false;
             
             ResetAllTiles();
         }
@@ -76,7 +76,7 @@ namespace Attacks
             }
             
             waiting = true;
-            GameUI.instance.UpdateStatusBar("Targets shields of all enemy units in range. Critically hits Analysts. Right click an enemy to attack...");
+            GameUI.instance.UpdateStatusBar("Targets shields of all enemy units in range. Critically hits Analysts. Select any unit in range...");
 
             //Loop through units in range, if they're OUR ENEMY unit, reduce their defences
             foreach (Unit unitToAttack in unitsInRange.Where(u => PlayerController.enemy.units.Contains(u)))
@@ -95,7 +95,7 @@ namespace Attacks
         private void WaitToSelectUnitInRange()
         {
             //wait for player input
-            if (Input.GetMouseButtonUp(1))
+            if (Input.GetMouseButtonUp(0))
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 

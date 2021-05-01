@@ -49,7 +49,7 @@ namespace Attacks
             unitsInRange.Clear();
             moveSelected = false;
             waiting = false;
-            unit.ToggleWaitingToAttack(false);
+            unit.WaitingToAttack = false;
             
             ResetAllTiles();
         }
