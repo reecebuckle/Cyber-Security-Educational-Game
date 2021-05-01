@@ -41,5 +41,6 @@ MonoBehaviour:
   - UpdateStats
   - WinGame
   - WinGameBySurrender
+  - LoadGameScene
   DisableAutoOpenWizard: 1
   ShowSettings: 0

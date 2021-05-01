@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Managers;
 using UI;
 using Units;
 using UnityEngine;
@@ -49,7 +50,7 @@ namespace Attacks
             waiting = false;
             unit.ToggleWaitingToAttack(false);
             
-            //ResetTilesInList();
+            ResetAllTiles();
         }
 
         /*
@@ -57,6 +58,9 @@ namespace Attacks
         */
         public void OnClickDataExposureAttack()
         {
+            ResetAllTiles();
+            SoundManager.instance.PlayUIClick();
+            
             //Always clear if there were previous units in range
             unitsInRange.Clear();
             

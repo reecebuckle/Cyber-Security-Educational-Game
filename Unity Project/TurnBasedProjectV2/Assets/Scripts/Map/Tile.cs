@@ -5,8 +5,6 @@ using Debug = UnityEngine.Debug;
 
 /*
  * Attached to every tile/node in order to highlight and calculate distance
- * This script was written from a discontinued Youtube tutorial available here:
- * https://www.youtube.com/watch?v=cK2wzBCh9cg&t=1558s&ab_channel=GameProgrammingAcademy
  */
 namespace Map
 {
@@ -33,7 +31,9 @@ namespace Map
         private void Start()
         {
             _matInstance = GetComponent<Renderer>().material;
-            _matInstance.EnableKeyword("_DisplayEmitAmount"); //uncomment for web version
+            _matInstance.color = Color.black;
+            //_matInstance.SetFloat("_Metallic", 1.0f);
+            //_matInstance.EnableKeyword("_DisplayEmitAmount"); //uncomment for web version
         }
 
         /*
@@ -42,38 +42,32 @@ namespace Map
         public void MarkSelectable()
         {
             selectable = true;
-            _matInstance.SetFloat("_Metallic", 0.0f);
             _matInstance.color = Color.green;
         }
         
         public void MarkAttack()
         {
-            _matInstance.SetFloat("_Metallic", 0.0f);
             _matInstance.color = Color.magenta;
         }
         
         public void MarkTarget()
         {
             target = true;
-            _matInstance.SetFloat("_Metallic", 0.0f);
             _matInstance.color = Color.red;
         }
         
         public void MarkCurrent()
         {
-            current = true; 
-            _matInstance.SetFloat("_Metallic", 0.0f);
+            current = true;
             _matInstance.color = Color.green;
         }
-        
+
         public void MarkReset()
         {
-            _matInstance.SetFloat("_Metallic", 1.0f);
-            // todo change this to white for non web servers
             _matInstance.color = Color.black;
-        }
+        } 
         
-
+        
         /*
         * INVOKED BY THE PATHFINDING SCRIPT TO FIND VALID PATHS TO MOVE TOWARDS (IN BFS MOTION)
         */
@@ -180,42 +174,6 @@ namespace Map
             visited = false;
             parent = null;
             distance = 0;
-        }
-        
-        /*
-         * Deprecated method that highlights the selected tile (old method, could also be called from within the code
-        */
-        private void SelectTile() {
-
-            if (current)
-            {
-                _matInstance.SetFloat("_Metallic", 0.0f);
-                _matInstance.color = Color.green;
-            }
-
-            else if (target)
-            {
-                _matInstance.SetFloat("_Metallic", 0.0f);
-                _matInstance.color = Color.red;
-            }
-
-            else if (attack)
-            {
-                _matInstance.SetFloat("_Metallic", 0.0f);
-                _matInstance.color = Color.magenta;
-            }
-
-            else if (selectable)
-            {
-                _matInstance.SetFloat("_Metallic", 0.0f);
-                _matInstance.color = Color.green;
-            }
-
-            else
-            {
-                _matInstance.SetFloat("_Metallic", 1.0f);
-                _matInstance.color = Color.black;
-            }
         }
     }
 }

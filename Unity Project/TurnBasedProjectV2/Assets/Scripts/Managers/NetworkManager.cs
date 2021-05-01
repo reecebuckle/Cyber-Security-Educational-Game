@@ -1,5 +1,6 @@
 ﻿using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.SceneManagement;
 
 
 namespace Managers
@@ -24,11 +25,8 @@ namespace Managers
          * Essentially called during the first frame as the behaviour begins running
          * Because of this, this can lead into a co-routine if necessary
          */
-        private void Start()
-        {
-            // connect to the master server
-            PhotonNetwork.ConnectUsingSettings();
-        }
+        private void Start() => PhotonNetwork.ConnectUsingSettings();
+
 
         /*
          * Utility function:
@@ -48,9 +46,15 @@ namespace Managers
         }
 
         /*
-         * Utility function to load next scene 
+         * Load Game scene after menu
          */
         [PunRPC]
-        public void ChangeScene(string sceneName) => PhotonNetwork.LoadLevel(sceneName);
+        public void LoadGameScene() => PhotonNetwork.LoadLevel(1);
+
+
+        /*
+         * Load Menu Scene after winning/lossing
+         */
+        public void LoadMenu() => SceneManager.LoadScene(0);
     }
 }

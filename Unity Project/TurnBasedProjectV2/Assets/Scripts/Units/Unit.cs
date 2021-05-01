@@ -53,7 +53,9 @@ namespace Units
             MaxActionPoints = 6;
         }
 
-        // called when the unit is spawned in
+        /*
+         * Invoked when a unit is spawned
+         */
         [PunRPC]
         private void Initialize(bool isMine)
         {
@@ -104,6 +106,7 @@ namespace Units
         {
             //Removes damage from armour then, then remainder from health
             CalculateDamage(damage);
+            SoundManager.instance.PlayDamageHit();
             
             if (photonView.IsMine)
                 GameUI.instance.AppendHistoryLog(unitName + " taking damage. Health: " + CurrentHp + ". Defence: " + CurrentDef + ".");
@@ -146,6 +149,7 @@ namespace Units
 
             //reduce current defence by damage
             CurrentDef -= damage;
+            SoundManager.instance.PlayDisableHit();
 
             //but if it's 0, set to 0
             if (CurrentDef < 0)
@@ -162,6 +166,7 @@ namespace Units
         private void BypassDefence(int damage)
         {
             CalculateBypassDefence(damage);
+            SoundManager.instance.PlayDamageHit();
             
             if (photonView.IsMine)
                 GameUI.instance.AppendHistoryLog(unitName + " taking damage (ignoring shields). Health: " + CurrentHp + ".");
@@ -196,6 +201,7 @@ namespace Units
          */
         public void BoostDefence(int defence)
         {
+            SoundManager.instance.PlayShieldBuff();
             CalculateBoostDefence(defence);
             GameUI.instance.AppendHistoryLog(unitName + " shields restored to " + CurrentDef);
         }
@@ -221,6 +227,7 @@ namespace Units
         [PunRPC]
         private void UnitHasDied()
         {
+            SoundManager.instance.PlayDeathSound();
             if (!photonView.IsMine)
             {
                 GameUI.instance.AppendHistoryLog("Enemy " + unitName + " has died!");
@@ -241,6 +248,7 @@ namespace Units
         [PunRPC]
         private void MissTurn()
         {
+            SoundManager.instance.PlayDisableHit();
             //update status bar
             if (photonView.IsMine)
                 GameUI.instance.AppendHistoryLog(unitName + " will miss the next turn");

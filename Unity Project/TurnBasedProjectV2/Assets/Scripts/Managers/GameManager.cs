@@ -103,7 +103,6 @@ namespace Managers
         [PunRPC]
         private void WinGameBySurrender()
         {
-            Debug.Log("Doing something");
             // Display the winning text
             GameUI.instance.DisplayWinText(PlayerController.me.photonPlayer.NickName);
             
@@ -116,9 +115,8 @@ namespace Managers
         */
         public void GoBackToMenu()
         {
-            Debug.Log("Doing something again ");
             PhotonNetwork.LeaveRoom();
-            NetworkManager.instance.ChangeScene("Menu");
+            NetworkManager.instance.LoadMenu();
         }
     }
 }

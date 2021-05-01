@@ -10,9 +10,7 @@ namespace Attacks
     public class AttackUnit : MonoBehaviourPun
     {
         private List<Unit> _unitsInRange = new List<Unit>();
-        private List<Tile> _tilesInRange = new List<Tile>();
         protected bool moveSelected;
-        private GameObject[] tiles;
         private List<Tile> _tiles;
 
         [Header("Move Information")]
@@ -307,28 +305,16 @@ namespace Attacks
                 tile = hit.collider.GetComponent<Tile>();
                 if (tile != null)
                 {
-                    //_tilesInRange.Add(tile);
                     tile.MarkAttack();
                     tile.FindNeighboursInExtendedRange(attackRange);
                 }
             }
         }
-        
-        /*
-         * Reset tiles in list
-         */
-        protected void ResetTilesInList()
-        {
-            foreach (var tile in _tilesInRange)
-                tile.GetComponent<Tile>().Reset();
-            
-            _tilesInRange.Clear();
-        }
 
         /*
          * Resets all tiles
          */
-        private void ResetAllTiles()
+        protected void ResetAllTiles()
         {
             foreach (var tile in _tiles)
                 tile.Reset();

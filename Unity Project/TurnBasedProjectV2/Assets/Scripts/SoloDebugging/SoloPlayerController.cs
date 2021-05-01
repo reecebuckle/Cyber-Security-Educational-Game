@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Managers;
 using UI;
 using Units;
 using UnityEngine;
@@ -62,11 +63,11 @@ namespace SoloDebugging
             // Unselect the current unit IF one is selected
             if (selectedUnit != null)
                 DeselectUnit();
-
-            Debug.Log("Selectinmg unt");
+            
             clickedUnit.ToggleSelect(true);
             clickedUnit.GetComponent<SoloController>().FindTiles();
             selectedUnit = clickedUnit;
+            SoundManager.instance.PlaySelectUnit();
 
             // Will display selected unit for us or enemy
             GameUI.instance.ToggleUnitBar(selectedUnit);

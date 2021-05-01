@@ -40,8 +40,6 @@ namespace UI
         public GameObject UnitBarHacker;
         public GameObject UnitBarHeavy;
         public GameObject UnitBarAnalyst;
-        public GameObject UnitBarDatabase;
-        public GameObject UnitBarWebServer;
 
         [Header("Status Bar")] 
         //
@@ -185,8 +183,6 @@ namespace UI
             UnitBarHacker.SetActive(false);
             UnitBarHeavy.SetActive(false);
             UnitBarAnalyst.SetActive(false);
-            //UnitBarDatabase.SetActive(false);
-            //UnitBarWebServer.SetActive(false);
 
             informationUI.SetActive(false);
             unitStatsUI.SetActive(false);
@@ -225,6 +221,7 @@ namespace UI
         */
         public void DisplayUnitInformation(bool isOurs)
         {
+            SoundManager.instance.PlayUIClick();
             //If true gets our selected unit, otherwise gets the enemy selected unit
             Unit unit = isOurs ? PlayerController.me.selectedUnit : PlayerController.me.selectedEnemyUnit;
 
@@ -276,13 +273,11 @@ namespace UI
          */
         public void DisplayMoveInfo(AttackUnit ability)
         {
+            SoundManager.instance.PlayUIClick();
             informationNameText.text = ability.Name();
             
             informationBodyText.text = "";
             string[] informationList = ability.Information();
-            
-            //foreach (var line in informationList)
-            //    informationBodyText.text += line + " \n " + " \n ";
             
             for (int i = 0; i < (informationList.Length - 1); i++)
                 informationBodyText.text += informationList[i] + " \n " + " \n ";
@@ -297,10 +292,6 @@ namespace UI
          */
         public void AppendHistoryLog(string message)
         {
-            //Prevent overflow
-            //if (history.Count >= 15)
-            //    history.Remove(history[0]);
-
             MessageLog messageLine = Instantiate(messagePrefab, historyContent);
             if (messageLine != null)
             {
@@ -321,9 +312,17 @@ namespace UI
         /*
          * Open and close history Log
          */
-        public void OnClickOpenHistoryLog() => historyUI.SetActive(true);
-        public void OnClickCloseHistoryLog() => historyUI.SetActive(false);
-        
+        public void OnClickOpenHistoryLog()
+        {
+            SoundManager.instance.PlayUIClick();
+            historyUI.SetActive(true);
+        }
+
+        public void OnClickCloseHistoryLog()
+        {
+            SoundManager.instance.PlayUIClick();
+            historyUI.SetActive(false);
+        }
 
         /*
          * Alternative to IEnumerator(button click)
@@ -332,18 +331,7 @@ namespace UI
         {
             statusText.text = "";
             statusBar.SetActive(false);
+            SoundManager.instance.PlayUIClick();
         }
-        
-        /*
-         * Display status bar for 5 seconds
-         * //yield on a new YieldInstruction that waits for 5 seconds.
-         */
-        private IEnumerator DisplayStatusBar()
-        {
-            statusBar.SetActive(true);
-            yield return new WaitForSeconds(10); 
-            statusBar.SetActive(false);
-        }
-        
     }
 }

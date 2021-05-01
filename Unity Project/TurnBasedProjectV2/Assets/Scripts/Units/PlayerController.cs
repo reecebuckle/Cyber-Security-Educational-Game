@@ -131,6 +131,7 @@ namespace Units
             
             clickedUnit.ToggleSelect(true);
             selectedUnit = clickedUnit;
+            SoundManager.instance.PlaySelectUnit();
 
             // Will display selected unit for us or enemy
             GameUI.instance.ToggleUnitBar(selectedUnit);
@@ -186,7 +187,9 @@ namespace Units
         public void EndTurn()
         {
             DeselectUnit();
-
+            
+            SoundManager.instance.PlayNextTurn();
+            
             //Reset any units that were previously forced to miss turn
             foreach (Unit unit in units)
                 unit.ToggleMissTurn(false);
@@ -207,6 +210,7 @@ namespace Units
         */
         public void BeginTurn()
         {
+            SoundManager.instance.PlayNextTurn();
             //Increment round number
             _round++;
             GameUI.instance.UpdateRoundText(_round);

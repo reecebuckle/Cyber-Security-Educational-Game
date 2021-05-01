@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Managers;
 using Photon.Realtime;
 using UI;
 using Units;
@@ -50,7 +51,7 @@ namespace Attacks
             waiting = false;
             unit.ToggleWaitingToAttack(false);
             
-            //ResetTilesInList();
+            ResetAllTiles();
         }
         
 
@@ -59,6 +60,9 @@ namespace Attacks
         */
         public void OnClickXSSAttack()
         {
+            ResetAllTiles();
+            SoundManager.instance.PlayUIClick();
+            
             //Always clear if there were previous units in range
             unitsInRange.Clear();
             

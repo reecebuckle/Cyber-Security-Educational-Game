@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Managers;
 using Map;
 using Photon.Pun;
 using Photon.Realtime;
@@ -66,7 +67,11 @@ namespace SoloDebugging
                 Tile t = hit.collider.GetComponent<Tile>();
 
                 if (t.selectable)
+                {
+                    SoundManager.instance.PlaySelectTile();
                     MoveToTile(t);
+                }
+                   
             }
         }
 

@@ -5,8 +5,8 @@ using Photon.Pun;
 using UnityEngine;
 
 /*
- * This script is used to find the path for potential units
- * This script was written from a discontinued Youtube tutorial available here:
+ * This script provides breadth-first-search functionality for finding potential tiles a unit can to move to.
+ * It was adapted from the following youtube tutorial:
  * https://www.youtube.com/watch?v=cK2wzBCh9cg&t=1558s&ab_channel=GameProgrammingAcademy
  */
 namespace Units
@@ -88,41 +88,47 @@ namespace Units
         /*
         * Find movable tiles within range of current selected unit
         * Utilises Breadth First Search
-        * 
         */
         private void BreadthFirstSearch(Unit unit)
         {
-            //Begin BFS
-            Queue<Tile> BFS = new Queue<Tile>();
-
-            BFS.Enqueue(_currentTile);
+            // Create a Queue data structure to enqueue tiles to process
+            Queue<Tile> tiles = new Queue<Tile>();
+            
+            // Enqueue the current tile (starting from underneath the selected unit)
+            tiles.Enqueue(_currentTile);
+            
+            // Mark as visited so we do not process this tile twice
             _currentTile.visited = true;
 
-            //if this ever reached 0, then player cannot move at all
-            while (BFS.Count > 0)
+            // Iterate through the queue, whilst enqueuing adjacent tiles of each tile
+            // If this reaches 0, then there are no legal moves
+            while (tiles.Count > 0)
             {
-                Tile t = BFS.Dequeue();
-                selectableTiles.Add(t);
+                // Dequeue the first tile and add it to a list of selectable tiles
+                Tile tile = tiles.Dequeue();
+                selectableTiles.Add(tile);
 
-                //activate selectable trigger (red) of tile
-                t.MarkSelectable();
+                // Mark tile as selectable (highlights the tile green)
+                tile.MarkSelectable();
 
-                //if distance is greater than move amount, skip BFS
-                if (t.distance < unit.GetMovementDistance())
+                // If tile is out of range from the unit, dequeue the next tile
+                if (tile.distance >= unit.GetMovementDistance()) continue;
+                
+                // Iterate through the 4 adjacent tiles to the current dequeued tile
+                foreach (Tile t in tile.adjacencyList)
                 {
-                    //only process a tile once (if it's been visited already, ignore it)
-                    foreach (Tile tile in t.adjacencyList)
-                    {
-                        if (!tile.visited)
-                        {
-                            tile.parent = t;
-                            tile.visited = true;
-                            //need to keep track of how far we are from the start tile
-                            //we start at 0 at the starting node, and add 1 with each tile away
-                            tile.distance = 1 + t.distance;
-                            BFS.Enqueue(tile);
-                        }
-                    }
+                    // If tile has already been processed, dequeue next tile
+                    if (t.visited) continue;
+                    
+                    // Assign the parent of the adjacent tile and mark as visited
+                    t.parent = tile;
+                    t.visited = true;
+                    
+                    // Update distance oto keep track of how far we are from the starting tile
+                    t.distance = 1 + tile.distance;
+                    
+                    // Enqueue tile from adjacency list
+                    tiles.Enqueue(t);
                 }
             }
         }
