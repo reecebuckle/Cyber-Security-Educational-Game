@@ -3405,7 +3405,7 @@ MonoBehaviour:
   setHp: 0
   setDefence: 0
   moveSpeed: 10
-  moveDistance: 5
+  moveDistance: 3
   unitID: 1
   unitName: Scout
   unitInformation:
@@ -17500,7 +17500,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1393906192
 RectTransform:
   m_ObjectHideFlags: 0
@@ -35625,7 +35625,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8244808012625840827}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.749, y: 1.0145035, z: 6.494}
+  m_LocalPosition: {x: -7.75, y: 1.0145035, z: 6.494}
   m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_Children:
   - {fileID: 5651369169575941263}
