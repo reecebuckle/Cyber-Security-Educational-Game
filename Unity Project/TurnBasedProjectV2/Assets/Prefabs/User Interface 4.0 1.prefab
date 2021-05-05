@@ -1473,9 +1473,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: SQL Injection
   information:
-  - OWASP #1
-  - 'Sequel Query Language (SQL) injection exploits the interactivity between the
-    web application and commands that query a backend database. '
+  - 'DEALS CRITICAL DAMAGE TO DATABASES '
+  - 'Sequel Query Language (SQL) injection exploits web application commands that
+    query a backend database. '
   - 'Using SQL injection, it is possible to bypass authorisation, extract sensitive
     information from databases and even manipulate database entries with your own
     custom information. '
@@ -1707,7 +1707,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Access Control Systems
   information:
-  - Broken Access Control - OWASP #5
+  - RESTORES SHIELDS
   - "Broken access control is present when employees/users have access to higher
     levels of clearance, sensitive information and possibly even \u201Cadmin\u201D
     operations than they require. "
@@ -1950,13 +1950,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Sensitive Data Exposure
   information:
-  - 'OWASP #3 '
-  - 'Examples of sensitive data include personal, account and financial information. '
+  - 'REDUCES SHIELDS '
+  - 'Examples of sensitive data include personal, account and financial information.  '
   - "Improper handling of sensitive data in transit or storage lead to data breaches
-    which can cripple a company\u2019s reputation. "
-  - In more severe outcomes, such information could be used to commit fraud and identity
-    theft.
-  attackRange: 5
+    which can cripple a company\u2019s reputation.  "
+  - 'In more severe outcomes, such information could be used to commit fraud and
+    identity theft. '
+  attackRange: 2
   damage: 2
   actionPoints: 2
 --- !u!1 &2170000639187120322
@@ -3792,7 +3792,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Cross-Site Scripting (XSS)
   information:
-  - 'OWASP #7 '
+  - DEALS CRITICAL DAMAGE TO WEB SERVERS
   - 'Cross-Site Scripting (XSS) attacks can occur when a web application fails to
     validate user input by escaping special characters. '
   - "As a result, an attacker can execute scripts in a victim\u2019s browser, hijack
@@ -5487,9 +5487,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: 'Firewall '
   information:
+  - RESTORES SHIELDS
   - 'Firewalls block and filter unwanted traffic in order to keep the web application
     isolated within a safe environment. '
-  - Furthermore, firewalls can be used in conjunction with an Intrusion Detection/Prevention
+  - FurtherFirewalls can be used in conjunction with an Intrusion Detection/Prevention
     system in order to detect malicious activity and send alerts upon detection.
   actionPoints: 3
   attackRange: 1
@@ -5688,6 +5689,17 @@ MonoBehaviour:
       - m_Target: {fileID: 0}
         m_MethodName: QuitGame
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2170000639372166882}
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -7176,11 +7188,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Distributed Denial of Service (DDoS)
   information:
+  - DISABLES UNIT FOR ONE TURN
   - 'A DDoS attack involves using a network of devices in order to flood a web application,
     network or server with overwhelming internet traffic - and disable it from being
     able to handle requests. '
-  - Although not directly listed in the OWASP Top Ten, Denial of Service attacks
-    can be accomplished from exploiting XML External Entities (XXE) - OWASP #4
+  - 'If this move is used on a web or database server, AP gain from that unit is
+    halted for one turn. '
   actionPoints: 2
   attackRange: 1
 --- !u!1 &2170000639738725815
@@ -13659,7 +13672,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2170000640572387416
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16743,12 +16756,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Delete Security Logs
   information:
-  - Further exploits Insufficient Logging & Monitoring - OWASP #10
+  - 'REDUCES SHIELDS AND CRITICALLY DAMAGES ANALYSTS '
   - Insufficient data logging and monitoring allows an attacker to persist in a compromised
-    system - undetected for a longer time without being detected.
-  - Logging pertains to recording anomalies, failed login attempts, user activity
-    and so on, whilst effective monitoring is to know how to interpret the logged
-    data - and how to react appropriately in the case of such detection.
+    system without being detected.
+  - Web application errors, anomalies, failed login attempts and user activity should
+    all be logged. By interpreting this information correctly, we can react appropriately
+    in the case of such detection.
   actionPoints: 2
   attackRange: 1
   damage: 1
@@ -19960,8 +19973,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: PlayerName Wins
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 3d520606763484741a5f8acd8e5b66e6, type: 2}
+  m_sharedMaterial: {fileID: 8990877205265546464, guid: ce85d033ec6baee4499e05df9eb240f8,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -20024,7 +20038,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &6664033989280583831
@@ -21051,11 +21065,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: URL Manipulation
   information:
+  - BYPASSES ENEMY DEFENCES
   - 'URL Manipulation changes the URL parameters in order to bypass authorisation
-    in websites that suffer from broken access control. '
+    in websites that suffer from broken access control.  '
   - 'The goal is to access admin locations, root files and sensitive data (such as
     software versions) which could be used to identify vulnerabilities within the
-    system. '
+    system.  '
   damage: 1
   attackRange: 1
   actionPoints: 3

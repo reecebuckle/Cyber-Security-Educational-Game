@@ -9315,6 +9315,125 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1053731403}
   m_Mesh: {fileID: 4300000, guid: b71d9706911d56c4fa9243d030c295ac, type: 3}
+--- !u!1001 &1056053689
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 2170000640228676846}
+    m_Modifications:
+    - target: {fileID: 303008331332122649, guid: 9e64a77d6814f3a42af9cacdad55f889,
+        type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 303008331332122649, guid: 9e64a77d6814f3a42af9cacdad55f889,
+        type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 303008331332122649, guid: 9e64a77d6814f3a42af9cacdad55f889,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 303008331332122649, guid: 9e64a77d6814f3a42af9cacdad55f889,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 303008331332122649, guid: 9e64a77d6814f3a42af9cacdad55f889,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 303008331332122649, guid: 9e64a77d6814f3a42af9cacdad55f889,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 303008331332122649, guid: 9e64a77d6814f3a42af9cacdad55f889,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 303008331332122649, guid: 9e64a77d6814f3a42af9cacdad55f889,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 303008331332122649, guid: 9e64a77d6814f3a42af9cacdad55f889,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 303008331332122649, guid: 9e64a77d6814f3a42af9cacdad55f889,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 303008331332122649, guid: 9e64a77d6814f3a42af9cacdad55f889,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 303008331332122649, guid: 9e64a77d6814f3a42af9cacdad55f889,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 303008331332122649, guid: 9e64a77d6814f3a42af9cacdad55f889,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 303008331332122649, guid: 9e64a77d6814f3a42af9cacdad55f889,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 303008331332122649, guid: 9e64a77d6814f3a42af9cacdad55f889,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 303008331332122649, guid: 9e64a77d6814f3a42af9cacdad55f889,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 303008331332122649, guid: 9e64a77d6814f3a42af9cacdad55f889,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 303008331332122649, guid: 9e64a77d6814f3a42af9cacdad55f889,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 303008331332122649, guid: 9e64a77d6814f3a42af9cacdad55f889,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 303008331332122649, guid: 9e64a77d6814f3a42af9cacdad55f889,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 303008331332122649, guid: 9e64a77d6814f3a42af9cacdad55f889,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3640371209327597215, guid: 9e64a77d6814f3a42af9cacdad55f889,
+        type: 3}
+      propertyPath: m_Name
+      value: FPS Stats
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9e64a77d6814f3a42af9cacdad55f889, type: 3}
 --- !u!1 &1060444844
 GameObject:
   m_ObjectHideFlags: 0
@@ -12415,12 +12534,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1372266593}
   m_Mesh: {fileID: 4300000, guid: b71d9706911d56c4fa9243d030c295ac, type: 3}
---- !u!1 &1393906191 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2170000639372166882, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-    type: 3}
-  m_PrefabInstance: {fileID: 2170000640228676845}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1402792522
 GameObject:
   m_ObjectHideFlags: 0
@@ -18451,127 +18564,16 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1699251789}
-    - target: {fileID: 2170000639081778726, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-        type: 3}
-      propertyPath: information.Array.data[0]
-      value: 'DEALS CRITICAL DAMAGE TO DATABASES '
-      objectReference: {fileID: 0}
-    - target: {fileID: 2170000639081778726, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-        type: 3}
-      propertyPath: information.Array.data[1]
-      value: 'Sequel Query Language (SQL) injection exploits web application commands
-        that query a backend database. '
-      objectReference: {fileID: 0}
-    - target: {fileID: 2170000639136297989, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-        type: 3}
-      propertyPath: information.Array.data[0]
-      value: RESTORES SHIELDS
-      objectReference: {fileID: 0}
-    - target: {fileID: 2170000639179355230, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-        type: 3}
-      propertyPath: attackRange
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2170000639179355230, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-        type: 3}
-      propertyPath: information.Array.data[0]
-      value: 'REDUCES SHIELDS '
-      objectReference: {fileID: 0}
-    - target: {fileID: 2170000639179355230, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-        type: 3}
-      propertyPath: information.Array.data[1]
-      value: 'Examples of sensitive data include personal, account and financial
-        information.  '
-      objectReference: {fileID: 0}
-    - target: {fileID: 2170000639179355230, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-        type: 3}
-      propertyPath: information.Array.data[2]
-      value: "Improper handling of sensitive data in transit or storage lead to data
-        breaches which can cripple a company\u2019s reputation.  "
-      objectReference: {fileID: 0}
-    - target: {fileID: 2170000639179355230, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-        type: 3}
-      propertyPath: information.Array.data[3]
-      value: 'In more severe outcomes, such information could be used to commit fraud
-        and identity theft. '
-      objectReference: {fileID: 0}
     - target: {fileID: 2170000639326841823, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1699251789}
-    - target: {fileID: 2170000639372166882, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2170000639381264898, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-        type: 3}
-      propertyPath: information.Array.data[0]
-      value: DEALS CRITICAL DAMAGE TO WEB SERVERS
-      objectReference: {fileID: 0}
-    - target: {fileID: 2170000639627730681, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-        type: 3}
-      propertyPath: information.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2170000639627730681, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-        type: 3}
-      propertyPath: information.Array.data[0]
-      value: RESTORES SHIELDS
-      objectReference: {fileID: 0}
-    - target: {fileID: 2170000639627730681, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-        type: 3}
-      propertyPath: information.Array.data[1]
-      value: 'Firewalls block and filter unwanted traffic in order to keep the web
-        application isolated within a safe environment. '
-      objectReference: {fileID: 0}
-    - target: {fileID: 2170000639627730681, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-        type: 3}
-      propertyPath: information.Array.data[2]
-      value: FurtherFirewalls can be used in conjunction with an Intrusion Detection/Prevention
-        system in order to detect malicious activity and send alerts upon detection.
-      objectReference: {fileID: 0}
-    - target: {fileID: 2170000639644861644, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2170000639644861644, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 2170000639644861644, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1699251789}
-    - target: {fileID: 2170000639644861644, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
-      value: 
-      objectReference: {fileID: 1393906191}
-    - target: {fileID: 2170000639644861644, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2170000639644861644, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: SetActive
-      objectReference: {fileID: 0}
-    - target: {fileID: 2170000639644861644, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 2170000639644861682, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2170000639689764533, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -18592,29 +18594,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1699251789}
-    - target: {fileID: 2170000639733346890, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-        type: 3}
-      propertyPath: information.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2170000639733346890, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-        type: 3}
-      propertyPath: information.Array.data[0]
-      value: DISABLES UNIT FOR ONE TURN
-      objectReference: {fileID: 0}
-    - target: {fileID: 2170000639733346890, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-        type: 3}
-      propertyPath: information.Array.data[1]
-      value: 'A DDoS attack involves using a network of devices in order to flood
-        a web application, network or server with overwhelming internet traffic -
-        and disable it from being able to handle requests. '
-      objectReference: {fileID: 0}
-    - target: {fileID: 2170000639733346890, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-        type: 3}
-      propertyPath: information.Array.data[2]
-      value: 'If this move is used on a web or database server, AP gain from that
-        unit is halted for one turn. '
-      objectReference: {fileID: 0}
     - target: {fileID: 2170000640131981976, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -18625,11 +18604,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1699251789}
-    - target: {fileID: 2170000640264571561, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2170000640544061506, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -18640,29 +18614,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1699251789}
-    - target: {fileID: 2170000640572387417, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2170000640947927028, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-        type: 3}
-      propertyPath: information.Array.data[0]
-      value: 'REDUCES SHIELDS AND CRITICALLY DAMAGES ANALYSTS '
-      objectReference: {fileID: 0}
-    - target: {fileID: 2170000640947927028, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-        type: 3}
-      propertyPath: information.Array.data[1]
-      value: Insufficient data logging and monitoring allows an attacker to persist
-        in a compromised system without being detected.
-      objectReference: {fileID: 0}
-    - target: {fileID: 2170000640947927028, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-        type: 3}
-      propertyPath: information.Array.data[2]
-      value: Web application errors, anomalies, failed login attempts and user activity
-        should all be logged. By interpreting this information correctly, we can
-        react appropriately in the case of such detection.
-      objectReference: {fileID: 0}
     - target: {fileID: 2170000641085653135, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -18678,54 +18629,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3899869548147240391, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3899869548220430788, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-        type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3899869548220430788, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3899869548220430788, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3899869548228926154, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0.000030517578
-      objectReference: {fileID: 0}
-    - target: {fileID: 3899869548715910378, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-        type: 3}
-      propertyPath: information.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3899869548715910378, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-        type: 3}
-      propertyPath: information.Array.data[0]
-      value: BYPASSES ENEMY DEFENCES
-      objectReference: {fileID: 0}
-    - target: {fileID: 3899869548715910378, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-        type: 3}
-      propertyPath: information.Array.data[1]
-      value: 'URL Manipulation changes the URL parameters in order to bypass authorisation
-        in websites that suffer from broken access control.  '
-      objectReference: {fileID: 0}
-    - target: {fileID: 3899869548715910378, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-        type: 3}
-      propertyPath: information.Array.data[2]
-      value: 'The goal is to access admin locations, root files and sensitive data
-        (such as software versions) which could be used to identify vulnerabilities
-        within the system.  '
-      objectReference: {fileID: 0}
     - target: {fileID: 3899869550015452220, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -18736,28 +18639,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1699251789}
-    - target: {fileID: 6664033989221343330, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6664033989221343332, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-        type: 3}
-      propertyPath: m_fontAsset
-      value: 
-      objectReference: {fileID: 11400000, guid: 3d520606763484741a5f8acd8e5b66e6,
-        type: 2}
-    - target: {fileID: 6664033989221343332, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-        type: 3}
-      propertyPath: m_sharedMaterial
-      value: 
-      objectReference: {fileID: 8990877205265546464, guid: ce85d033ec6baee4499e05df9eb240f8,
-        type: 2}
-    - target: {fileID: 6664033989221343332, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-        type: 3}
-      propertyPath: m_hasFontAssetChanged
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6664033989306066360, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
         type: 3}
       propertyPath: m_Name
@@ -18875,6 +18756,12 @@ PrefabInstance:
       objectReference: {fileID: 1699251789}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68f15a3bee40f9b4e9dfac3d7f04e829, type: 3}
+--- !u!224 &2170000640228676846 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 6664033989306066364, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
+    type: 3}
+  m_PrefabInstance: {fileID: 2170000640228676845}
+  m_PrefabAsset: {fileID: 0}
 --- !u!95 &2215945824178719832
 Animator:
   serializedVersion: 3
