@@ -1,0 +1,1 @@
+Each 3D unit asset resourced here contains a license (when provided), and a reference to the source link. All units are appropriately acknowledged in this project.

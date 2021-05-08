@@ -1,0 +1,1 @@
+All musical assets used in this project are acknowledged in the application title screen, and were resourced from https://freesound.org/. All these assets are royalty - free and licensed under the creative commons 0 license.
