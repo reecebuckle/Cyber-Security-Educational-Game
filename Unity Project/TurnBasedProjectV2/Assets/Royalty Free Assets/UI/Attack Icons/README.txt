@@ -1,1 +1,0 @@
-All these icons used are royalty - free and accessible here: https://game-icons.net/

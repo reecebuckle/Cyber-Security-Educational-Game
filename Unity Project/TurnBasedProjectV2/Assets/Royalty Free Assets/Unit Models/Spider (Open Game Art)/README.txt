@@ -1,1 +1,0 @@
-This 3D Blend model was accessed on Open Game Art here: https://opengameart.org/content/spider-robot which is licensed as CC BY 3.0

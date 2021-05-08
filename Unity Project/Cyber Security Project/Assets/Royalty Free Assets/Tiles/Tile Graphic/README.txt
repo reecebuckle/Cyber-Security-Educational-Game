@@ -1,0 +1,2 @@
+The tile graphic design was resourced from this link https://lparkermg.itch.io/ancient-robot-overlord-chess with the permission of the author.
+However, this graphic is not used in the final version of this project (web application) as it fails to render in WebGL

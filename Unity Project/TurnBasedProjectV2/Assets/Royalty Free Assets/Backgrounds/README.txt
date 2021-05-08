@@ -1,1 +1,0 @@
-These backgrounds were generated online at https://doodad.dev/pattern-generator/, which is a tool to generate royalty free patterns
