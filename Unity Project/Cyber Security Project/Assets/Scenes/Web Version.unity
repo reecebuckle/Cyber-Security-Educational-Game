@@ -12152,6 +12152,12 @@ Transform:
   m_Father: {fileID: 840365307}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1370722598 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2170000639412338942, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
+    type: 3}
+  m_PrefabInstance: {fileID: 2170000640228676845}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1372266593
 GameObject:
   m_ObjectHideFlags: 0
@@ -14389,7 +14395,7 @@ MonoBehaviour:
   informationNameText: {fileID: 90907424}
   informationBodyText: {fileID: 1050841087}
   informationUI: {fileID: 345810100}
-  historyUI: {fileID: 2883001559085941047}
+  historyUI: {fileID: 1370722598}
   messagePrefab: {fileID: 8442858285211601020, guid: def871f1b47331a4b9a442eac28fc84e,
     type: 3}
   historyContent: {fileID: 2883001560017604135}
@@ -18714,12 +18720,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!1 &2883001559085941047 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3899869549545412058, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-    type: 3}
-  m_PrefabInstance: {fileID: 2170000640228676845}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2883001559209455830 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3899869549572449339, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,

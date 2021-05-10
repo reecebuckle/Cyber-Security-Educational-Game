@@ -5664,7 +5664,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &345810101
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5682,7 +5682,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 101}
+  m_AnchoredPosition: {x: 0, y: 26}
   m_SizeDelta: {x: 800, y: 800}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &345810102
@@ -29625,7 +29625,7 @@ MonoBehaviour:
   informationNameText: {fileID: 90907424}
   informationBodyText: {fileID: 1050841087}
   informationUI: {fileID: 345810100}
-  historyUI: {fileID: 2883001559085941047}
+  historyUI: {fileID: 1371034643}
   messagePrefab: {fileID: 8442858285211601020, guid: def871f1b47331a4b9a442eac28fc84e,
     type: 3}
   historyContent: {fileID: 2883001560017604135}
@@ -31454,8 +31454,8 @@ MonoBehaviour:
   - RESTORES SHIELDS
   - 'Firewalls block and filter unwanted traffic in order to keep the web application
     isolated within a safe environment. '
-  - FurtherFirewalls can be used in conjunction with an Intrusion Detection/Prevention
-    system in order to detect malicious activity and send alerts upon detection.
+  - Firewalls can be used in conjunction with an Intrusion Detection/Prevention system
+    in order to detect malicious activity and send alerts upon detection.
   actionPoints: 3
   attackRange: 1
   defenceBoost: 2

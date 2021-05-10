@@ -12288,6 +12288,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1372266593}
   m_Mesh: {fileID: 4300000, guid: b71d9706911d56c4fa9243d030c295ac, type: 3}
+--- !u!1 &1386182221 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2170000639412338942, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
+    type: 3}
+  m_PrefabInstance: {fileID: 2170000640228676845}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1402792522
 GameObject:
   m_ObjectHideFlags: 0
@@ -14389,7 +14395,7 @@ MonoBehaviour:
   informationNameText: {fileID: 90907424}
   informationBodyText: {fileID: 1050841087}
   informationUI: {fileID: 345810100}
-  historyUI: {fileID: 2883001559085941047}
+  historyUI: {fileID: 1386182221}
   messagePrefab: {fileID: 8442858285211601020, guid: def871f1b47331a4b9a442eac28fc84e,
     type: 3}
   historyContent: {fileID: 2883001560017604135}
@@ -18383,21 +18389,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3899869548220430788, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-        type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3899869548220430788, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3899869548220430788, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3899869550015452220, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -18729,12 +18720,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!1 &2883001559085941047 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3899869549545412058, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,
-    type: 3}
-  m_PrefabInstance: {fileID: 2170000640228676845}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2883001559209455830 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3899869549572449339, guid: 68f15a3bee40f9b4e9dfac3d7f04e829,

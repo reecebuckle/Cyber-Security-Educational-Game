@@ -2153,7 +2153,7 @@ RectTransform:
   m_GameObject: {fileID: 2170000639196748785}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.90000004, y: 0.95000005, z: 1}
+  m_LocalScale: {x: 0.90000004, y: 1, z: 1}
   m_Children:
   - {fileID: 2170000640939514643}
   m_Father: {fileID: 2170000639367395875}
@@ -2161,8 +2161,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -9.299988}
-  m_SizeDelta: {x: 0, y: -127.73801}
+  m_AnchoredPosition: {x: 0, y: -17.447}
+  m_SizeDelta: {x: 0, y: -134.89417}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2170000639196748786
 CanvasRenderer:
@@ -3508,7 +3508,7 @@ RectTransform:
   m_GameObject: {fileID: 2170000639367395872}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.95, y: 0.95, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2170000640675711102}
   - {fileID: 2170000639196748784}
@@ -3518,8 +3518,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -0.1000061}
+  m_SizeDelta: {x: -15.925842, y: -16.144714}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2170000639367395901
 CanvasRenderer:
@@ -5490,8 +5490,8 @@ MonoBehaviour:
   - RESTORES SHIELDS
   - 'Firewalls block and filter unwanted traffic in order to keep the web application
     isolated within a safe environment. '
-  - FurtherFirewalls can be used in conjunction with an Intrusion Detection/Prevention
-    system in order to detect malicious activity and send alerts upon detection.
+  - Firewalls can be used in conjunction with an Intrusion Detection/Prevention system
+    in order to detect malicious activity and send alerts upon detection.
   actionPoints: 3
   attackRange: 1
   defenceBoost: 2
@@ -6695,7 +6695,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 31}
+  m_AnchoredPosition: {x: 0, y: 25}
   m_SizeDelta: {x: 150, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2170000639694538776
@@ -10444,7 +10444,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2170000640197168067
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13690,7 +13690,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 101}
+  m_AnchoredPosition: {x: 0, y: 86}
   m_SizeDelta: {x: 800, y: 800}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2170000640572387418
@@ -18293,7 +18293,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0.000061035156}
+  m_AnchoredPosition: {x: 0, y: 0.000030517578}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &2170000640095235080
